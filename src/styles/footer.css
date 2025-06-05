@@ -1,0 +1,154 @@
+.footerWrap{
+    background-color: rgba(53, 63, 64);
+    height: 300px;
+    padding-top: 52px;
+    box-sizing: border-box;
+}
+
+.footerContainer{
+    max-width: 1220px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.footerLogoLable{
+    color: white;
+    display: inline-block;
+    height: 100%;
+    align-content: center;
+    margin-left: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 32px;
+}
+.specElemMrgn{
+    margin-left: 70px;
+}
+.footerLogo{
+    height: 65px;
+    width: 71px;
+}
+.footerText{
+    font-size: 32px;
+    color: white;
+}
+.footerSubContainer{
+    text-align: right;
+}
+.footerlinkDecor{
+    box-sizing: border-box;
+    border-bottom: 2px solid rgba(53, 63, 64);
+    transition: 0.2s;
+}
+.footerlinkDecor:hover{
+    border-bottom: 2px solid white;
+}
+.logoContainer{
+    display: flex;
+    justify-content: center;
+}
+@media screen and (max-width: 1280px){
+    .footerWrap{
+        height: 250px;
+        padding-top: 32px;
+        box-sizing: border-box;
+    }
+    .footerContainer{
+        width: 80%;
+    }
+    .footerLogoLable{
+        margin-left: 20px;
+        font-size: 26px;
+    }
+    .specElemMrgn{
+        margin-left: 70px;
+    }
+    .footerLogo{
+        height: 60px;
+        width: 66px;
+    }
+    .footerText{
+        font-size: 28px;
+        color: white;
+    }
+    .footerSubContainer{
+        text-align: right;
+    }
+}
+@media screen and (max-width: 1080px){
+    .footerWrap{
+        background-color: rgba(53, 63, 64);
+        height: 200px;
+        padding-top: 52px;
+        box-sizing: border-box;
+    }
+    .specElemMrgn{
+        margin-left: 30px;
+    }
+    .footerText{
+        font-size: 20px;
+    }
+    .footerLogoLable {
+        font-size: 24px;
+    }
+}
+@media screen and (max-width: 768px){
+    .footerWrap{
+        height: 200px;
+        padding-top: 52px;
+        box-sizing: border-box;
+    }
+    .footerLogoLable{
+        font-size: 24px;
+        margin-left: 20px;
+    }
+    .specElemMrgn{
+        display: none;
+    }
+
+    .footerText{
+        font-size: 20px;
+        color: white;
+    }
+
+    .need-to-hide{
+        display: none;
+    }
+}
+@media screen and (max-width: 640px){
+    .footerLogoLable{
+        margin-right: 10px;
+        margin-left: 20px;
+    }
+    .footerWrap {
+        height: 170px;
+        padding-top: 42px;
+        box-sizing: border-box;
+    }
+}
+@media screen and (max-width: 578px){
+    .footerLogoLable{
+        margin-right: 10px;
+        margin-left: 10px;
+        font-size: 20px;
+    }
+    .footerLogo {
+        height: 40px;
+        width: 46px;
+    }
+    .footerContainer {
+        width: 90%;
+    }
+}
+@media screen and (max-width: 465px){
+    .logoContainer{
+        display: none;
+    }
+    .footerWrap {
+        height: 150px;
+        padding-top: 32px;
+        box-sizing: border-box;
+    }
+}

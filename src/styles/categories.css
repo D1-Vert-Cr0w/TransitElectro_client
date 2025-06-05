@@ -1,0 +1,48 @@
+.categoryContainer{
+    max-width: 1240px;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    flex: 1;
+}
+.HeaderWrap{
+    border-bottom: 2px solid black;
+    box-sizing: border-box;
+}
+.katalogTitle{
+    max-width: 1300px;
+    font-size: 46px;
+    width: 85%;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+@media screen and (max-width: 1240px) {
+    .categoryContainer{
+        width: 930px
+    }
+    .katalogTitle{
+    font-size: 40px;
+    margin-top: 40px;
+    margin-bottom: 15px;
+}
+}
+@media screen and (max-width: 948px) {
+    .categoryContainer{
+        width: 620px
+    }
+        .katalogTitle{
+    font-size: 38px;
+    margin-top: 35px;
+    margin-bottom: 15px;
+}
+}
+@media screen and (max-width: 660px) {
+    .categoryContainer{
+        width: 310px
+    }
+    .katalogTitle{
+    font-size: 38px;
+    margin-top: 30px;
+    margin-bottom: 0px;
+}
+}

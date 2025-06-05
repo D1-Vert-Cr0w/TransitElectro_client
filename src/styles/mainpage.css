@@ -1,0 +1,487 @@
+.itemsWraper{
+    max-width: 1350px;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+}
+.swiper-pos-wrapper{
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 85%
+}
+.swiper-slide{
+    display: flex !important;
+    justify-content: center;
+}
+
+.mapDiv{
+    display: none;
+}
+.itemsLable{
+    margin:0 auto;
+    max-width: 1220px;
+    font-size: 64px;
+    width: 80%;
+    margin-bottom: 98px;
+}
+.footerPos{
+    margin-bottom: 187px;
+}
+.divideWrap{
+    margin-top: 88px;
+    margin-bottom: 55px;
+}
+.carouselWrap{
+    height: 100%;
+    position: relative;
+    width: 100%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    transition: 300ms ease-in-out;
+}
+.carouselItem{
+    width: 100%;
+    vertical-align: bottom;
+    max-height: 860px;
+}
+.banerContainer{
+    position: absolute;
+    left: 13%;
+    top: 0;
+    bottom: 0;
+    margin-bottom: auto;
+    margin-top: auto;
+    width: 600px;
+    height: 340px;
+}
+.banerMainTitle{
+    font-size: 63px;
+    color: white;
+}
+.banerMainText{
+    color: white;
+    font-size: 32px;
+    margin-top: 25px;
+}
+.banerButton{
+    width: 406px;
+    display: block;
+    align-content: center;
+    text-align: center;
+    height: 94px;
+    background-color: #FFCC00;
+    color: white;
+    font-size: 32px;
+    border-radius: 10px;
+    margin-top: 82px;
+}
+.dotContainer{
+    box-sizing: border-box;
+    display: flex;
+    padding-left: 31px;
+    padding-right: 31px;
+    height: 51px;
+    margin-bottom: 113px;
+    margin-top: 10px;
+    background-color: rgba(53, 63, 64);
+    border-radius: 30px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box;
+}
+.circle{
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    border: 2px solid white;
+    background-color: rgba(53, 63, 64);
+    width: 28px;
+    height: 28px;
+    margin: 11px 7px;
+}
+.activeDot{
+    border: 0px;
+    background-color: #FFCC00;
+}
+.banerContentWrap{
+    display: flex;
+    gap: 0px;
+    width: 100%;
+    height: 100%;
+}
+.banerNav{
+    display: flex;
+    justify-content: center;
+}
+.dividHr{
+    padding: 0px;
+    margin: 0px;
+    width: 500px;
+    height: 1.5px;
+    display: inline-block;
+    background-color: rgba(53, 63, 64);
+}
+.dividImg{
+    height: 76px;
+    width: 76px;
+    margin: 0 25px;
+}
+.divideContainer{
+    margin: 10px 0;
+    margin-top: 88px;
+    margin-bottom: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.swiper-button-prev.swiper-button-disabled{
+    display: none;
+}
+.swiper-button-next.swiper-button-disabled{
+    display: none;
+}
+.swiper-button-prev {
+    transform: translate(-10px, 0px);
+}
+.swiper-button-next {
+    transform: translate(10px, 0px);
+}
+@media screen and (max-width: 1550px){
+    .banerContainer{
+        top: 0;
+        bottom: 0;
+        width: 450px;
+    }
+    .banerMainTitle{
+        font-size: 60px;
+        color: white;
+    }
+    .banerMainText{
+        color: white;
+        font-size: 30px;
+        margin-top: 20px;
+    }
+    .banerButton{
+        width: 306px;
+        height: 74px;
+        font-size: 28px;
+        margin-top: 42px;
+    }}
+@media screen and (max-width: 1280px){
+    .itemsWraper{
+        flex-wrap: wrap;
+    }
+    .swiper-pos-wrapper {
+        max-width: 1180px;
+    }
+    .itemsLable{
+        margin:0 auto;
+        max-width: 1220px;
+        width: 80%;
+        font-size: 48px;
+        margin-bottom: 68px;
+    }
+    .footerPos{
+        margin-bottom: 160px;
+    }
+    .banerContainer{
+        top: 0;
+        bottom: 0;
+        width: 400px;
+        height: 260px;
+    }
+    .banerMainTitle{
+        font-size: 48px;
+        color: white;
+    }
+    .banerMainText{
+        color: white;
+        font-size: 24px;
+        margin-top: 20px;
+    }
+    .banerButton{
+        width: 306px;
+        height: 74px;
+        font-size: 28px;
+        margin-top: 42px;
+    }
+    .dividHr{
+
+        width: 350px;
+    }
+    .dividImg{
+        height: 66px;
+        width: 66px;
+        margin: 0 25px;
+    }
+    .divideContainer{
+        margin: 20px 0;
+        margin-top: 68px;
+        margin-bottom: 45px;
+
+    }
+    .footerPos{
+        margin-bottom: 157px;
+    }
+}
+@media screen and (max-width: 1080px){
+    .dotContainer{
+        margin-bottom: 75px;
+    }
+    .swiper-pos-wrapper {
+        max-width: 890px;
+        margin: 0 auto;
+    }
+    .itemsLable{
+        margin:0 auto;
+        max-width: 1220px;
+        font-size: 48px;
+        margin-bottom: 68px;
+    }
+    .footerPos{
+        margin-bottom: 160px;
+    }
+    .banerContainer{
+            right: 7%;
+            top: 0;
+            bottom: 0;
+            width: 340px;
+            height: 260px;
+    }
+    .banerMainTitle{
+        font-size: 42px;
+        color: white;
+    }
+    .banerMainText{
+        color: white;
+        font-size: 22px;
+        margin-top: 20px;
+    }
+    .banerButton{
+        width: 256px;
+        height: 64px;
+        font-size: 24px;
+        margin-top: 37px;
+    }
+    .dividImg{
+        height: 66px;
+        width: 66px;
+        margin: 0 25px;
+    }
+    .dividHr{
+        width: 270px;
+    }
+    .divideContainer{
+        margin: 20px 0;
+        margin-top: 68px;
+        margin-bottom: 45px;
+
+    }
+    .footerPos{
+        margin-bottom: 157px;
+    }
+}
+@media screen and (max-width: 890px){
+.swiper-pos-wrapper {
+    max-width: 640px;
+    margin: 0 auto;
+}
+}
+@media screen and (max-width: 768px){
+    .itemsWraper{
+        width: 70%;
+    }
+    .itemsLable{
+        font-size: 46px;
+        margin-bottom: 48px;
+    }
+    .footerPos{
+        margin-bottom: 120px;
+    }
+    .banerContainer{
+        left: 5%;
+        top: 0;
+        bottom: 0;
+        width: 300px;
+        height: 200px;
+    }
+    .banerMainTitle{
+        font-size: 36px;
+        color: white;
+    }
+    .banerMainText{
+        color: white;
+        font-size: 20px;
+        margin-top: 20px;
+    }
+    .banerButton{
+        width: 196px;
+        height: 54px;
+        font-size: 22px;
+        margin-top: 22px;
+    }
+    .dividHr{
+        padding: 0px;
+        margin: 0px;
+        width: 200px;
+        height: 1.5px;
+        display: inline-block;
+        background-color: rgba(53, 63, 64);
+    }
+    .dividImg{
+        height: 46px;
+        width: 46px;
+        margin: 0 25px;
+    }
+    .divideContainer{
+        margin: 20px 0;
+        margin-top: 68px;
+        margin-bottom: 45px;
+
+    }
+    .footerPos{
+        margin-bottom: 127px;
+    }
+    .dotContainer{
+        height: 42px;
+        margin-bottom: 60px;
+        border-radius: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .circle{
+        width: 22px;
+        height: 22px;
+        margin: 10px 7px;
+    }
+}
+@media screen and (max-width: 640px){
+.banerContainer {
+    left: 3%;
+    top: 0;
+    bottom: 0;
+    width: 240px;
+    height: 180px;
+}
+.swiper-pos-wrapper {
+    max-width: 300px;
+    margin: 0 auto;
+}
+.dotContainer{
+    padding-left: 11px;
+    padding-right: 11px;
+    height: 32px;
+    margin-bottom: 30px;
+    border-radius: 30px;
+}
+.circle{
+    width: 18px;
+    height: 18px;
+    margin: 7px 5px;
+}
+.itemsLable{
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+.footerPos{
+    margin-bottom: 90px;
+}
+.banerMainTitle {
+    font-size: 28px;
+    color: white;
+}
+.banerMainText {
+    color: white;
+    font-size: 16px;
+    margin-top: 10px;
+}
+.footerPos{
+   margin-bottom: 60px;
+}
+.dividHr{
+    width: 150px;
+}
+}
+@media screen and (max-width: 576px){
+    .itemsWraper {
+        width: 80%;
+    }
+
+    .dotContainer {
+        margin-bottom: 30px;
+    }
+    .banerContainer {
+        bottom: 200px;
+        width: 270px;
+        height: 180px;
+
+    }
+    .banerMainTitle {
+        font-size: 32px;
+        color: white;
+    }
+    .banerButton {
+        width: 176px;
+        height: 54px;
+        font-size: 22px;
+        margin-top: 22px;
+    }
+    .banerMainText {
+        color: white;
+        font-size: 20px;
+        margin-top: 10px;
+    }
+}
+@media screen and (max-width: 424px){
+    .banerContainer {
+        top: 0;
+        left: 4%;
+        bottom: 200px;
+        width: 220px;
+        height: 160px;
+        margin-top: 20px;
+        margin-bottom: auto;
+    }
+    .banerMainTitle {
+        font-size: 28px;
+        color: white;
+    }
+    .banerButton {
+        width: 156px;
+        height: 44px;
+        font-size: 18px;
+        margin-top: 25px;
+    }
+    .banerMainText {
+        font-size: 16px;
+        margin-top: 5px;
+    }
+        .footerPos{
+            margin-bottom: 60px;
+        }
+        .dividHr {
+            width: 120px;
+            height: 1.5px;
+        }
+        .divideContainer {
+            margin: 20px 0;
+            margin-top: 45px;
+            margin-bottom: 35px;
+        }
+        .dividImg {
+            height: 36px;
+            width: 36px;
+            margin: 0 15px;
+        }
+        .itemsLable {
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .dotContainer {
+            margin-bottom: 35px;
+        }
+}

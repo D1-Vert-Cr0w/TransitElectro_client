@@ -1,0 +1,40 @@
+@font-face {
+  font-family: Montserrat;
+  src: url(./fonts/Montserrat-Medium.ttf);
+}
+:root {
+  font-family: Montserrat;
+  color-scheme: light dark;
+  color: rgba(53, 63, 64);
+  --swiper-theme-color: rgba(53, 63, 64);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+#root {
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+ul {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+h1 {
+  margin: 0px;
+}
+p {
+  margin: 0px;
+}
+button{
+  all:unset
+}

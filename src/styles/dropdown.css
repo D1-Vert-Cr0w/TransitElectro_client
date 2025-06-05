@@ -1,0 +1,82 @@
+.notFoundLable{
+    font-size: 32px;
+    margin-top: 50px;
+    text-align: center;
+}
+.mainContainer{
+    width: 100%;
+}
+.arrowButton{
+    height: 57px;
+    width: 50px;
+    vertical-align: bottom;
+    transition: 0.5s;
+    margin-bottom: 13px;
+    margin-left: 27px;
+    margin-top: 12px;
+}
+.arrowActive{
+    rotate: 180deg;
+}
+.accordionBorder{
+    border: 1.5px solid rgba(53, 63, 64);
+    height: 0px;
+    margin: 0px;
+}
+.accordionSubtitle{
+    display: inline-block;
+    margin-left: 35px;
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+.hiddenWrap{
+    transition: 0.5s;
+    margin-left: 30px;
+    overflow: hidden;
+}
+.boldText{
+    font-family: MontserratBold;
+}
+.titleWrap{
+    background-color: #FFCC00;
+}
+@media screen and (max-width: 1280px){
+    .accordionSubtitle{
+        display: inline-block;
+        margin-left: 35px;
+        font-size: 22px;
+    }
+    .arrowButton{
+        height: 52px;
+        width: 45px;
+    }
+    .notFoundLable{
+        font-size: 28px;
+        margin-top: 25px;
+        text-align: center;
+    }
+    }
+@media screen and (max-width: 1080px){
+    .accordionSubtitle{
+        display: inline-block;
+        margin-left: 25px;
+        font-size: 22px;
+    }
+    .arrowButton{
+        height: 47px;
+        width: 40px;
+        margin-left: 22px;
+    }
+    }
+    @media screen and (max-width: 768px){
+        .accordionSubtitle{
+            display: inline-block;
+            margin-left: 25px;
+            font-size: 20px;
+        }
+        .arrowButton{
+            height: 42px;
+            width: 35px;
+            margin-left: 12px;
+        } 
+    }

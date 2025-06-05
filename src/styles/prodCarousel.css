@@ -1,0 +1,58 @@
+.btnArrow{
+    height: 30px;
+    width: 30px;;
+    vertical-align: bottom;
+    display: none;
+    margin: 5px 5px
+}
+.itemCarouselWrap{
+width: 260px;
+transition: 300ms ease-in-out;
+}
+.itemPosWrap{
+    max-width: 1350px;
+    width:1200px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+.itemsContentWrap{
+    height: 100%;
+    position: relative;
+    display: flex;
+    gap: 35px;
+}
+.left_arrow{
+    rotate:90deg
+}
+.right_arrow{
+    rotate:-90deg
+}
+@media screen and (max-width: 1280px) {
+    .itemCarouselWrap{
+        width: 220px;
+        }
+        .itemPosWrap{
+            width:1070px;
+        }
+}
+
+@media screen and (max-width: 1080px) {
+    .itemPosWrap{
+        width: 820px;
+    }
+    .btnArrow{
+        display: block;
+    }
+}
+@media screen and (max-width: 840px) {
+    .itemPosWrap{
+        width: 560px;
+    }
+}
+@media screen and (max-width: 576px) {
+    .itemPosWrap{
+        width: 300px;
+    }
+}

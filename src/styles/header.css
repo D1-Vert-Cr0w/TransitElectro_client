@@ -1,0 +1,192 @@
+a{
+    all: unset;
+}
+.headerContainer{
+    display: flex;
+    justify-content: space-between;
+    max-width: 1220px;
+    width: 80%;
+    height: 100px;
+    margin: 0 auto;
+    font-size: 24px;
+}
+.mrgnlft{
+    margin-left: 45px;
+}
+.linkDecor{
+    box-sizing: border-box;
+    border-bottom: 2px solid white;
+    transition: 0.2s;
+}
+.linkDecor:hover{
+    border-bottom: 2px solid black;
+}
+.logoLable{
+    margin-left: 20px;
+    align-content: center;
+}
+.logoWrap{
+    display: flex;
+    align-content: center;
+
+}
+.contacts{
+    display: flex;
+    flex-direction: column;
+    margin: auto 0;
+    flex-direction: column;
+}
+.wraper{
+    align-content: center;
+}
+.icon{
+    width: 50px;
+    height: 50px;
+}
+.cart{
+    margin-left: 15px;
+}
+.logoImg{
+    height: 65px;
+    width: 71px;
+    margin: auto 0;
+}
+.dvidingLine{
+    margin: 0px;
+    height: 1.5px;
+    border: none;
+    color: rgba(53, 63, 64);
+    background-color: rgba(53, 63, 64);
+}
+.arrowIcon{
+    rotate: 180deg;
+    width: 60px;
+    height: 60px;
+
+}
+.mobileMenu{
+    transition: 0.5s;
+    overflow: hidden;
+}
+.openMenu{
+    width: 50px;
+    height: 50px;
+    margin: auto 0;
+    transition: 0.5s;
+    display: none;
+}
+.mobileMenuItem{
+    text-align: center;
+    font-size: 24px;
+    height: 50px;
+    box-sizing: border-box;
+}
+@media screen and (max-width: 1280px){
+    .headerContainer{
+        display: flex;
+        justify-content: space-between;
+        max-width: 1220px;
+        width: 80%;
+        height: 100px;
+        margin: 0 auto;
+        font-size: 22px;
+    }
+    .logoLable{
+        margin-left: 25px;
+        align-content: center;
+    }
+    .logoWrap{
+        display: flex;
+        align-content: center;
+    }
+
+    .wraper{
+        align-content: center;
+    }
+    .logoImg{
+        height: 60px;
+        width: 66px;
+    }
+    .dvidingLine{
+        margin: 0px;
+        height: 1.5px;
+        border: none;
+        color: rgba(53, 63, 64);
+        background-color: rgba(53, 63, 64);
+    }
+}
+@media screen and (max-width: 1080px){
+    .headerContainer{
+        display: flex;
+        justify-content: space-between;
+        max-width: 1220px;
+        width: 80%;
+        height: 90px;
+        margin: 0 auto;
+        font-size: 20px;
+    }
+    .mrgnlft{
+        margin-left: 25px;
+    }
+    .logoLable{
+        margin-left: 25px;
+        align-content: center;
+    }
+    .logoWrap{
+        display: flex;
+        align-content: center;
+
+    }
+    .wraper{
+        align-content: center;
+    }
+    .logoImg{
+        height: 60px;
+        width: 66px;
+    }
+    .dvidingLine{
+        margin: 0px;
+        height: 1.5px;
+        border: none;
+        color: rgba(53, 63, 64);
+        background-color: rgba(53, 63, 64);
+    }
+}
+@media screen and (max-width: 768px){
+    .contacts{
+        display: none;
+    }
+    .links{
+        display: none;
+    }
+    .openMenu{
+        display: block;
+    }
+}
+@media screen and (max-width: 640px){
+    .logoImg{
+        height: 50px;
+        width: 56px;
+    }
+}
+@media screen and (max-width: 578px){
+    .logoWrap {
+        margin-right: 0px;
+    }
+    .logoLable {
+        margin-left: 10px;
+        align-content: center;
+    }
+    .headerContainer {
+        height: 80px;
+        width: 90%;
+    }
+    .logoImg{
+        height: 40px;
+        width: 46px;
+    }
+    .openMenu {
+        width: 45px;
+        height: 45px;
+    }
+}

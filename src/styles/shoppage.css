@@ -1,0 +1,227 @@
+.productsContainer{
+    box-sizing: border-box;
+    display:flex;
+    flex-wrap: wrap;
+    padding-right: 64px;
+    gap: 50px;
+}
+.none{
+    display: none;
+}
+.featureValue{
+    display: inline-block;
+    margin-left: 20px;
+}
+.featureTitle{
+    font-size: 32px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+.featureContainer{
+    display: flex;
+    margin: 10px 0;
+}
+.checkIn{
+    height: 100%;
+    width: 100%;
+}
+.yellow{
+    background-color: #FFCC00;
+}
+.checkButton{
+    height: 30px;
+    width: 30px;
+    box-sizing: border-box;
+    padding: 3px;
+    border: 1px solid rgba(53, 63, 64);
+    display: inline-block;
+}
+.containerWithoutFiltr{
+    margin: 0 auto;
+    width: 80%;
+    max-width: 1150px;
+    box-sizing: border-box;
+    display:flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+.prodWrap{
+    display: inline-block;
+    margin-left: 50px;
+    margin-bottom: 50px;
+}
+.shopTitleWrap{
+    margin: 0 auto;
+    padding-left: 3vh;
+    box-sizing: border-box;
+    margin-top: 86px;
+    font-size: 36px;
+    width: 80%;
+    max-width: 1400px;
+}
+.filtrContainer{
+    display: block
+}
+.DropdownContainer{
+    margin-right: 40px;
+    font-size: 24px;
+    width: 550px;
+}
+.shopWrap{
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1400px;
+    display: flex;
+    margin-top: 40px;
+    margin-bottom: 205px;
+}
+.styledCategory{
+    padding-left: 52px;
+    height: 87px;
+    align-content: center;
+    border-bottom: 2px solid black;
+    box-sizing: border-box;
+}
+.shopHeaderWrap{
+    border-bottom: 2px solid black;
+    box-sizing: border-box;
+}
+.Categories{
+    margin-right: 64px;
+}
+.pageNumber{
+    display: inline-block;
+    align-content: center;
+    text-align: center;
+    box-sizing: border-box;
+    height: 50px;
+    width: 50px;
+    border: 1px solid rgba(53, 63, 64);
+    margin-right: 5px;
+}
+.pageNumContainer{
+    margin-top: 41px;
+    
+}
+.yellow{
+    background-color: #FFCC00;
+}
+@media screen and (max-width: 1440px) {
+    .containerWithoutFiltr{
+        width: 850px
+    }
+}
+@media screen and (max-width: 1280px){
+    .DropdownContainer {
+        font-size: 22px;
+        width: 500px;
+    }
+    .shopTitleWrap{
+        margin-top: 66px;
+        font-size: 32px;
+    }
+    .shopWrap {
+        margin-top: 30px;
+        margin-bottom: 185px;
+    }
+}
+
+@media screen and (max-width: 1080px){
+    .DropdownContainer {
+        font-size: 20px;
+        width: 450px;
+    }
+    .shopTitleWrap{
+        margin-top: 56px;
+    }
+    .shopWrap {
+        margin-top: 25px;
+        margin-bottom: 165px;
+    }
+    .productsContainer {
+        padding-right: 24px;
+    }
+    .Categories {
+        margin-right: 44px;
+    }
+}
+@media screen and (max-width: 948px) {
+    .containerWithoutFiltr{
+        width: 550px
+    }
+}
+@media screen and (max-width: 768px){
+    .DropdownContainer {
+        font-size: 20px;
+        width: 100%
+    }
+    .shopTitleWrap{
+        margin-top: 46px;
+        margin-bottom: 16px;
+    }
+    .shopWrap {
+        flex-direction: column;
+        margin-top: 20px;
+        margin-bottom: 125px;
+    }
+    .Categories {
+        margin-right: 0px;
+    }
+    .mainContainer{
+        width: 75%;
+        margin: 0 auto;
+    }
+    .productsContainer {
+        display: flex;
+        padding-right: 0px;
+        margin: 0 auto;
+        width: 80%;
+        justify-content: space-between;
+    }
+    .pageNumber {
+        height: 45px;
+        width: 45px;
+        border: 1px solid rgba(53, 63, 64);
+        margin-right: 5px;
+    }
+    .productsContainer {
+        gap:30px;
+        margin-top: 20px;
+    }
+    .styledCategory{
+        padding-left: 32px;
+        height: 67px;
+        font-size: 18px;
+    }
+}
+@media screen and (max-width: 680px){
+    .productsContainer {
+        justify-content: center;
+    }
+}
+@media screen and (max-width: 640px){
+    .mainContainer{
+        width: 80%;
+    }
+    .shopWrap {
+        flex-direction: column;
+        margin-top: 0px;
+        margin-bottom: 105px;
+    }
+}
+@media screen and (max-width: 620px) {
+    .containerWithoutFiltr{
+        width: 250px
+    }
+}
+@media screen and (max-width: 576px){
+    .mainContainer{
+        width: 85%;
+        margin: 0 auto;
+    }
+    .shopWrap {
+        flex-direction: column;
+        margin-top: 0px;
+        margin-bottom: 85px;
+    }
+}
