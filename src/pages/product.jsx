@@ -9,7 +9,7 @@ function Product() {
   const params = useParams();
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/colection/single/${params.name}`)
+      .get(`http://82.202.140.109:5000/colection/single/${params.name}`)
       .then((response) => {
         setProductData(response.data);
         document.documentElement.scrollTo(0, 0);

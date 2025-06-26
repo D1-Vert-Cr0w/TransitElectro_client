@@ -24,7 +24,7 @@ function Shop() {
   const [pageQuantity, setPageQuantity] = useState();
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/colection/list`, {
+      .get(`http://82.202.140.109:5000/colection/list`, {
         params: {
           page: pageIndex,
           subcategory: subcategoryParams,
@@ -37,7 +37,7 @@ function Shop() {
       });
     axios
       .get(
-        `http://localhost:5000/filtr/list/${
+        `http://82.202.140.109:5000/filtr/list/${
           params.subcategory ?? params.category
         }`
       )
@@ -45,7 +45,7 @@ function Shop() {
         setFiltr(response.data);
       });
     axios
-      .get(`http://localhost:5000/colection/count`, {
+      .get(`http://82.202.140.109:5000/colection/count`, {
         params: { subcategory: subcategoryParams, category: categoryParams },
       })
       .then((response) => {
