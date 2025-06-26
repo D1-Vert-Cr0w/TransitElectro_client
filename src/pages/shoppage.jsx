@@ -14,10 +14,10 @@ function Shop() {
   const [subcategoryParams, setSubcategoryParams] = useState(
     params.subcategory != undefined && params.subcategory != null
       ? params.subcategory
-      : ""
+      : undefined
   );
   const [categoryParams, setCategoryParams] = useState(
-    params.category != undefined ? params.category : ""
+    params.category != undefined ? params.category : undefined
   );
   const [filtrPreset, setFiltrPreset] = useState("");
   const [filtr, setFiltr] = useState([]);
