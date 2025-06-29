@@ -10,17 +10,26 @@
     margin-right: 30px;
 }
 
-.categoryCardImage{
+.categoryCardImageWrap{
     height: 220px;
-    max-width: 220px;
+    max-width: 250px;
     width: 100%;
-    margin: 0 10px;
+    justify-content: center;
     margin-bottom: 5px;
+    position: relative;
+}
+.categoryCardImage{
+    max-width: 250px;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
 }
 .categoryProductName{
     height: 90px;
     margin: 5px;
-    font-size: 24px;
+    font-size: 20px;
     text-align: center;
 }
 .productPrice{
