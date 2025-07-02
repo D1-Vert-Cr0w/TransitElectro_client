@@ -11,18 +11,13 @@ function Shop() {
   const params = useParams();
   const [products, setProducts] = useState([{}]);
   const [pageIndex, setPageIndex] = useState(1);
-  const [subcategoryParams, setSubcategoryParams] = useState(
-    params.subcategory != undefined && params.subcategory != null
-      ? params.subcategory
-      : undefined
-  );
-  const [categoryParams, setCategoryParams] = useState(
-    params.category != undefined ? params.category : undefined
-  );
+  const [subcategoryParams, setSubcategoryParams] = useState();
+  const [categoryParams, setCategoryParams] = useState(params.category);
   const [filtrPreset, setFiltrPreset] = useState("");
   const [filtr, setFiltr] = useState([]);
   const [pageQuantity, setPageQuantity] = useState();
   useEffect(() => {
+    setPageIndex(1);
     axios
       .get(`https://82.202.140.109:5000/colection/list`, {
         params: {
@@ -36,17 +31,12 @@ function Shop() {
         setProducts(response.data);
       });
     axios
-      .get(
-        `https://82.202.140.109:5000/filtr/list/${
-          params.subcategory ?? params.category
-        }`
-      )
-      .then((response) => {
-        setFiltr(response.data);
-      });
-    axios
       .get(`https://82.202.140.109:5000/colection/count`, {
-        params: { subcategory: subcategoryParams, category: categoryParams },
+        params: {
+          subcategory: subcategoryParams,
+          category: categoryParams,
+          filtrPreset: filtrPreset,
+        },
       })
       .then((response) => {
         if (response.data > parseInt(response.data)) {
@@ -55,8 +45,32 @@ function Shop() {
           setPageQuantity(response.data);
         }
       });
-  }, [pageIndex, filtrPreset]);
-
+  }, [filtrPreset]);
+  useEffect(() => {
+    axios
+      .get(`https://82.202.140.109:5000/colection/list`, {
+        params: {
+          page: pageIndex,
+          subcategory: subcategoryParams,
+          category: categoryParams,
+          filtrPreset: filtrPreset,
+        },
+      })
+      .then((response) => {
+        setProducts(response.data);
+      });
+  }, [pageIndex]);
+  useEffect(() => {
+    axios
+      .get(
+        `https://82.202.140.109:5000/filtr/list/${
+          params.subcategory ?? params.category
+        }`
+      )
+      .then((response) => {
+        setFiltr(response.data);
+      });
+  }, []);
   const pages = [];
   for (let index = 0; index < pageQuantity; index++) {
     {
@@ -72,16 +86,15 @@ function Shop() {
     }
   }
   function changeFiltrPresset(name, value) {
-    let testString = filtrPreset != "" ? filtrPreset.split(",") : [];
+    let testString = filtrPreset != "" ? filtrPreset.split(";") : [];
     let record = name + ": " + value;
     if (testString.indexOf(record) != -1) {
       testString.splice(testString.indexOf(record), 1);
     } else {
       testString.push(record);
     }
-    setFiltrPreset(testString.join(","));
+    setFiltrPreset(testString.join(";"));
   }
-  console.log(params.subcategory ?? params.category);
   return (
     <>
       <div className="shopHeaderWrap">

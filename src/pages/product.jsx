@@ -23,16 +23,14 @@ function Product() {
       <div className="productBody">
         <h1 className="prodPageTitle">{productData.name}</h1>
         <div className="prodInfoWrap">
-          <img className="prodImage" src={productData.image} />
+          <div className="prodImageWrap">
+            <img className="prodImage" src={productData.image} />
+          </div>
           <div className="prodBaseInfo">
             <ul>
               <li className="parametr">
                 <span className="paramName">Тип: </span>
                 {productData.type}
-              </li>
-              <li className="parametr">
-                <span className="paramName">Артикул: </span>{" "}
-                {productData.articul}
               </li>
               <li className="parametr">
                 <span className="paramName">Размер: </span>
