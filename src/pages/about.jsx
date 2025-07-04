@@ -32,7 +32,7 @@ function About() {
         <div className="textOverlay">
           <p className="bannerTitle">О нас</p>
           <p className="bannerSubTitle">
-            Transit Electro - компания по продаже электрооборудования, ведущая
+            Tranzit Electro - компания по продаже электрооборудования, ведущая
             свою деятельность с 2023 года
           </p>
         </div>
@@ -41,18 +41,26 @@ function About() {
         <p className="infoText">
           Мы предлагаем широкий ассортимент электротехники. Утончённые решения
           для декора интерьера, уличных участков, всё для ремонта и не только.
-          Наши партнеры - лидеры рынка, такие
-          как IEK, DKC, Jazz Way и другие. С нами ваша жизнь станет ярче
+          Наши партнеры - лидеры рынка, такие как IEK, DKC, Jazz Way и другие. С
+          нами ваша жизнь станет ярче
         </p>
         <img src={infoImg} className="infoImg" alt="House" />
       </div>
       <div className="partnersWrap">
         <p className="partnersTitle">Наши партнеры</p>
         <div className="partnersLogosWrap">
-        <Link to={"/shop"} state={{brend:"IEK"}}><img className="partnersLogoElem" src={IEK} alt="iek" /></Link>
-        <Link to={"/shop"} state={{brend:"EKF"}}><img className="partnersLogoElem" src={EKF} alt="ekf" /></Link>
-        <Link to={"/shop"} state={{brend:"DKC"}}><img className="partnersLogoElem" src={DKC} alt="dkc" /></Link>
-        <Link to={"/shop"} state={{brend:"JazzWay"}} ><img className="partnersLogoElem" src={jazzway} alt="jazzway" /></Link>
+          <Link to={"/shop"} state={{ brend: "IEK" }}>
+            <img className="partnersLogoElem" src={IEK} alt="iek" />
+          </Link>
+          <Link to={"/shop"} state={{ brend: "EKF" }}>
+            <img className="partnersLogoElem" src={EKF} alt="ekf" />
+          </Link>
+          <Link to={"/shop"} state={{ brend: "DKC" }}>
+            <img className="partnersLogoElem" src={DKC} alt="dkc" />
+          </Link>
+          <Link to={"/shop"} state={{ brend: "JazzWay" }}>
+            <img className="partnersLogoElem" src={jazzway} alt="jazzway" />
+          </Link>
         </div>
       </div>
       <div className="contactsWrap">
@@ -112,7 +120,8 @@ function About() {
             </div>
           </div>
           <p className="contactsFooter">
-            Пермский край, м. о. Пермский, д. Якунчики, ул. Подлесная, д. 15<br></br>
+            Пермский край, м. о. Пермский, д. Якунчики, ул. Подлесная, д. 15
+            <br></br>
             8-800-555-35-35<br></br>
             hz@hz.hz
           </p>
