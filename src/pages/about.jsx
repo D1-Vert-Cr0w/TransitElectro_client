@@ -123,7 +123,7 @@ function About() {
             Пермский край, м. о. Пермский, д. Якунчики, ул. Подлесная, д. 15
             <br></br>
             8-800-555-35-35<br></br>
-            hz@hz.hz
+            tranzitelektro@bk.ru
           </p>
         </div>
       </div>
