@@ -25,6 +25,7 @@
     font-size: 64px;
     width: 80%;
     margin-bottom: 98px;
+    margin-top: 113px;
 }
 .footerPos{
     margin-bottom: 187px;
@@ -83,7 +84,7 @@
     padding-left: 31px;
     padding-right: 31px;
     height: 51px;
-    margin-bottom: 113px;
+    
     margin-top: 10px;
     background-color: rgba(53, 63, 64);
     border-radius: 30px;
@@ -229,14 +230,12 @@
     }
 }
 @media screen and (max-width: 1080px){
-    .dotContainer{
-        margin-bottom: 75px;
-    }
     .swiper-pos-wrapper {
         max-width: 890px;
         margin: 0 auto;
     }
     .itemsLable{
+        margin-top: 75px;
         margin:0 auto;
         max-width: 1220px;
         font-size: 48px;
@@ -298,6 +297,7 @@
     .itemsLable{
         font-size: 46px;
         margin-bottom: 48px;
+        margin-top: 60px;
     }
     .footerPos{
         margin-bottom: 120px;
@@ -348,7 +348,6 @@
     }
     .dotContainer{
         height: 42px;
-        margin-bottom: 60px;
         border-radius: 30px;
         padding-left: 20px;
         padding-right: 20px;
@@ -375,7 +374,6 @@
     padding-left: 11px;
     padding-right: 11px;
     height: 32px;
-    margin-bottom: 30px;
     border-radius: 30px;
 }
 .circle{
@@ -405,14 +403,17 @@
 .dividHr{
     width: 150px;
 }
+.itemsLable{
+    margin-top: 30px;
+}
 }
 @media screen and (max-width: 576px){
     .itemsWraper {
         width: 80%;
     }
 
-    .dotContainer {
-        margin-bottom: 30px;
+    .itemsLable {
+        margin-top: 30px;
     }
     .banerContainer {
         bottom: 200px;
@@ -480,8 +481,6 @@
         .itemsLable {
             margin-bottom: 10px;
             font-size: 28px;
-        }
-        .dotContainer {
-            margin-bottom: 35px;
+            margin-top: 35px;
         }
 }

@@ -32,16 +32,8 @@ function Main() {
       id: 1,
       title: "",
       text: "",
-      compsrc: "photo_2025-06-04_19-04-10.jpg",
-      mobsrc: "photo_2025-06-04_19-04-10.jpg",
-      src: "",
-    },
-    {
-      id: 2,
-      title: "",
-      text: "",
-      compsrc: "photo_2025-06-04_19-04-10.jpg",
-      mobsrc: "photo_2025-06-04_19-04-10.jpg",
+      compsrc: "main-banner-photo-1.jpg",
+      mobsrc: "main-banner-photo-1.jpg",
       src: "",
     },
   ];
@@ -79,7 +71,10 @@ function Main() {
         </div>
       </div>
       <div className="banerNav">
-        <div className="dotContainer">
+        <div
+          style={{ display: `${images.length != 1 ? "block" : "none"}` }}
+          className="dotContainer"
+        >
           {images.map((_, index) => (
             <div
               className={`circle ${index === imageIndex ? "activeDot" : ""}`}
