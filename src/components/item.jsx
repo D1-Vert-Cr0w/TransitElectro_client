@@ -8,7 +8,9 @@ function Item(props) {
           props.status == "extraItem" ? "cardWraper extraItem" : "cardWraper"
         }`}
       >
-        <img className="cardImage" src={props.image}></img>
+        <div className="cardImageContainer">
+          <img className="cardImage" src={props.image}></img>
+        </div>
         <p className="productName">{props.name}</p>
         <Link to={`/product/${props.name}`}>
           <button className="toCart">Подробнее</button>
