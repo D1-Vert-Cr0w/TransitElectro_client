@@ -9,7 +9,7 @@ function Product() {
   const params = useParams();
   useEffect(() => {
     axios
-      .get(`https://82.202.140.109/colection/single/${params.name}`)
+      .get(`https://vm.tranzitelektro.ru/colection/single/${params.name}`)
       .then((response) => {
         setProductData(response.data);
         document.documentElement.scrollTo(0, 0);

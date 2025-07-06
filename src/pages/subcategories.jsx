@@ -12,7 +12,7 @@ function SubCategories() {
   const [subCategoryData, setSubCategoryData] = useState([]);
   useEffect(() => {
     axios
-      .get(`https://82.202.140.109/subcategories/list/${category}`)
+      .get(`https://vm.tranzitelektro.ru/subcategories/list/${category}`)
       .then((response) => {
         setSubCategoryData(response.data);
       });

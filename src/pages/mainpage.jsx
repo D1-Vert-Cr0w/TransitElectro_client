@@ -17,12 +17,12 @@ function Main() {
   const [newitems, setNewItems] = useState([]);
   const [popitems, setPopItems] = useState([]);
   useEffect(() => {
-    axios.get("https://82.202.140.109/colection/new").then((response) => {
+    axios.get("https://vm.tranzitelektro.ru/colection/new").then((response) => {
       setNewItems(response.data);
     });
   }, []);
   useEffect(() => {
-    axios.get("https://82.202.140.109/colection/pop").then((response) => {
+    axios.get("https://vm.tranzitelektro.ru/colection/pop").then((response) => {
       setPopItems(response.data);
     });
   }, []);
