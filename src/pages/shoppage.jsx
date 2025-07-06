@@ -63,7 +63,7 @@ function Shop() {
   useEffect(() => {
     axios
       .get(
-        `https://vm.tranzitelektro.ru/filtr/list${
+        `https://vm.tranzitelektro.ru/filtr/list/Перфорированные лотки${
           params.subcategory ?? params.category
         }`
       )
