@@ -41,7 +41,7 @@ function Product() {
                 {productData.purpose}
               </li>
             </ul>
-            <p className="singleProdPrice">22.20 руб</p>
+            <p className="singleProdPrice">{productData.price}</p>
           </div>
         </div>
         <h1 className="paramsLable">Параметры</h1>

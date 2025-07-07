@@ -18,7 +18,7 @@ function Footer() {
             </Link>
           </span>
           <span className="footerText specElemMrgn">
-            <Link to="/shop" className="footerlinkDecor">
+            <Link to="/categories" className="footerlinkDecor">
               Каталог
             </Link>
           </span>
