@@ -7,11 +7,13 @@ function Dropdown(props) {
   const content = useRef(null);
   function toggleAccordion() {
     setOpen(isOpen === "active" ? "" : "active");
-    setHeightState(
-      isOpen === "active" ? "0px" : `${content.current.scrollHeight}px`
-    );
+    setHeightState(isOpen === "active" ? "0px" : `2000px`);
   }
-
+  useEffect(() => {
+    if (window.innerWidth > 768) {
+      toggleAccordion();
+    }
+  }, []);
   return (
     <>
       <div className="accordion">

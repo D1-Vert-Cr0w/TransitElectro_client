@@ -8,11 +8,9 @@ import axios from "axios";
 function Categories() {
   const [categoryData, setMacroCategoryData] = useState([]);
   useEffect(() => {
-    axios
-      .get(`https://vm.tranzitelektro.ru/categories/list`)
-      .then((response) => {
-        setMacroCategoryData(response.data);
-      });
+    axios.get(`api/categories/list`).then((response) => {
+      setMacroCategoryData(response.data);
+    });
   }, []);
   return (
     <>

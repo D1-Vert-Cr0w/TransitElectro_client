@@ -1,6 +1,25 @@
 a{
     all: unset;
 }
+.subMenuContainer{
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 15px;
+    border: 0.5px solid black;
+    width: 390px;
+    top: 30px;
+    left: -30px;
+}
+.subMenuContainerMobile{
+}
+.subMenuLink{
+    margin: 10px 0;
+}
 .headerContainer{
     display: flex;
     justify-content: space-between;
@@ -12,6 +31,11 @@ a{
 }
 .mrgnlft{
     margin-left: 45px;
+    position: relative;
+    display: inline-block;
+}
+.mrgnlft:hover .subMenuContainer{
+    display: flex;
 }
 .linkDecor{
     box-sizing: border-box;
@@ -78,8 +102,11 @@ a{
 .mobileMenuItem{
     text-align: center;
     font-size: 24px;
-    height: 50px;
+    min-height: 50px;
     box-sizing: border-box;
+}
+.mobileMenu:hover .subMenuContainerMobile{
+    display: block;
 }
 @media screen and (max-width: 1280px){
     .headerContainer{
@@ -124,6 +151,9 @@ a{
         height: 90px;
         margin: 0 auto;
         font-size: 20px;
+    }
+    .subMenuContainer{
+        width: 370px;
     }
     .mrgnlft{
         margin-left: 25px;

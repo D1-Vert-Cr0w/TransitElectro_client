@@ -1,9 +1,19 @@
 import logo from "../assets/logo.svg";
 import "../styles/header.css";
 import { Link } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import axios from "axios";
 import Menu from "../assets/menu.svg";
+import Dropdown from "./dropdown";
 function Header() {
+  const [categoryData, setMacroCategoryData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`https://vm.tranzitelektro.ru/categories/list`)
+      .then((response) => {
+        setMacroCategoryData(response.data);
+      });
+  }, []);
   const [isOpen, setOpen] = useState("");
   const [setHeight, setHeightState] = useState("0px");
 
@@ -11,9 +21,7 @@ function Header() {
 
   function toggleAccordion() {
     setOpen(isOpen === "" ? "active" : "");
-    setHeightState(
-      isOpen === "active" ? "0px" : `${content.current.scrollHeight}px`
-    );
+    setHeightState(isOpen === "active" ? "0px" : `1000px`);
   }
   return (
     <>
@@ -28,11 +36,18 @@ function Header() {
           <Link to="/about" className="linkDecor">
             О нас
           </Link>
-          <span className="mrgnlft">
+          <div className="mrgnlft">
             <Link to="/categories" className="linkDecor">
               Каталог
             </Link>
-          </span>
+            <div className="subMenuContainer">
+              {categoryData.map((category) => (
+                <Link to={category.src} className="subMenuLink">
+                  {category.name}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
         <div className="wraper contacts">
           <p>8-800-555-35-35</p>
@@ -52,7 +67,18 @@ function Header() {
         </Link>
         <Link to="/categories">
           <h1 className="mobileMenuItem ">
-            <span className="linkDecor">Каталог</span>
+            <Dropdown
+              title="Каталог"
+              content={
+                <ul className="subMenuContainerMobile">
+                  {categoryData.map((category) => (
+                    <li className="subMenuLink">
+                      <Link to={category.src}>{category.name}</Link>
+                    </li>
+                  ))}
+                </ul>
+              }
+            />
           </h1>
         </Link>
       </div>

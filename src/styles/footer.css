@@ -56,7 +56,7 @@
         box-sizing: border-box;
     }
     .footerContainer{
-        width: 80%;
+        width: 90%;
     }
     .footerLogoLable{
         margin-left: 20px;
@@ -93,6 +93,9 @@
     .footerLogoLable {
         font-size: 24px;
     }
+    .footerlinkDecor{
+        display: none;
+    }
 }
 @media screen and (max-width: 768px){
     .footerWrap{
@@ -104,18 +107,14 @@
         font-size: 24px;
         margin-left: 20px;
     }
-    .specElemMrgn{
-        display: none;
-    }
+    
 
     .footerText{
         font-size: 20px;
         color: white;
     }
 
-    .need-to-hide{
-        display: none;
-    }
+    
 }
 @media screen and (max-width: 640px){
     .footerLogoLable{
@@ -140,12 +139,12 @@
     }
     .footerContainer {
         width: 90%;
+    }.logoContainer{
+        display: none;
     }
 }
 @media screen and (max-width: 465px){
-    .logoContainer{
-        display: none;
-    }
+    
     .footerWrap {
         height: 150px;
         padding-top: 32px;

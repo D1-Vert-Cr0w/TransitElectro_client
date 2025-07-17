@@ -19,7 +19,7 @@ function Shop() {
   useEffect(() => {
     setPageIndex(1);
     axios
-      .get(`https://vm.tranzitelektro.ru/colection/list`, {
+      .get(`api/colection/list`, {
         params: {
           page: pageIndex,
           subcategory: subcategoryParams,
@@ -31,7 +31,7 @@ function Shop() {
         setProducts(response.data);
       });
     axios
-      .get(`https://vm.tranzitelektro.ru/colection/count`, {
+      .get(`api/colection/count`, {
         params: {
           subcategory: subcategoryParams,
           category: categoryParams,
@@ -48,7 +48,7 @@ function Shop() {
   }, [filtrPreset]);
   useEffect(() => {
     axios
-      .get(`https://vm.tranzitelektro.ru/colection/list`, {
+      .get(`api/colection/list`, {
         params: {
           page: pageIndex,
           subcategory: subcategoryParams,
@@ -62,11 +62,7 @@ function Shop() {
   }, [pageIndex]);
   useEffect(() => {
     axios
-      .get(
-        `https://vm.tranzitelektro.ru/filtr/list/${
-          params.subcategory ?? params.category
-        }`
-      )
+      .get(`api/filtr/list/${params.subcategory ?? params.category}`)
       .then((response) => {
         setFiltr(response.data);
       });
