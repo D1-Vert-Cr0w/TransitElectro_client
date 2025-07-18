@@ -8,11 +8,9 @@ import Dropdown from "./dropdown";
 function Header() {
   const [categoryData, setMacroCategoryData] = useState([]);
   useEffect(() => {
-    axios
-      .get(`https://vm.tranzitelektro.ru/categories/list`)
-      .then((response) => {
-        setMacroCategoryData(response.data);
-      });
+    axios.get(`/api/categories/list`).then((response) => {
+      setMacroCategoryData(response.data);
+    });
   }, []);
   const [isOpen, setOpen] = useState("");
   const [setHeight, setHeightState] = useState("0px");
