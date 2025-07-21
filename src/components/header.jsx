@@ -63,22 +63,26 @@ function Header() {
             <span className="linkDecor">О нас</span>
           </h1>
         </Link>
-        <Link to="/categories">
-          <h1 className="mobileMenuItem ">
-            <Dropdown
-              title="Каталог"
-              content={
-                <ul className="subMenuContainerMobile">
-                  {categoryData.map((category) => (
-                    <li className="subMenuLink">
-                      <Link to={category.src}>{category.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              }
-            />
-          </h1>
-        </Link>
+
+        <h1 className="mobileMenuItem ">
+          <Dropdown
+            isMobileMenu={true}
+            title={
+              <Link to="/categories" className="dropdownLink">
+                Каталог
+              </Link>
+            }
+            content={
+              <ul className="subMenuContainerMobile">
+                {categoryData.map((category) => (
+                  <li className="subMenuLink">
+                    <Link to={category.src}>{category.name}</Link>
+                  </li>
+                ))}
+              </ul>
+            }
+          />
+        </h1>
       </div>
     </>
   );

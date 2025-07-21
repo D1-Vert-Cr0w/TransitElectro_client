@@ -61,7 +61,8 @@
     max-width: 1400px;
 }
 .filtrContainer{
-    display: block
+    display: block;
+    margin-left: 30px;
 }
 .DropdownContainer{
     margin-right: 40px;
@@ -104,6 +105,11 @@
 .pageNumContainer{
     margin-top: 41px;
     
+}
+.notFoundLable{
+    font-size: 32px;
+    margin-top: 50px;
+    text-align: center;
 }
 .yellow{
     background-color: #FFCC00;
@@ -171,14 +177,12 @@
         margin-right: 0px;
     }
     .mainContainer{
-        width: 75%;
+        width: 80%;
         margin: 0 auto;
     }
     .productsContainer {
         display: flex;
         padding-right: 0px;
-        margin: 0 auto;
-        width: 80%;
         justify-content: space-between;
     }
     .pageNumber {

@@ -2,6 +2,7 @@ import "../styles/dropdown.css";
 import Arrow from "../assets/arrow.svg";
 import { useEffect, useRef, useState } from "react";
 function Dropdown(props) {
+  const [isMenuItem, setIsMenuItem] = useState(props.isMobileMenu ?? "");
   const [isOpen, setOpen] = useState("");
   const [setHeight, setHeightState] = useState("0px");
   const content = useRef(null);
@@ -18,12 +19,14 @@ function Dropdown(props) {
     <>
       <div className="accordion">
         <div className={` ${isOpen ? "titleWrap" : ""}`}>
-          <img
-            src={Arrow}
-            className={`arrowButton ${isOpen ? "arrowActive" : ""}`}
-            onClick={toggleAccordion}
-          />
-          <p className="accordionSubtitle">{props.title}</p>
+          <div className={` ${isMenuItem ? "mobileTranslate" : ""}`}>
+            <img
+              src={Arrow}
+              className={`arrowButton  ${isOpen ? "arrowActive" : ""}`}
+              onClick={toggleAccordion}
+            />
+            <p className="accordionSubtitle">{props.title}</p>
+          </div>
         </div>
         <hr className="accordionBorder"></hr>
         <div
