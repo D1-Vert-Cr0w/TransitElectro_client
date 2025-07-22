@@ -117,9 +117,9 @@ function Shop() {
                             >
                               <div
                                 className={`checkIn ${
-                                  filtrPreset.indexOf(
-                                    preset.name + ": " + feature
-                                  ) != -1
+                                  filtrPreset
+                                    .split(";")
+                                    .includes(preset.name + ": " + feature)
                                     ? "yellow"
                                     : ""
                                 }`}

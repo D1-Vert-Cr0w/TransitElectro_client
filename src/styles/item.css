@@ -28,7 +28,7 @@
 }
 .productName{
     height: 75px;
-    margin: 0 5px;
+    margin: 0 10px;
     font-size: 20px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
