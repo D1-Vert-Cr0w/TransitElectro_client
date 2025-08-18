@@ -17,12 +17,12 @@ function Main() {
   const [newitems, setNewItems] = useState([]);
   const [popitems, setPopItems] = useState([]);
   useEffect(() => {
-    axios.get("/api/colection/new").then((response) => {
+    axios.get("http://localhost:5000/colection/new").then((response) => {
       setNewItems(response.data);
     });
   }, []);
   useEffect(() => {
-    axios.get("/api/colection/pop").then((response) => {
+    axios.get("http://localhost:5000/colection/pop").then((response) => {
       setPopItems(response.data);
     });
   }, []);

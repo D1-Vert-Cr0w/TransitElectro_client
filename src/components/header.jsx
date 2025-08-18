@@ -8,7 +8,7 @@ import Dropdown from "./dropdown";
 function Header() {
   const [categoryData, setMacroCategoryData] = useState([]);
   useEffect(() => {
-    axios.get(`/api/categories/list`).then((response) => {
+    axios.get(`http://localhost:5000/categories/list`).then((response) => {
       setMacroCategoryData(response.data);
     });
   }, []);
@@ -24,12 +24,12 @@ function Header() {
   return (
     <>
       <div className="headerContainer">
-        <div className="wraper logoWrap">
-          <img src={logo} alt="logo" className="logoImg" />
-          <p className="logoLable">
-            <Link to="/">Tranzit Electro</Link>
-          </p>
-        </div>
+        <Link to="/">
+          <div className="wraper logoWrap">
+            <img src={logo} alt="logo" className="logoImg" />
+            <p className="logoLable">Tranzit Electro</p>
+          </div>
+        </Link>
         <div className="wraper links">
           <Link to="/about" className="linkDecor">
             О нас

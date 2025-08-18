@@ -8,10 +8,12 @@ function Product() {
   const [productData, setProductData] = useState([]);
   const params = useParams();
   useEffect(() => {
-    axios.get(`/api/colection/single/${params.name}`).then((response) => {
-      setProductData(response.data);
-      document.documentElement.scrollTo(0, 0);
-    });
+    axios
+      .get(`http://localhost:5000/colection/single/${params.name}`)
+      .then((response) => {
+        setProductData(response.data);
+        document.documentElement.scrollTo(0, 0);
+      });
   }, []);
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
