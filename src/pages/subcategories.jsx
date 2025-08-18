@@ -11,11 +11,9 @@ function SubCategories() {
   const { category } = useParams();
   const [subCategoryData, setSubCategoryData] = useState([]);
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/subcategories/list/${category}`)
-      .then((response) => {
-        setSubCategoryData(response.data);
-      });
+    axios.get(`api/subcategories/list/${category}`).then((response) => {
+      setSubCategoryData(response.data);
+    });
   }, []);
   return (
     <>

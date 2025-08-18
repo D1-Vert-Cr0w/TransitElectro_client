@@ -62,11 +62,7 @@ function Shop() {
   }, [pageIndex]);
   useEffect(() => {
     axios
-      .get(
-        `http://localhost:5000/filtr/list/${
-          params.subcategory ?? params.category
-        }`
-      )
+      .get(`api/filtr/list/${params.subcategory ?? params.category}`)
       .then((response) => {
         setFiltr(response.data);
       });
