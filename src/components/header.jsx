@@ -24,8 +24,8 @@ function Header() {
   return (
     <>
       <div className="headerContainer">
-        <div className="wraper logoWrap">
-          <Link to="/">
+        <div className="wraper">
+          <Link to="/" className="logoWrap">
             <img src={logo} alt="logo" className="logoImg" />
             <p className="logoLable">Tranzit Electro</p>
           </Link>

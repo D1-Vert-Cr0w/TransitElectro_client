@@ -126,7 +126,6 @@ a{
         align-content: center;
     }
     .logoWrap{
-        display: flex;
         align-content: center;
     }
 
@@ -164,11 +163,6 @@ a{
     .logoLable{
         margin-left: 25px;
         align-content: center;
-    }
-    .logoWrap{
-        display: flex;
-        align-content: center;
-
     }
     .wraper{
         align-content: center;
