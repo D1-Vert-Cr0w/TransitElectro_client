@@ -6,6 +6,10 @@
     justify-content: space-between;
     overflow: hidden;
 }
+.mainHeaderWrap{
+    border-bottom: 2px solid black;
+    box-sizing: border-box;
+}
 .swiper-pos-wrapper{
     max-width: 1200px;
     margin: 0 auto;

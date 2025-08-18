@@ -40,7 +40,9 @@ function Main() {
   const [imageIndex, setImageIndex] = useState(0);
   return (
     <>
-      <Header />
+      <div className="mainHeaderWrap">
+        <Header />
+      </div>
       <div style={{ overflow: "hidden" }}>
         <div className="banerContentWrap">
           {images.map((image) => (
