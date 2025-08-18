@@ -25,7 +25,7 @@ function Header() {
     <>
       <div className="headerContainer">
         <div className="wraper logoWrap">
-          <Link to="/">
+          <Link to="/" style={"display: flex"}>
             <img src={logo} alt="logo" className="logoImg" />
             <p className="logoLable">Tranzit Electro</p>
           </Link>
