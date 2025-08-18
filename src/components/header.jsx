@@ -24,12 +24,13 @@ function Header() {
   return (
     <>
       <div className="headerContainer">
-        <Link to="/">
-          <div className="wraper logoWrap">
+        <div className="wraper logoWrap">
+          <Link to="/">
             <img src={logo} alt="logo" className="logoImg" />
             <p className="logoLable">Tranzit Electro</p>
-          </div>
-        </Link>
+          </Link>
+        </div>
+
         <div className="wraper links">
           <Link to="/about" className="linkDecor">
             О нас
