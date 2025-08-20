@@ -45,7 +45,7 @@ function Shop() {
           setPageQuantity(response.data);
         }
       });
-  }, [filtrPreset]);
+  }, [filtrPreset, categoryParams, subcategoryParams]);
   useEffect(() => {
     axios
       .get(`/api/colection/list`, {
@@ -66,7 +66,7 @@ function Shop() {
       .then((response) => {
         setFiltr(response.data);
       });
-  }, []);
+  }, [categoryParams, subcategoryParams]);
   const pages = [];
   for (let index = 0; index < pageQuantity; index++) {
     {
