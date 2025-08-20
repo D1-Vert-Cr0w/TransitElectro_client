@@ -8,7 +8,7 @@ function Product() {
   const [productData, setProductData] = useState([]);
   const params = useParams();
   useEffect(() => {
-    axios.get(`api/colection/single/${params.name}`).then((response) => {
+    axios.get(`/api/colection/single/${params.name}`).then((response) => {
       setProductData(response.data);
       document.documentElement.scrollTo(0, 0);
     });
