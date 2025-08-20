@@ -19,7 +19,7 @@ function Shop() {
   useEffect(() => {
     setPageIndex(1);
     axios
-      .get(`http://localhost:5000/colection/list`, {
+      .get(`api/colection/list`, {
         params: {
           page: pageIndex,
           subcategory: subcategoryParams,
@@ -31,7 +31,7 @@ function Shop() {
         setProducts(response.data);
       });
     axios
-      .get(`http://localhost:5000/colection/count`, {
+      .get(`api/colection/count`, {
         params: {
           subcategory: subcategoryParams,
           category: categoryParams,
@@ -48,7 +48,7 @@ function Shop() {
   }, [filtrPreset]);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/colection/list`, {
+      .get(`api/colection/list`, {
         params: {
           page: pageIndex,
           subcategory: subcategoryParams,
