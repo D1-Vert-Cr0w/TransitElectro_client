@@ -17,7 +17,7 @@ function Main() {
   const [newitems, setNewItems] = useState([]);
   const [popitems, setPopItems] = useState([]);
   useEffect(() => {
-    axios.get("api/colection/new").then((response) => {
+    axios.get("/api/colection/new").then((response) => {
       setNewItems(response.data);
     });
   }, []);
