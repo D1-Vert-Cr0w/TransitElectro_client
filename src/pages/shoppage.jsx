@@ -11,7 +11,9 @@ function Shop() {
   const params = useParams();
   const [products, setProducts] = useState([{}]);
   const [pageIndex, setPageIndex] = useState(1);
-  const [subcategoryParams, setSubcategoryParams] = useState();
+  const [subcategoryParams, setSubcategoryParams] = useState(
+    params.subcategory
+  );
   const [categoryParams, setCategoryParams] = useState(params.category);
   const [filtrPreset, setFiltrPreset] = useState("");
   const [filtr, setFiltr] = useState([]);
