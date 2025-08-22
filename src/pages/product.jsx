@@ -32,9 +32,7 @@ function Product() {
               </li>
               <li
                 style={{
-                  display: `${
-                    productData.scale != undefined ? "block" : "none"
-                  }`,
+                  display: `${productData.scale != "-" ? "block" : "none"}`,
                 }}
                 className="parametr"
               >
