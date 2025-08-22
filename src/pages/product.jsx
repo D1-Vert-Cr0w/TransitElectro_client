@@ -30,11 +30,25 @@ function Product() {
                 <span className="paramName">Тип: </span>
                 {productData.type}
               </li>
-              <li className="parametr">
+              <li
+                style={{
+                  display: `${
+                    productData.scale != undefined ? "block" : "none"
+                  }`,
+                }}
+                className="parametr"
+              >
                 <span className="paramName">Размер: </span>
                 {productData.scale}
               </li>
-              <li className="parametr">
+              <li
+                style={{
+                  display: `${
+                    productData.purpose != undefined ? "block" : "none"
+                  }`,
+                }}
+                className="parametr"
+              >
                 <span className="paramName">Применение: </span>{" "}
                 {productData.purpose}
               </li>
@@ -42,9 +56,16 @@ function Product() {
             <p className="singleProdPrice">{productData.price}</p>
           </div>
         </div>
-        <h1 className="paramsLable">Параметры</h1>
+        <h1
+          style={{
+            display: `${productData.features != undefined ? "block" : "none"}`,
+          }}
+          className="paramsLable"
+        >
+          Параметры
+        </h1>
         <div>
-          {productData.features !== undefined
+          {productData.features != undefined
             ? productData.features.map((feature) => (
                 <p className="descrPart">{feature}</p>
               ))

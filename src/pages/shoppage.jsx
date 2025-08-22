@@ -14,6 +14,9 @@ function Shop() {
   const [subcategoryParams, setSubcategoryParams] = useState(
     params.subcategory
   );
+  const [extraSubcategoryParams, extrasetSubcategoryParams] = useState(
+    params.extrasubcategory
+  );
   const [categoryParams, setCategoryParams] = useState(params.category);
   const [filtrPreset, setFiltrPreset] = useState("");
   const [filtr, setFiltr] = useState([]);
@@ -25,6 +28,7 @@ function Shop() {
         params: {
           page: pageIndex,
           subcategory: subcategoryParams,
+          extrasubcategory: extraSubcategoryParams,
           category: categoryParams,
           filtrPreset: filtrPreset,
         },
@@ -36,6 +40,7 @@ function Shop() {
       .get(`/api/colection/count`, {
         params: {
           subcategory: subcategoryParams,
+          extrasubcategory: extraSubcategoryParams,
           category: categoryParams,
           filtrPreset: filtrPreset,
         },
@@ -47,12 +52,13 @@ function Shop() {
           setPageQuantity(response.data);
         }
       });
-  }, [filtrPreset, categoryParams, subcategoryParams]);
+  }, [filtrPreset, categoryParams, subcategoryParams, extraSubcategoryParams]);
   useEffect(() => {
     axios
       .get(`/api/colection/list`, {
         params: {
           page: pageIndex,
+          extrasubcategory: extraSubcategoryParams,
           subcategory: subcategoryParams,
           category: categoryParams,
           filtrPreset: filtrPreset,
@@ -64,11 +70,15 @@ function Shop() {
   }, [pageIndex]);
   useEffect(() => {
     axios
-      .get(`/api/filtr/list/${params.subcategory ?? params.category}`)
+      .get(
+        `/api/filtr/list/${
+          params.subcategory ?? params.category ?? params.extrasubcategory
+        }`
+      )
       .then((response) => {
         setFiltr(response.data);
       });
-  }, [categoryParams, subcategoryParams]);
+  }, [categoryParams, subcategoryParams, extraSubcategoryParams]);
   const pages = [];
   for (let index = 0; index < pageQuantity; index++) {
     {
@@ -98,7 +108,9 @@ function Shop() {
       <div className="shopHeaderWrap">
         <Header />
       </div>
-      <h1 className="shopTitleWrap">{params.subcategory ?? params.category}</h1>
+      <h1 className="shopTitleWrap">
+        {params.subcategory ?? params.category ?? params.extrasubcategory}
+      </h1>
       <div className="shopWrap">
         <div className="DropdownContainer">
           <Dropdown
