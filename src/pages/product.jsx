@@ -60,8 +60,8 @@ function Product() {
         <h1
           style={{
             display: `${
-              productData.features.length != 0 &&
-              productData.features != undefined
+              productData.features != undefined &&
+              productData.features.length != 0
                 ? "block"
                 : "none"
             }`,
