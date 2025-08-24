@@ -59,7 +59,7 @@ function Product() {
         </div>
         <h1
           style={{
-            display: `${productData.length != 0 ? "block" : "none"}`,
+            display: `${productData.features.length != 0 ? "block" : "none"}`,
           }}
           className="paramsLable"
         >
