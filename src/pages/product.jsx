@@ -26,7 +26,12 @@ function Product() {
           </div>
           <div className="prodBaseInfo">
             <ul>
-              <li className="parametr">
+              <li
+                style={{
+                  display: `${productData.scale != "-" ? "block" : "none"}`,
+                }}
+                className="parametr"
+              >
                 <span className="paramName">Тип: </span>
                 {productData.type}
               </li>
@@ -41,9 +46,7 @@ function Product() {
               </li>
               <li
                 style={{
-                  display: `${
-                    productData.purpose != undefined ? "block" : "none"
-                  }`,
+                  display: `${productData.scale != "-" ? "block" : "none"}`,
                 }}
                 className="parametr"
               >
@@ -56,7 +59,7 @@ function Product() {
         </div>
         <h1
           style={{
-            display: `${productData.features != undefined ? "block" : "none"}`,
+            display: `${productData.length != 0 ? "block" : "none"}`,
           }}
           className="paramsLable"
         >
