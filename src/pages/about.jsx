@@ -122,7 +122,7 @@ function About() {
           <p className="contactsFooter">
             Пермский край, м. о. Пермский, д. Якунчики, ул. Подлесная, д. 15
             <br></br>
-            8-800-555-35-35<br></br>
+            +7(342)247-77-37<br></br>
             tranzitelektro@bk.ru
           </p>
         </div>
