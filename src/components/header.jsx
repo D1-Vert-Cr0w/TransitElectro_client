@@ -49,7 +49,7 @@ function Header() {
           </div>
         </div>
         <div className="wraper contacts">
-          <p>8-800-555-35-35</p>
+          <p>+7(342)247-77-37</p>
           <p>пн-пт 9:00-22:00</p>
         </div>
         <img src={Menu} className={`openMenu `} onClick={toggleAccordion} />

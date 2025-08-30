@@ -24,7 +24,7 @@ function Footer() {
           </span>
         </div>
         <div className="footerSubContainer">
-          <p className="footerText">8-800-555-35-35</p>
+          <p className="footerText">+7(342)247-77-37</p>
           <p className="footerText">tranzitelektro@bk.ru</p>
         </div>
       </div>
