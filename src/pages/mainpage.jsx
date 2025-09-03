@@ -90,7 +90,7 @@ function Main() {
       <div className="swiper-pos-wrapper">
         <Swiper
           modules={[Navigation, Autoplay]}
-          autoplay={true}
+          autoplay={5000}
           slidesPerView={1}
           navigation={true}
           breakpoints={{
@@ -128,7 +128,7 @@ function Main() {
         <div className="swiper-pos-wrapper">
           <Swiper
             modules={[Navigation, Autoplay]}
-            autoplay={true}
+            autoplay={5000}
             slidesPerView={1}
             navigation={true}
             breakpoints={{
