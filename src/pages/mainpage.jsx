@@ -127,6 +127,7 @@ function Main() {
           <Swiper
             modules={[Navigation]}
             slidesPerView={1}
+            loop={true}
             navigation={true}
             breakpoints={{
               690: {
