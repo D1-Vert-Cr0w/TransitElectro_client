@@ -8,11 +8,12 @@ import ProdCarousel from "../components/prodCarousel.jsx";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, Autoplay } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import "swiper/css/autoplay";
 function Main() {
   const [newitems, setNewItems] = useState([]);
   const [popitems, setPopItems] = useState([]);
@@ -88,7 +89,8 @@ function Main() {
       <h1 className="itemsLable">Новинки</h1>
       <div className="swiper-pos-wrapper">
         <Swiper
-          modules={[Navigation]}
+          modules={[Navigation, Autoplay]}
+          autoplay={true}
           slidesPerView={1}
           navigation={true}
           breakpoints={{
@@ -125,9 +127,9 @@ function Main() {
       <div className="footerPos">
         <div className="swiper-pos-wrapper">
           <Swiper
-            modules={[Navigation]}
+            modules={[Navigation, Autoplay]}
+            autoplay={true}
             slidesPerView={1}
-            loop={true}
             navigation={true}
             breakpoints={{
               690: {
