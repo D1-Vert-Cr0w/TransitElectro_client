@@ -27,7 +27,7 @@ function Header() {
         <div className="wraper">
           <Link to="/" className="logoWrap">
             <img src={logo} alt="logo" className="logoImg" />
-            <p className="logoLable">Tranzit Electro</p>
+            <p className="logoLable">Транзит Электро</p>
           </Link>
         </div>
 

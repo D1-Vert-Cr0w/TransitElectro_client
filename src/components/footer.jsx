@@ -8,7 +8,7 @@ function Footer() {
         <div className="logoContainer">
           <img src={Logo} className="footerLogo" />
           <p className="footerLogoLable">
-            <Link to="/">Transit Electro</Link>
+            <Link to="/">Транзит Электро</Link>
           </p>
         </div>
         <div>
