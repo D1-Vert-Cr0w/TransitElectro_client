@@ -32,7 +32,7 @@ function About() {
         <div className="textOverlay">
           <p className="bannerTitle">О нас</p>
           <p className="bannerSubTitle">
-            Tranzit Electro - компания по продаже электрооборудования, ведущая
+            Транзит Электро - компания по продаже электрооборудования, ведущая
             свою деятельность с 2023 года
           </p>
         </div>
