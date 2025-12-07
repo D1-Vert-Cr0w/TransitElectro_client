@@ -132,7 +132,7 @@ function DiscountRedactor() {
         data.image1 != null &&
         isDitaisInfoFull == true
       ) {
-        const response = await axios.post("api/discount/add", data, {
+        const response = await axios.post("/api/discount/add", data, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -171,16 +171,12 @@ function DiscountRedactor() {
         data.image1 != null &&
         isDitaisInfoFull == true
       ) {
-        const response = await axios.put(
-          "http://localhost:5000/discount/update",
-          data,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-          }
-        );
+        const response = await axios.put("/api/discount/update", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        });
         setPrevData(data);
         if (error != null) {
           setError(null);
