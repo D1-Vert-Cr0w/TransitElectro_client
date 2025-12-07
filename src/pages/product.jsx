@@ -11,10 +11,12 @@ function Product() {
   const [tempInputValues, setTempInputValues] = useState(-1);
   const params = useParams();
   useEffect(() => {
-    axios.get(`/api/colection/single/${params.name}`).then((response) => {
-      setProductData(response.data);
-      document.documentElement.scrollTo(0, 0);
-    });
+    axios
+      .get(`https://tranzitelektro.ru/api/colection/single/${params.name}`)
+      .then((response) => {
+        setProductData(response.data);
+        document.documentElement.scrollTo(0, 0);
+      });
   }, []);
   function changeQuantity(increment) {
     if (quantity + increment > 0) {
@@ -40,7 +42,7 @@ function Product() {
   async function addToCart(id, image, name, quantity, price) {
     if (prevQuantity != quantity) {
       axios.post(
-        `/api/cart/add`,
+        `https://tranzitelektro.ru/api/cart/add`,
         {
           products: {
             id: id,

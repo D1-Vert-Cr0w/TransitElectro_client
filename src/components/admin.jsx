@@ -12,7 +12,7 @@ function AdminDashboard() {
   const [redactor, setRedactor] = useState("Просмотр заказов");
   const navigate = useNavigate();
   async function logout() {
-    await axios.delete("api/user/logout", {
+    await axios.delete("/api/user/logout", {
       withCredentials: true,
     });
     localStorage.removeItem("user");

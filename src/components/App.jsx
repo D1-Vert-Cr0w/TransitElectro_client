@@ -17,6 +17,7 @@ import Discount from "../pages/discountpage.jsx";
 import DiscountDitails from "../pages/discountdetails.jsx";
 const $api = axios.create({
   withCredentials: true,
+  baseURL: "https://tranzitelektro.ru/api",
 });
 axios.interceptors.response.use(
   (config) => {
