@@ -6,13 +6,57 @@ import "../styles/product.css";
 import { useParams } from "react-router-dom";
 function Product() {
   const [productData, setProductData] = useState([]);
+  const [quantity, setProductQuantity] = useState(1);
+  const [prevQuantity, setPrevQuantity] = useState();
+  const [tempInputValues, setTempInputValues] = useState(-1);
   const params = useParams();
   useEffect(() => {
-    axios.get(`/api/colection/single/${params.name}`).then((response) => {
-      setProductData(response.data);
-      document.documentElement.scrollTo(0, 0);
-    });
+    axios
+      .get(`http://localhost:5000/colection/single/${params.name}`)
+      .then((response) => {
+        setProductData(response.data);
+        document.documentElement.scrollTo(0, 0);
+      });
   }, []);
+  function changeQuantity(increment) {
+    if (quantity + increment > 0) {
+      setProductQuantity(quantity + increment);
+    }
+  }
+  function handleQuantityChange(newQuantity) {
+    setTempInputValues(newQuantity);
+  }
+  function handleBlur(newQuantity) {
+    if (newQuantity != "") {
+      const value = parseInt(newQuantity);
+      setProductQuantity(value);
+    }
+    setTempInputValues(-1);
+  }
+  const handleKeyDown = (e) => {
+    if (["-", "+", "e", "E"].includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  async function addToCart(id, image, name, quantity, price) {
+    if (prevQuantity != quantity) {
+      axios.post(
+        `http://localhost:5000/cart/add`,
+        {
+          products: {
+            id: id,
+            image: image,
+            name: name,
+            quantity: quantity,
+            price: price,
+          },
+        },
+        { withCredentials: true }
+      );
+    }
+    setPrevQuantity(quantity);
+  }
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <div className="shopHeaderWrap">
@@ -28,7 +72,7 @@ function Product() {
             <ul>
               <li
                 style={{
-                  display: `${productData.scale != "-" ? "block" : "none"}`,
+                  display: `${productData.type != "-" ? "block" : "none"}`,
                 }}
                 className="parametr"
               >
@@ -46,7 +90,7 @@ function Product() {
               </li>
               <li
                 style={{
-                  display: `${productData.scale != "-" ? "block" : "none"}`,
+                  display: `${productData.purpose != "-" ? "block" : "none"}`,
                 }}
                 className="parametr"
               >
@@ -54,7 +98,43 @@ function Product() {
                 {productData.purpose}
               </li>
             </ul>
-            <p className="singleProdPrice">{productData.price}</p>
+            <p className="singleProdPrice">{productData.price} руб</p>
+            <div className="quantityButton-container">
+              <button
+                className="cartItem-button"
+                onClick={() => changeQuantity(+1)}
+              >
+                +
+              </button>
+              <input
+                value={tempInputValues != -1 ? tempInputValues : quantity}
+                onChange={(e) => handleQuantityChange(e.target.value)}
+                onBlur={(e) => handleBlur(e.target.value)}
+                type="number"
+                onKeyDown={handleKeyDown}
+                className="cartItem-quantity"
+              />
+              <button
+                className="cartItem-button minus"
+                onClick={() => changeQuantity(-1)}
+              >
+                -
+              </button>
+              <button
+                className="toCart-button"
+                onClick={() =>
+                  addToCart(
+                    productData._id,
+                    productData.image,
+                    productData.name,
+                    quantity,
+                    productData.price
+                  )
+                }
+              >
+                В корзину
+              </button>
+            </div>
           </div>
         </div>
         <h1

@@ -118,6 +118,7 @@
     max-width: 1220px;
     margin: 0 auto;
     height: 100%;
+    overflow: hidden;
 }
 .banerNav{
     display: flex;

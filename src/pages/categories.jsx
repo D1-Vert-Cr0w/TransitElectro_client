@@ -6,10 +6,10 @@ import "../styles/categories.css";
 import axios from "axios";
 
 function Categories() {
-  const [categoryData, setMacroCategoryData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
   useEffect(() => {
-    axios.get(`/api/categories/list`).then((response) => {
-      setMacroCategoryData(response.data);
+    axios.get(`http://localhost:5000/categories/list`).then((response) => {
+      setCategoryData(response.data);
     });
   }, []);
   return (

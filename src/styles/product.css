@@ -104,6 +104,22 @@
     font-size: 32px;
     text-align: center;
 }
+.quantityButton-container{
+    display: flex;
+    margin-top: 20px;
+}
+.toCart-button{
+    background-color: #353F40;
+    width: 200px;
+    font-size: 22px;
+    text-align: center;
+    color: white;
+
+}
+.toCart-button:active{
+    background-color: #FFCC00;
+    color: black;
+}
 @media screen and (max-width:1280px){
     .parametr {
         font-size: 20px;

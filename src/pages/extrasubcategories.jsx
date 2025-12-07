@@ -11,9 +11,11 @@ function ExtraSubCategories() {
   const { subcategory } = useParams();
   const [extraSubCategoryData, setExtraSubCategoryData] = useState([]);
   useEffect(() => {
-    axios.get(`/api/subcategories/list/${subcategory}`).then((response) => {
-      setExtraSubCategoryData(response.data);
-    });
+    axios
+      .get(`http://localhost:5000/subcategories/list/${subcategory}`)
+      .then((response) => {
+        setExtraSubCategoryData(response.data);
+      });
   }, []);
   return (
     <>

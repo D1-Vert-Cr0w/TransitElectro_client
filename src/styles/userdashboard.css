@@ -1,0 +1,211 @@
+.orderInfo-container{
+    display: grid;
+    margin-left: 5%;
+    align-items: center;
+    grid-template-columns: 600px 350px;
+    margin-bottom: 20px;
+}
+.orderContainer{
+    margin: 20px 0;
+    border-top: 1px solid black;
+    box-sizing: border-box;
+    padding-top: 10px;
+}
+.orderInfo-infogroup{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    
+}
+.personalDataItem-container{
+    margin-top: 10px;
+    border-bottom: 1px solid black;
+}
+.personalDataItem-header{
+    border-bottom: 1px solid black;
+    padding-left: 30px;
+    font-size: 24px;
+    box-sizing: border-box;
+}
+.personalDataItem-text{
+    font-size: 22px;
+    margin: 10px 0;
+    margin-left: 30px;
+}
+.logoutContainer{
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(53, 63, 64);
+    color: white;
+    height: 60px;
+    align-items: center;
+}
+.mainHeader{
+    margin-left: 30px;
+    font-size: 24px;
+}
+.deleteButton{
+    display: block;
+    color: black;
+    background-color: #FFCC00;
+    height: 30px;
+    font-size: 20px;
+    width: 120px;
+    text-align: center;
+    border: 1px solid black;
+    margin-right: 30px;
+}
+.orderInfo-date{
+    background-color: rgb(53, 63, 64);
+    font-size: 20px;
+    height: 44px;
+    color:white;
+    box-sizing: border-box;
+    padding-top: 8px;
+    padding-left: 30px;
+}
+.orderInfo-item{
+    font-size: 20px;
+    padding-right: 10px;
+    max-width: 600px;
+    box-sizing: border-box;
+}
+.orderInfo-header{
+    border-bottom: 1px solid black;
+    margin-top: 30px;
+    font-size: 26px;
+    padding-left: 30px;
+    box-sizing: border-box;
+    padding-bottom: 10px;
+}
+.userContainer{
+    flex: 1;
+}
+.noOrders{
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 30px;
+}
+.odrerControlPannel{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 57px;
+    background-color: rgb(53, 63, 64);
+}
+.adressContainer{
+    display: flex;
+    margin-left: 5%;
+    margin-top: 20px;
+    justify-content: start;
+}
+.adressTitle{
+    font-size: 20px;
+    margin-right: 20px;
+    align-content: center;
+}
+.acceptButton{
+    display: block;
+    color: white;
+    background-color: rgb(53, 63, 64);
+    height: 30px;
+    font-size: 20px;
+    width: 150px;
+    text-align: center;
+    border: 1px solid black;
+    margin-right: 30px;
+}
+.adressInput{
+    max-width: 296px;
+}
+
+.adressControllButtonContainer{
+    display: flex;
+}
+@media (max-width:1080px) {
+    .orderInfo-container{
+    grid-template-columns: 50% 50%;
+}
+.personalDataItem-header{
+    padding-left: 30px;
+    font-size: 20px;
+}
+.personalDataItem-text{
+    font-size: 20px;
+}
+.mainHeader{
+    margin-left: 30px;
+    font-size: 22px;
+}
+.orderInfo-date{
+    font-size: 18px;
+}
+.deleteButton{
+    font-size: 18px;
+    width: 100px;
+    height: 30px;
+}
+.price{
+    text-align: center;
+}
+.orderInfo-item{
+    font-size: 16px;
+}
+.orderInfo-header{
+    font-size: 24px;
+}
+}
+@media (max-width:768px) {
+.personalDataItem-header{
+    padding-left: 20px;
+    font-size: 18px;
+}
+.personalDataItem-text{
+    font-size: 18px;
+}
+.mainHeader{
+    margin-left: 20px;
+    font-size: 18px;
+}
+.userLogoutButton{
+    font-size: 16px;
+    margin-right: 20px;
+}
+.deleteButton{
+    margin-right: 10px;
+}
+.orderInfo-date{
+    font-size: 16px;
+    padding-left: 10px;
+}
+.odrerControlPannel {
+    padding-right: 0px;
+}
+.orderInfo-item{
+    font-size: 15px;
+}
+.orderInfo-header{
+    font-size: 22px;
+}
+.adressContainer{
+    flex-direction: column;
+    gap: 10px;
+}
+
+}
+@media (max-width:640px) {
+    .orderInfo-container{
+    display: grid;
+    grid-template-columns: none;
+    grid-template-rows: 60px 30px;
+    margin-bottom: 20px;
+    margin-left: 0px;
+}
+.orderInfo-item{
+    margin-left: 20px;
+}
+.orderInfo-infogroup{
+    box-sizing: border-box;
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+}
+}

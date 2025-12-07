@@ -11,7 +11,7 @@ function Footer() {
             <Link to="/">Транзит Электро</Link>
           </p>
         </div>
-        <div>
+        <div className="footerTextContainer">
           <span className="footerText need-to-hide">
             <Link to="/about" className="footerlinkDecor">
               О нас
@@ -25,6 +25,7 @@ function Footer() {
         </div>
         <div className="footerSubContainer">
           <p className="footerText">+7(342)247-77-37</p>
+          <p className="footerText">пн-пт 9:00-18:00</p>
           <p className="footerText">tranzitelektro@bk.ru</p>
         </div>
       </div>

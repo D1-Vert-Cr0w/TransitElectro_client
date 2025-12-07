@@ -1,0 +1,7 @@
+.discPageContainer{
+    flex: 1;
+    width: 80%;
+    max-width: 1220px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}

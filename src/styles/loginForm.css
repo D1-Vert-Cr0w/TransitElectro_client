@@ -1,0 +1,168 @@
+.openButton{
+    width: 50px;
+    height: 50px;
+    
+}
+.crossButton{
+    background-color: #FFCC00;
+     width: 30px;
+    height: 30px;
+}
+.dashboardIcon{
+    width: 50px;
+    height: 50px;
+}
+.formContainer{
+    box-sizing: border-box;
+    padding-bottom: 15px;
+    width: 400px;
+    border: 1px solid black;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+    position: fixed;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+   
+}
+.formSubTitle{
+    font-size: 16px;
+    box-sizing: border-box;
+    padding: 0 10px;
+    text-align: center;
+}
+.closeButtonContainer{
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    padding-top: 15px;
+    padding-right: 25px;
+}
+.formTitle{
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+.formInput{
+    width: 300px;
+    height: 35px;
+    font-size: 20px;
+    margin: 10px 0;
+}
+.formButtonContainer{
+    margin-top: 15px;
+}
+.formButton{
+    display: block;
+    width: 300px;
+    height: 45px;
+    font-size: 20px;
+    margin: 5px 0;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid black;
+}
+.reg:hover{
+    background-color: #FFCC00;
+}
+.logIn{
+    background-color: rgba(53, 63, 64);
+    color: white;
+}
+.modal-bg { 
+  background:#000; 
+  opacity: 50%;
+  position:fixed; 
+  top:0; left:0;
+  z-index: 2; 
+  width:100%; 
+  height:100%; 
+}
+.password-input{
+    width: 260px;
+}
+.fa-eye {
+	background-color:#FFCC00;
+    width: 40px;
+    height: 40px;
+}
+.eyeIcon{
+    width: 40px;
+    height: 40px;
+}
+.errorContainer{
+    color: rgb(210, 83, 83);
+    font-size: 16px;
+    width: 100%;
+    line-height: 24px;
+    box-sizing: border-box;
+    padding: 0 50px;
+    text-align:justify;
+}
+.mobileLogIn{
+    background-color: rgba(53, 63, 64);
+    color: white;
+    height: 50px;
+    font-size: 20px;
+    text-align: center;
+    padding-top: 10px;
+    box-sizing: border-box;
+    display: none;
+}
+@media screen and (max-width: 1280px){
+.formContainer{
+    width: 350px;
+}
+.closeButtonContainer{
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    padding-top: 15px;
+    padding-right: 25px;
+}
+.formTitle{
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+.formInput{
+    width: 250px;
+    height: 35px;
+    font-size: 20px;
+    margin: 10px 0;
+}
+.formButton{
+    display: block;
+    width: 250px;
+    height: 40px;
+}
+.password-input{
+    width: 210px;
+}
+
+.errorContainer{
+    padding: 0 40px;
+}
+}
+@media screen and (max-width: 1080px) {
+    .dashboardIcon {
+    width: 40px;
+    height: 40px;
+    }
+        .openButton {
+    width: 40px;
+    height: 40px;
+}
+}
+@media screen and (max-width: 768px){
+    .openButton{
+        display: none;
+    }
+    .crossButtonContainer{
+        display: none;
+    }
+    .mobileLogIn{
+        display: block;
+    }
+}

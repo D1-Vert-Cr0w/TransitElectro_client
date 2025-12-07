@@ -4,11 +4,13 @@ import "../styles/mainpage.css";
 import Footer from "../components/footer.jsx";
 import Header from "../components/header.jsx";
 import DivideImg from "../assets/dividimg.svg";
-import ProdCarousel from "../components/prodCarousel.jsx";
+import MainBanner1 from "../assets/main-banner-photo-1.jpg";
+import MainBanner2 from "../assets/б.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Navigation, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -18,12 +20,12 @@ function Main() {
   const [newitems, setNewItems] = useState([]);
   const [popitems, setPopItems] = useState([]);
   useEffect(() => {
-    axios.get("/api/colection/new").then((response) => {
+    axios.get("http://localhost:5000/colection/new").then((response) => {
       setNewItems(response.data);
     });
   }, []);
   useEffect(() => {
-    axios.get("api/colection/pop").then((response) => {
+    axios.get("http://localhost:5000/colection/pop").then((response) => {
       setPopItems(response.data);
     });
   }, []);
@@ -31,11 +33,15 @@ function Main() {
   const images = [
     {
       id: 1,
-      title: "",
-      text: "",
-      compsrc: "main-banner-photo-1.jpg",
-      mobsrc: "main-banner-photo-1.jpg",
+      compsrc: MainBanner1,
+      mobsrc: MainBanner1,
       src: "",
+    },
+    {
+      id: 2,
+      compsrc: MainBanner2,
+      mobsrc: MainBanner2,
+      src: "/discount/ditails/Зимняя акция",
     },
   ];
   const [imageIndex, setImageIndex] = useState(0);
@@ -51,24 +57,12 @@ function Main() {
               className="carouselWrap"
               style={{ transform: `translate(${-100 * imageIndex}%)` }}
             >
-              <picture className="carouselItem">
-                <source
-                  media="(max-width:576px)"
-                  srcSet={`./${image.mobsrc}`}
-                />
-                <img className="carouselItem" src={`./${image.compsrc}`}></img>
-              </picture>
-              <div className="banerContainer">
-                <p className="banerMainTitle">{image.title}</p>
-                <p className="banerMainText">{image.text}</p>
-                {image.src != "" ? (
-                  <Link to={image.src}>
-                    <div className="banerButton">Подробнее</div>
-                  </Link>
-                ) : (
-                  ""
-                )}
-              </div>
+              <Link to={image.src}>
+                <picture className="carouselItem">
+                  <source media="(max-width:576px)" srcSet={image.mobsrc} />
+                  <img className="carouselItem" src={image.compsrc}></img>
+                </picture>
+              </Link>
             </div>
           ))}
         </div>
@@ -146,7 +140,7 @@ function Main() {
             {popitems.map((product) => (
               <SwiperSlide>
                 <Item
-                  key={product.id}
+                  id={product.id}
                   name={product.name}
                   price={product.price}
                   code={product.code}
