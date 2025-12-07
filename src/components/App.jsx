@@ -28,9 +28,12 @@ axios.interceptors.response.use(
     if (error.response.status == 401 && !originalRequest._retry) {
       try {
         originalRequest._retry = true;
-        const response = await $api.get("api/user/refresh", {
-          withCredentials: true,
-        });
+        const response = await $api.get(
+          "https://tranzitelektro.ru/api/user/refresh",
+          {
+            withCredentials: true,
+          }
+        );
         localStorage.setItem("user", response.data.user);
         return $api.request(originalRequest);
       } catch (e) {
@@ -41,7 +44,9 @@ axios.interceptors.response.use(
 );
 if (!localStorage.getItem("user")) {
   axios
-    .get("api/user/reconnect", { withCredentials: true })
+    .get("https://tranzitelektro.ru/api/user/reconnect", {
+      withCredentials: true,
+    })
     .then((response) => localStorage.setItem("user", response.data));
 }
 function App() {
