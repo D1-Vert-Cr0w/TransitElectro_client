@@ -12,7 +12,7 @@ function OrderCheck() {
   useEffect(() => {
     async function fetchData() {
       axios
-        .get(`api/order/listall`, {
+        .get(`/api/order/listall`, {
           withCredentials: true,
         })
         .then((response) => {

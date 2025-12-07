@@ -9,7 +9,7 @@ import DiscountItem from "../components/discountitem.jsx";
 function Discount() {
   const [discountsData, setDiscountsData] = useState([]);
   useEffect(() => {
-    axios.get(`api/discount/list`).then((response) => {
+    axios.get(`/api/discount/list`).then((response) => {
       setDiscountsData(response.data);
       console.log(response.data);
     });

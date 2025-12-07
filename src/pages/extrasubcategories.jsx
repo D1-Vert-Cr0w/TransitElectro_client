@@ -11,7 +11,7 @@ function ExtraSubCategories() {
   const { subcategory } = useParams();
   const [extraSubCategoryData, setExtraSubCategoryData] = useState([]);
   useEffect(() => {
-    axios.get(`api/list/${subcategory}`).then((response) => {
+    axios.get(`/api/list/${subcategory}`).then((response) => {
       setExtraSubCategoryData(response.data);
     });
   }, []);

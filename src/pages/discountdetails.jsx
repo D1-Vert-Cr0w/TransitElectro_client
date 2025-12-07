@@ -8,7 +8,7 @@ function DiscountDitails() {
   const [discountData, setDiscountData] = useState([]);
   const params = useParams();
   useEffect(() => {
-    axios.get(`api/single/${params.title}`).then((response) => {
+    axios.get(`/api/single/${params.title}`).then((response) => {
       setDiscountData(response.data);
       console.log(response.data);
       document.documentElement.scrollTo(0, 0);

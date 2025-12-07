@@ -17,7 +17,7 @@ function Cartpage() {
     try {
       if (localStorage.getItem("user") != null) {
         const cartDataReq = await axios.get(
-          `api/cart/list/${localStorage.getItem("user")}`,
+          `/api/cart/list/${localStorage.getItem("user")}`,
           {
             withCredentials: true,
           }
@@ -38,7 +38,7 @@ function Cartpage() {
   async function pushData(productData) {
     try {
       const cartDataReq = await axios.put(
-        `api/cart/update`,
+        `/api/cart/update`,
         {
           id: localStorage.getItem("user"),
           products: productData,

@@ -15,7 +15,7 @@ function CategoryRedactor() {
   useEffect(() => {
     async function fetchData() {
       axios
-        .get("api/categories/list", {
+        .get("/api/categories/list", {
           withCredentials: true,
         })
         .then((response) => {
@@ -125,7 +125,7 @@ function CategoryRedactor() {
   }
   function removeCategory(id) {
     axios
-      .delete(`api/categories/delete/${id}`, {
+      .delete(`/api/categories/delete/${id}`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -177,7 +177,7 @@ function CategoryRedactor() {
       ) {
       }
       if (JSON.stringify(prevData) !== JSON.stringify(data)) {
-        const response = await axios.post("api/categories/add", data, {
+        const response = await axios.post("/api/categories/add", data, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -211,7 +211,7 @@ function CategoryRedactor() {
         dataForServer.product != ""
       ) {
         if (JSON.stringify(prevData) !== JSON.stringify(data)) {
-          const response = await axios.put("api/categories/update", data, {
+          const response = await axios.put("/api/categories/update", data, {
             headers: {
               "Content-Type": "multipart/form-data",
             },

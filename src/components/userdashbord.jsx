@@ -13,14 +13,14 @@ function UserDashboard() {
   useEffect(() => {
     async function fetchData() {
       axios
-        .get(`api/user/getinfo/${localStorage.getItem("user")}`, {
+        .get(`/api/user/getinfo/${localStorage.getItem("user")}`, {
           withCredentials: true,
         })
         .then((response) => {
           setUserInfo(response.data);
         });
       axios
-        .get(`api/order/list/${localStorage.getItem("user")}`, {
+        .get(`/api/order/list/${localStorage.getItem("user")}`, {
           withCredentials: true,
         })
         .then((response) => {
@@ -30,7 +30,7 @@ function UserDashboard() {
     fetchData();
   }, []);
   async function logout() {
-    await axios.delete("api/user/logout", {
+    await axios.delete("/api/user/logout", {
       withCredentials: true,
     });
     localStorage.removeItem("user");
@@ -39,7 +39,7 @@ function UserDashboard() {
   async function deleteOrder(id) {
     const newOrderList = userOrderInfo.filter((element) => element._id !== id);
     setUserOrderInfo(newOrderList);
-    const orderForDelete = await axios.delete(`api/order/delete/${id}`, {
+    const orderForDelete = await axios.delete(`/api/order/delete/${id}`, {
       withCredentials: true,
     });
   }

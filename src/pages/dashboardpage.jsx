@@ -12,7 +12,7 @@ function Dashboard() {
   useEffect(() => {
     async function fetchData() {
       axios
-        .get(`api/user/check/${localStorage.getItem("user")}`, {
+        .get(`/api/user/check/${localStorage.getItem("user")}`, {
           withCredentials: true,
         })
         .then((response) => {

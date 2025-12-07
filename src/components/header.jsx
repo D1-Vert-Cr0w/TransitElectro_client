@@ -20,7 +20,7 @@ function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   useEffect(() => {
-    axios.get(`api/categories/list`).then((response) => {
+    axios.get(`/api/categories/list`).then((response) => {
       setMacroCategoryData(response.data);
     });
   }, []);

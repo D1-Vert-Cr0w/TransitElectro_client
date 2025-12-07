@@ -15,7 +15,7 @@ function DiscountRedactor() {
   useEffect(() => {
     async function fetchData() {
       axios
-        .get("api/discount/list", {
+        .get("/api/discount/list", {
           withCredentials: true,
         })
         .then((response) => {
@@ -54,7 +54,7 @@ function DiscountRedactor() {
   }
   function removeDitail(id) {
     axios
-      .delete(`api/discount/delete/${id}`, {
+      .delete(`/api/discount/delete/${id}`, {
         withCredentials: true,
       })
       .then((response) => {

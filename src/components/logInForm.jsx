@@ -22,7 +22,7 @@ function LogInForm() {
   async function LoginUser() {
     try {
       const response = await axios.post(
-        "api/user/login",
+        "/api/user/login",
         { email: email, password: password },
         { withCredentials: true, validateStatus: () => true }
       );
@@ -60,7 +60,7 @@ function LogInForm() {
     ) {
       try {
         const response = await axios.post(
-          "api/user/registration",
+          "/api/user/registration",
           { email: email, password: password, name: name },
           { withCredentials: true, validateStatus: () => true }
         );
