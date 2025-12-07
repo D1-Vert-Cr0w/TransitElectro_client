@@ -16,7 +16,6 @@ import { AuthProvider } from "../contexts/AuthContext.jsx";
 import Discount from "../pages/discountpage.jsx";
 import DiscountDitails from "../pages/discountdetails.jsx";
 const $api = axios.create({
-  baseURL: "http://localhost:5000",
   withCredentials: true,
 });
 axios.interceptors.response.use(

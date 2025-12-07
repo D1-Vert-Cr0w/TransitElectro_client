@@ -8,13 +8,11 @@ function DiscountDitails() {
   const [discountData, setDiscountData] = useState([]);
   const params = useParams();
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/discount/single/${params.title}`)
-      .then((response) => {
-        setDiscountData(response.data);
-        console.log(response.data);
-        document.documentElement.scrollTo(0, 0);
-      });
+    axios.get(`api/single/${params.title}`).then((response) => {
+      setDiscountData(response.data);
+      console.log(response.data);
+      document.documentElement.scrollTo(0, 0);
+    });
   }, []);
   return (
     <>

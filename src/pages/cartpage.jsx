@@ -17,7 +17,7 @@ function Cartpage() {
     try {
       if (localStorage.getItem("user") != null) {
         const cartDataReq = await axios.get(
-          `http://localhost:5000/cart/list/${localStorage.getItem("user")}`,
+          `api/cart/list/${localStorage.getItem("user")}`,
           {
             withCredentials: true,
           }
@@ -38,7 +38,7 @@ function Cartpage() {
   async function pushData(productData) {
     try {
       const cartDataReq = await axios.put(
-        `http://localhost:5000/cart/update`,
+        `api/cart/update`,
         {
           id: localStorage.getItem("user"),
           products: productData,
@@ -105,7 +105,7 @@ function Cartpage() {
     try {
       if (input.current.value != "") {
         const cartDataReq = await axios.post(
-          `http://localhost:5000/order/add`,
+          `api/order/add`,
           {
             id: localStorage.getItem("user"),
             adress: input.current.value,
@@ -116,7 +116,7 @@ function Cartpage() {
           }
         );
         const cartDelete = await axios.delete(
-          `http://localhost:5000/cart/delete`,
+          `api/cart/delete`,
           {
             id: cartId,
           },
