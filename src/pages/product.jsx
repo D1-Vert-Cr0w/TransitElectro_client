@@ -150,6 +150,7 @@ function Product() {
         >
           Параметры
         </h1>
+
         <div>
           {productData.features != undefined
             ? productData.features.map((feature) => (
@@ -157,6 +158,20 @@ function Product() {
               ))
             : ""}
         </div>
+        {productData.drawings != undefined &&
+        productData.drawings.length != 0 ? (
+          <>
+            <h1 className="paramsLable">Чертежи</h1>
+            <div className="prodImageDrawingWrap">
+              {productData.drawings.map((drawing) => (
+                <img className="prodImageDrawing" src={drawing} />
+              ))}
+            </div>
+          </>
+        ) : (
+          ""
+        )}
+
         <div className="prodInfoTitle">Описание</div>
         <hr className="infoHr"></hr>
         <div className="prodInfoText">{productData.description}</div>

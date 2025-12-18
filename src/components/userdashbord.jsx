@@ -13,16 +13,26 @@ function UserDashboard() {
   useEffect(() => {
     async function fetchData() {
       axios
-        .get(`/api/user/getinfo/${localStorage.getItem("user")}`, {
-          withCredentials: true,
-        })
+        .get(
+          `https://tranzitelektro.ru/api/user/getinfo/${localStorage.getItem(
+            "user"
+          )}`,
+          {
+            withCredentials: true,
+          }
+        )
         .then((response) => {
           setUserInfo(response.data);
         });
       axios
-        .get(`/api/order/list/${localStorage.getItem("user")}`, {
-          withCredentials: true,
-        })
+        .get(
+          `https://tranzitelektro.ru/api/order/list/${localStorage.getItem(
+            "user"
+          )}`,
+          {
+            withCredentials: true,
+          }
+        )
         .then((response) => {
           setUserOrderInfo(response.data);
         });
@@ -30,7 +40,7 @@ function UserDashboard() {
     fetchData();
   }, []);
   async function logout() {
-    await axios.delete("/api/user/logout", {
+    await axios.delete("https://tranzitelektro.ru/api/user/logout", {
       withCredentials: true,
     });
     localStorage.removeItem("user");
@@ -39,9 +49,12 @@ function UserDashboard() {
   async function deleteOrder(id) {
     const newOrderList = userOrderInfo.filter((element) => element._id !== id);
     setUserOrderInfo(newOrderList);
-    const orderForDelete = await axios.delete(`/api/order/delete/${id}`, {
-      withCredentials: true,
-    });
+    const orderForDelete = await axios.delete(
+      `https://tranzitelektro.ru/api/order/delete/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
   }
   function handleInputChange(elementId, newAdress) {
     setTempInputValues((prev) => ({

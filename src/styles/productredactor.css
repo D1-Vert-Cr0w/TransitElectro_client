@@ -1,0 +1,124 @@
+.discountMainWrap{
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+.productImagePreview{
+    width: 250px;
+    height: auto;
+}
+.discountControllButtonContainer {
+    margin: 10px 0;
+    display: flex;
+    padding-block: 5px;
+    
+}
+.headerDorder{
+    border-bottom: 1px solid black;
+}
+.changeDiscount{
+    display: block;
+    margin-right: 40px;
+    color: white;
+    background-color: rgb(53,63,64);
+    height: 40px;
+    font-size: 20px;
+    max-width: 450px;
+    padding: 0 15px;
+    text-align: center;
+    border: 1px solid black;
+}
+.deleteDiscount{
+    display: block;
+    color: black;
+    background-color: #FFCC00;
+    height: 40px;
+    font-size: 20px;
+    width: 150px;
+    text-align: center;
+    border: 1px solid black;
+}
+.ditails-text{
+    font-size: 24px;
+    display: block;
+    margin-top: 30px;
+}
+.ditails-text-description{
+    display: block;
+    width: 610px;
+    height: 300px;
+    font-size: 16px;
+}
+.discountDitails-header{
+    padding-right: 100px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+}
+.productInputContainer{
+    display:flex;
+    margin: 10px 0;
+    width: 500px;
+    padding-bottom: 5px;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+}
+.drawings-previews-container{
+    display: flex;
+    margin-bottom: 20px;
+}
+.drawing-preview-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.drawing-preview{
+    width: 200px;
+    height: auto;
+}
+.productButtonContainer{
+    display: flex;
+    margin: 10px 0;
+    flex-wrap: nowrap;
+}
+.m-t{
+    margin-top: 25px;
+}
+.imageInput{
+    display: block;
+    color: white;
+    font-size: 18px;
+    background-color: rgb(53,63,64);
+}
+.ditailInput{
+    display: block;
+    height: 35px;
+    margin-top: 25px;
+    font-size: 16px;
+}
+.textInput{
+    display: inline-block;
+    width: 610px;
+    height: 210px;
+    font-size: 16px;
+    vertical-align: top;
+    overflow-wrap: break-word
+}
+.ditailTextInput{
+    display: inline-block;
+    width: 100%;
+    height: 250px;
+    font-size: 16px;
+    vertical-align: top;
+    overflow-wrap: break-word
+}
+.ditailTitleInput{
+    display: block;
+    width: 100%;
+    font-size: 16px;
+}
+.ditailContainer{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-right: 10px;
+}

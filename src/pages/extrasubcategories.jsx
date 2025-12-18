@@ -11,9 +11,12 @@ function ExtraSubCategories() {
   const { subcategory } = useParams();
   const [extraSubCategoryData, setExtraSubCategoryData] = useState([]);
   useEffect(() => {
-    axios.get(`/api/list/${subcategory}`).then((response) => {
-      setExtraSubCategoryData(response.data);
-    });
+    axios
+      .get(`https://tranzitelektro.ru/api/extrasubcategory/list/${subcategory}`)
+      .then((response) => {
+        console.log(response);
+        setExtraSubCategoryData(response.data);
+      });
   }, []);
   return (
     <>
@@ -30,6 +33,11 @@ function ExtraSubCategories() {
             image={subcategory.image}
           />
         ))}
+        {extraSubCategoryData.length == 0 ? (
+          <h1 className="notFoundText">Подкатегории не найдены</h1>
+        ) : (
+          ""
+        )}
       </div>
       <Footer />
     </>

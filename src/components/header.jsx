@@ -20,9 +20,11 @@ function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   useEffect(() => {
-    axios.get(`/api/categories/list`).then((response) => {
-      setMacroCategoryData(response.data);
-    });
+    axios
+      .get(`https://tranzitelektro.ru/api/categories/list`)
+      .then((response) => {
+        setMacroCategoryData(response.data);
+      });
   }, []);
   const [isOpen, setOpen] = useState("");
   const [setHeight, setHeightState] = useState("0px");

@@ -20,14 +20,18 @@ function Main() {
   const [newitems, setNewItems] = useState([]);
   const [popitems, setPopItems] = useState([]);
   useEffect(() => {
-    axios.get("/api/colection/new").then((response) => {
-      setNewItems(response.data);
-    });
+    axios
+      .get("https://tranzitelektro.ru/api/colection/new")
+      .then((response) => {
+        setNewItems(response.data);
+      });
   }, []);
   useEffect(() => {
-    axios.get("/api/colection/pop").then((response) => {
-      setPopItems(response.data);
-    });
+    axios
+      .get("https://tranzitelektro.ru/api/colection/pop")
+      .then((response) => {
+        setPopItems(response.data);
+      });
   }, []);
 
   const images = [

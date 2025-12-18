@@ -12,7 +12,7 @@ function OrderCheck() {
   useEffect(() => {
     async function fetchData() {
       axios
-        .get(`/api/order/listall`, {
+        .get(`https://tranzitelektro.ru/api/order/listall`, {
           withCredentials: true,
         })
         .then((response) => {
@@ -24,9 +24,12 @@ function OrderCheck() {
   async function deleteOrder(id) {
     const newOrderList = userOrderInfo.filter((element) => element._id !== id);
     setUserOrderInfo(newOrderList);
-    const orderForDelete = await axios.delete(`api/order/delete/${id}`, {
-      withCredentials: true,
-    });
+    const orderForDelete = await axios.delete(
+      `https://tranzitelektro.ru/api/order/delete/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
   }
   function handleInputChange(elementId, newAdress) {
     setTempInputValues((prev) => ({

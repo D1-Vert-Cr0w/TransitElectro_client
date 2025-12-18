@@ -6,13 +6,16 @@ import axios from "axios";
 import Product from "../pages/product.jsx";
 import "../styles/admin.css";
 import CategoryRedactor from "./categoryredactor.jsx";
+import SubCategoryRedactor from "./subcategoryredactor.jsx";
 import DiscountRedactor from "./discountredactor.jsx";
 import OrderCheck from "./ordercheck.jsx";
+import ExtraSubCategoryRedactor from "./extrasubcategoryredactor.jsx";
+import ProductRedactor from "./productredactor.jsx";
 function AdminDashboard() {
   const [redactor, setRedactor] = useState("Просмотр заказов");
   const navigate = useNavigate();
   async function logout() {
-    await axios.delete("/api/user/logout", {
+    await axios.delete("http://localhost:5000/user/logout", {
       withCredentials: true,
     });
     localStorage.removeItem("user");
@@ -32,6 +35,18 @@ function AdminDashboard() {
           onClick={() => setRedactor("Категории")}
         >
           Категории
+        </div>
+        <div
+          className="redactorMenu-item"
+          onClick={() => setRedactor("Подкатегории 1")}
+        >
+          Подкатегории 1
+        </div>
+        <div
+          className="redactorMenu-item"
+          onClick={() => setRedactor("Подкатегории 2")}
+        >
+          Подкатегории 2
         </div>
         <div
           className="redactorMenu-item"
@@ -63,7 +78,17 @@ function AdminDashboard() {
         </div>
         {redactor == "Просмотр заказов" ? <OrderCheck></OrderCheck> : ""}
         {redactor == "Категории" ? <CategoryRedactor></CategoryRedactor> : ""}
-        {redactor == "Товары" ? <div>Просмотр заказов</div> : ""}
+        {redactor == "Подкатегории 1" ? (
+          <SubCategoryRedactor></SubCategoryRedactor>
+        ) : (
+          ""
+        )}
+        {redactor == "Подкатегории 2" ? (
+          <ExtraSubCategoryRedactor></ExtraSubCategoryRedactor>
+        ) : (
+          ""
+        )}
+        {redactor == "Товары" ? <ProductRedactor></ProductRedactor> : ""}
         {redactor == "Акции" ? <DiscountRedactor></DiscountRedactor> : ""}
         {redactor == "Пользователи" ? <div>Просмотр заказов</div> : ""}
       </div>

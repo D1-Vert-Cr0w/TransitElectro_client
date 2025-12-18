@@ -49,16 +49,16 @@ function About() {
       <div className="partnersWrap">
         <p className="partnersTitle">Наши партнеры</p>
         <div className="partnersLogosWrap">
-          <Link to={"/shop"} state={{ brend: "IEK" }}>
+          <Link to={"https://www.iek.ru/?ysclid=mizxhpzs9d239586578"}>
             <img className="partnersLogoElem" src={IEK} alt="iek" />
           </Link>
-          <Link to={"/shop"} state={{ brend: "EKF" }}>
+          <Link to={"https://ekf.market/"}>
             <img className="partnersLogoElem" src={EKF} alt="ekf" />
           </Link>
-          <Link to={"/shop"} state={{ brend: "DKC" }}>
+          <Link to={"https://www.dkc.ru/ru/"}>
             <img className="partnersLogoElem" src={DKC} alt="dkc" />
           </Link>
-          <Link to={"/shop"} state={{ brend: "JazzWay" }}>
+          <Link to={"https://jazz-way.com/?ysclid=mizxlylih4554349065"}>
             <img className="partnersLogoElem" src={jazzway} alt="jazzway" />
           </Link>
         </div>

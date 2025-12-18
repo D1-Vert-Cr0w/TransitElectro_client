@@ -23,12 +23,34 @@
     margin: 10px 0;
     flex-wrap: nowrap;
 }
+.categoryInput{
+    font-size: 18px;
+    width: 300px;
+}
+.marginBeforFeatures{
+    margin-bottom: 50px ;
+}
+.selectSrcOption{
+    width: 226px;
+    height: 40px;
+    font-size: 18px;
+}
+.featureValueContainer{
+    display: flex;
+    margin: 10px 0;
+    width: 95%;
+}
 .categoryInputContainer{
     display: flex;
     margin: 10px 0;
     padding-bottom: 10px;
     border-bottom: 1px solid black;
     flex-direction: column;
+    width:55%
+}
+.errorTest{
+    color: rgb(210, 83, 83);
+    font-size: 16px;
 }
 .categoryMainWrap {
     margin-left: 30px;
@@ -51,7 +73,7 @@
     background-color: rgb(53,63,64);
     height: 40px;
     font-size: 20px;
-    max-width: 450px;
+    max-width: 250px;
     padding: 0 15px;
     text-align: center;
     border: 1px solid black;
@@ -62,7 +84,8 @@
     background-color: #FFCC00;
     height: 40px;
     font-size: 20px;
-    width: 150px;
+    max-width: 250px;
+    padding: 0 15px;
     text-align: center;
     border: 1px solid black;
 }

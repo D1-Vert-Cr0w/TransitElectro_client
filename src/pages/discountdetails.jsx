@@ -8,11 +8,13 @@ function DiscountDitails() {
   const [discountData, setDiscountData] = useState([]);
   const params = useParams();
   useEffect(() => {
-    axios.get(`/api/discount/single/${params.title}`).then((response) => {
-      setDiscountData(response.data);
-      console.log(response.data);
-      document.documentElement.scrollTo(0, 0);
-    });
+    axios
+      .get(`https://tranzitelektro.ru/api/discount/single/${params.title}`)
+      .then((response) => {
+        setDiscountData(response.data);
+        console.log(response.data);
+        document.documentElement.scrollTo(0, 0);
+      });
   }, []);
   return (
     <>

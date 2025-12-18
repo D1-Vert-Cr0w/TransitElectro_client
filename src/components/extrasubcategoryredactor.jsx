@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Product from "../pages/product.jsx";
 import "../styles/categoryredactor.css";
-function CategoryRedactor() {
+function ExtraSubCategoryRedactor() {
   const [componentState, setComponentState] = useState("viewing");
   const [categoryList, setCategoryList] = useState([]);
+  const [subCategoryList, setSubCategoryList] = useState([]);
   const fileInputRef = useRef(null);
+  const [chosenCategory, setChosenCategory] = useState(null);
   const [dataForServer, setDataForServer] = useState();
   const [imagePreview, setImagePreview] = useState(null);
   const [filtrFeatures, setFiltrFeatures] = useState(null);
@@ -14,19 +16,41 @@ function CategoryRedactor() {
   const [prevSrc, setPrevSrc] = useState(null);
   const [error, setError] = useState(null);
   useEffect(() => {
-    async function fetchData() {
-      axios
-        .get("https://tranzitelektro.ru/api/categories/list", {
-          withCredentials: true,
-        })
-        .then((response) => {
-          setCategoryList(response.data);
-        });
+    async function fetchInitialData() {
+      try {
+        const categoriesResponse = await axios.get(
+          "https://tranzitelektro.ru/api/subcategories/list",
+          { withCredentials: true }
+        );
+        const categoriesOnly = categoriesResponse.data
+          .filter((item) => item.src && item.src.includes("/categories/"))
+          .map((item) => item.name);
+        setCategoryList(categoriesOnly);
+        setChosenCategory(categoriesOnly[0]);
+      } catch (error) {
+        console.error("Ошибка загрузки данных:", error);
+      }
     }
     if (componentState == "viewing") {
-      fetchData();
+      fetchInitialData();
     }
   }, [componentState]);
+  useEffect(() => {
+    async function fetchSubCategories() {
+      try {
+        const response = await axios.get(
+          `https://tranzitelektro.ru/api/extrasubcategory/list/${chosenCategory}`,
+          { withCredentials: true }
+        );
+        setSubCategoryList(response.data);
+      } catch (error) {
+        console.error("Ошибка загрузки подкатегорий:", error);
+      }
+    }
+    if (chosenCategory) {
+      fetchSubCategories();
+    }
+  }, [chosenCategory, componentState]);
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -72,10 +96,13 @@ function CategoryRedactor() {
       return updated;
     });
   };
-  function addCategory() {
+  function addSubCategory() {
+    console.log(subCategoryList);
     setDataForServer({
       name: "",
-      src: "/categories/",
+      parentCategory: categoryList[0],
+      src: "/product/",
+      product: "",
       image: null,
     });
     setImagePreview(null);
@@ -83,11 +110,15 @@ function CategoryRedactor() {
     setComponentState("adding");
     setError(null);
   }
-  function changeCategory(id, name) {
-    const elementForChange = categoryList.find((element) => element._id == id);
+  function changeSubCategory(id, name) {
+    const elementForChange = subCategoryList.find(
+      (element) => element._id == id
+    );
+    console.log(elementForChange);
     const url = "/" + elementForChange.src.split("/")[1] + "/";
     const newData = {
       id: elementForChange._id,
+      parentCategory: elementForChange.parentCategory,
       name: elementForChange.name,
       src: url,
       image: elementForChange.image,
@@ -105,8 +136,8 @@ function CategoryRedactor() {
         });
     }
     setDataForServer(newData);
-    setImagePreview(elementForChange.image);
     setPrevSrc(elementForChange.src);
+    setImagePreview(elementForChange.image);
     setFiltrFeatures(elementForChange.feature);
     setComponentState("changing");
     setError(null);
@@ -140,14 +171,14 @@ function CategoryRedactor() {
       return updated;
     });
   }
-  function removeCategory(id, name) {
+  function removeSubCategory(id, name) {
     axios
-      .delete(`https://tranzitelektro.ru/api/categories/delete/${id}`, {
+      .delete(`https://tranzitelektro.ru/api/extrasubcategory/delete/${id}`, {
         withCredentials: true,
       })
       .then((response) => {
-        const newData = categoryList.filter((element) => element._id !== id);
-        setCategoryList(newData);
+        const newData = subCategoryList.filter((element) => element._id !== id);
+        setSubCategoryList(newData);
       });
     axios.delete(`https://tranzitelektro.ru/api/filtr/delete/${name}`, {
       withCredentials: true,
@@ -187,72 +218,90 @@ function CategoryRedactor() {
   }
   async function sendData() {
     try {
-      let currentSrc = dataForServer.src + `${dataForServer.name}`;
+      const response = await axios.get(
+        `https://tranzitelektro.ru/api/extrasubcategory/single/${dataForServer.parentCategory}`
+      );
+      let currentSrc =
+        dataForServer.src +
+        "/" +
+        `${response.data.parentCategory}` +
+        "/" +
+        `${dataForServer.parentCategory}` +
+        "/" +
+        `${dataForServer.name}`;
       if (currentSrc.includes("/product/")) {
         currentSrc = dataForServer.src + `${dataForServer.product}`;
       }
       const categoryData = {
         name: dataForServer.name,
+        parentCategory: dataForServer.parentCategory,
         src: currentSrc,
         image1: dataForServer.image,
       };
+      const addResponse = await axios.post(
+        "https://tranzitelektro.ru/api/extrasubcategory/add",
+        categoryData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
       if (
         categoryData.name != "" &&
+        categoryData.parentCategory != "" &&
         categoryData.image1 != null &&
         dataForServer?.product != ""
       ) {
-        const response = await axios.post(
-          "https://tranzitelektro.ru/api/categories/add",
-          categoryData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-          }
-        );
+        if (filtrFeatures != null) {
+          const arr = [];
+          arr.push(dataForServer.name);
+          const filtrData = {
+            category: arr,
+            feature: filtrFeatures,
+          };
+          const response = await axios.post(
+            "https://tranzitelektro.ru/api/filtr/add",
+            filtrData
+          );
+        }
       } else {
         setError("*Заполните все поля");
       }
-      if (filtrFeatures != null) {
-        const arr = [];
-        arr.push(dataForServer.name);
-        const filtrData = {
-          category: arr,
-          feature: filtrFeatures,
-        };
-        const response = await axios.post(
-          "https://tranzitelektro.ru/api/filtr/add",
-          filtrData
-        );
-      }
+
       if (error != null) {
         setError(null);
       }
     } catch (error) {
-      console.error("Ошибка при добавлении:", error);
+      setError("Ошибка при добавлении:" + error);
     }
   }
   async function updateData() {
     try {
-      let currentSrc = dataForServer.src + `${dataForServer.name}`;
+      let currentSrc =
+        dataForServer.src +
+        `${dataForServer.parentCategory}` +
+        "/" +
+        `${dataForServer.name}`;
       if (currentSrc.includes("/product/")) {
         currentSrc = dataForServer.src + `${dataForServer.product}`;
       }
       const categoryData = {
         id: dataForServer.id,
         name: dataForServer.name,
+        parentCategory: dataForServer.parentCategory,
         src: currentSrc,
         image1: dataForServer.image,
-        imagecopy: dataForServer.image,
       };
       if (
         categoryData.name != "" &&
+        categoryData.parentCategory != "" &&
         categoryData.image1 != null &&
         dataForServer?.product != ""
       ) {
         const response = await axios.put(
-          "https://tranzitelektro.ru/api/categories/update",
+          "https://tranzitelektro.ru/api/extrasubcategory/update",
           categoryData,
           {
             headers: {
@@ -288,11 +337,12 @@ function CategoryRedactor() {
       } else {
         setError("*Заполните все поля");
       }
+
       if (error != null) {
         setError(null);
       }
     } catch (error) {
-      console.error("Ошибка при добавлении:", error);
+      setError("Ошибка при добавлении:" + error);
     }
   }
   return (
@@ -304,31 +354,54 @@ function CategoryRedactor() {
         >
           Список
         </button>
-        <button className="changeCategory" onClick={() => addCategory()}>
+        <button className="changeCategory" onClick={() => addSubCategory()}>
           Добавить
         </button>
+        <select
+          style={{
+            display: `${componentState == "viewing" ? "block" : "none"}`,
+          }}
+          className="selectSrcOption"
+          value={chosenCategory}
+          onChange={(e) => setChosenCategory(e.target.value)}
+        >
+          {categoryList.map((category) => (
+            <option value={category}>{category}</option>
+          ))}
+        </select>
       </div>
-      {componentState == "viewing"
-        ? categoryList.map((category) => (
+      {componentState == "viewing" ? (
+        <>
+          <h1
+            style={{
+              display: `${subCategoryList.length == 0 ? "block" : "none"}`,
+            }}
+          >
+            У этой категории отсутствуют подкатегории
+          </h1>
+          {subCategoryList.map((category) => (
             <div className="categoryItem">
               <h1 className="categoryName">{category.name}</h1>
               <div className="categoryButtonContainer">
                 <button
                   className="changeCategory"
-                  onClick={() => changeCategory(category._id, category.name)}
+                  onClick={() => changeSubCategory(category._id, category.name)}
                 >
                   Изменить
                 </button>
                 <button
                   className="deleteCategory"
-                  onClick={() => removeCategory(category._id, category.name)}
+                  onClick={() => removeSubCategory(category._id, category.name)}
                 >
                   Удалить
                 </button>
               </div>
             </div>
-          ))
-        : ""}
+          ))}
+        </>
+      ) : (
+        ""
+      )}
       {componentState == "adding" ? (
         <>
           {imagePreview && (
@@ -344,7 +417,7 @@ function CategoryRedactor() {
             Удалить файл
           </button>
           <div>
-            <h1>Название категории</h1>
+            <h1>Название подкатегории</h1>
             <input
               type="text"
               name="name"
@@ -354,19 +427,33 @@ function CategoryRedactor() {
               onChange={(e) => handleInputChange("name", e.target.value)}
             />
           </div>
+          <div>
+            <h1>Категории-родителя</h1>
+            <select
+              className="selectSrcOption"
+              value={dataForServer.parentCategory}
+              onChange={(e) =>
+                handleInputChange("parentCategory", e.target.value)
+              }
+            >
+              {categoryList.map((category) => (
+                <option value={category}>{category}</option>
+              ))}
+            </select>
+          </div>
+          <h1>Тип ссылки</h1>
           <select
             value={dataForServer.src}
-            className="selectSrcOption marginBeforFeatures"
+            className="selectSrcOption "
             onChange={(e) => changeSrc(e.target.value)}
           >
-            <option value="/categories/">Ссылка на подкатегории</option>
             <option value="/product/">Ссылка на товар</option>
             <option value="/shop/">Ссылка на магазин</option>
           </select>
 
           {dataForServer.product != undefined ? (
             <>
-              <p>Название товара</p>
+              <h1>Название товара</h1>
               <input
                 type="text"
                 name="name"
@@ -459,7 +546,7 @@ function CategoryRedactor() {
             Удалить файл
           </button>
           <div>
-            <h1>Название категории</h1>
+            <h1>Название подкатегории</h1>
             <input
               type="text"
               name="name"
@@ -469,19 +556,33 @@ function CategoryRedactor() {
               onChange={(e) => handleInputChange("name", e.target.value)}
             />
           </div>
+          <div>
+            <h1>Категории-родителя</h1>
+            <select
+              className="selectSrcOption"
+              value={dataForServer.parentCategory}
+              onChange={(e) =>
+                handleInputChange("parentCategory", e.target.value)
+              }
+            >
+              {categoryList.map((category) => (
+                <option value={category}>{category}</option>
+              ))}
+            </select>
+          </div>
+          <h1>Тип ссылки</h1>
           <select
             value={dataForServer.src}
-            className="selectSrcOption marginBeforFeatures"
+            className="selectSrcOption "
             onChange={(e) => changeSrc(e.target.value)}
           >
-            <option value="/categories/">Ссылка на подкатегории</option>
             <option value="/product/">Ссылка на товар</option>
             <option value="/shop/">Ссылка на магазин</option>
           </select>
 
           {dataForServer.product != undefined ? (
             <>
-              <p>Название товара</p>
+              <h1>Название товара</h1>
               <input
                 type="text"
                 name="name"
@@ -562,4 +663,4 @@ function CategoryRedactor() {
     </div>
   );
 }
-export default CategoryRedactor;
+export default ExtraSubCategoryRedactor;

@@ -12,9 +12,14 @@ function Dashboard() {
   useEffect(() => {
     async function fetchData() {
       axios
-        .get(`/api/user/check/${localStorage.getItem("user")}`, {
-          withCredentials: true,
-        })
+        .get(
+          `https://tranzitelektro.ru/api/user/check/${localStorage.getItem(
+            "user"
+          )}`,
+          {
+            withCredentials: true,
+          }
+        )
         .then((response) => {
           setRole(response.data);
         });
@@ -22,7 +27,7 @@ function Dashboard() {
     fetchData();
   }, []);
   async function logout() {
-    await axios.delete("api/user/logout", {
+    await axios.delete("https://tranzitelektro.ru/api/user/logout", {
       withCredentials: true,
     });
     localStorage.removeItem("user");

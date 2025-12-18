@@ -15,11 +15,10 @@ function DiscountRedactor() {
   useEffect(() => {
     async function fetchData() {
       axios
-        .get("/api/discount/list", {
+        .get("https://tranzitelektro.ru/api/discount/list", {
           withCredentials: true,
         })
         .then((response) => {
-          console.log(response.data);
           setDiscountList(response.data);
         });
     }
@@ -54,7 +53,7 @@ function DiscountRedactor() {
   }
   function removeDitail(id) {
     axios
-      .delete(`/api/discount/delete/${id}`, {
+      .delete(`https://tranzitelektro.ru/api/discount/delete/${id}`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -132,12 +131,16 @@ function DiscountRedactor() {
         data.image1 != null &&
         isDitaisInfoFull == true
       ) {
-        const response = await axios.post("/api/discount/add", data, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        });
+        const response = await axios.post(
+          "https://tranzitelektro.ru/api/discount/add",
+          data,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        );
         setPrevData(data);
         if (error != null) {
           setError(null);
@@ -157,8 +160,10 @@ function DiscountRedactor() {
         title: dataForServer.title,
         text: dataForServer.text,
         image1: dataForServer.image,
+        imagecopy: dataForServer.image,
         ditails: discountDitails,
       };
+      console.log(data);
       data.ditails.map((ditail) => {
         if (ditail.text == "" || ditail.title == "") {
           isDitaisInfoFull = false;
@@ -171,12 +176,16 @@ function DiscountRedactor() {
         data.image1 != null &&
         isDitaisInfoFull == true
       ) {
-        const response = await axios.put("/api/discount/update", data, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        });
+        const response = await axios.put(
+          "https://tranzitelektro.ru/api/discount/update",
+          data,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        );
         setPrevData(data);
         if (error != null) {
           setError(null);

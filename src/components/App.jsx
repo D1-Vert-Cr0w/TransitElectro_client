@@ -6,7 +6,6 @@ import SubCategories from "../pages/subcategories.jsx";
 import ExtraSubCategories from "../pages/extrasubcategories.jsx";
 import Product from "../pages/product.jsx";
 import Shop from "../pages/shoppage.jsx";
-import ProductEditor from "../pages/text.jsx";
 import { Routes } from "react-router-dom";
 import "../styles/index.css";
 import axios from "axios";
@@ -55,7 +54,6 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Main />}></Route>
-          <Route path="/test" element={<ProductEditor />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route path="/discount" element={<Discount />}></Route>

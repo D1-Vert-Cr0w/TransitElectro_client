@@ -8,9 +8,11 @@ import axios from "axios";
 function Categories() {
   const [categoryData, setCategoryData] = useState([]);
   useEffect(() => {
-    axios.get(`/api/categories/list`).then((response) => {
-      setCategoryData(response.data);
-    });
+    axios
+      .get(`https://tranzitelektro.ru/api/categories/list`)
+      .then((response) => {
+        setCategoryData(response.data);
+      });
   }, []);
   return (
     <>

@@ -1,6 +1,6 @@
 .admin-mainContainer{
     display: grid;
-    grid-template-columns: 140px auto;
+    grid-template-columns: 160px auto;
     flex: 1;
 }
 .redactorMenu-container{
@@ -18,7 +18,7 @@
     height: 60px;
     text-align: center;
     align-content: center;
-    padding: 5px 0;
+    padding: 5px 10px;
     box-sizing: border-box;
 }
 .redactorMenu-item:hover{
