@@ -7,6 +7,7 @@ function ProductRedactorAdd(props) {
   const fileInputRef = useRef(null);
   const drawingsInputRef = useRef(null); // Реф для чертежей
   const [imagePreview, setImagePreview] = useState(props.dataForChange.image);
+  const [isLoading, setIsLoading] = useState(false);
   const [drawingsPreviews, setDrawingsPreviews] = useState([]); // Превью чертежей
   const [productDitails, setProductDitails] = useState(
     props.dataForChange.features
@@ -79,8 +80,6 @@ function ProductRedactorAdd(props) {
       });
     }
   };
-
-  // Удаление конкретного чертежа
   const removeDrawing = (indexToRemove) => {
     setDataForServer((prev) => ({
       ...prev,
@@ -89,9 +88,12 @@ function ProductRedactorAdd(props) {
     setDrawingsPreviews((prev) =>
       prev.filter((_, index) => index !== indexToRemove)
     );
+    if (drawingsInputRef.current) {
+      drawingsInputRef.current.value = "";
+      const event = new Event("change", { bubbles: true });
+      drawingsInputRef.current.dispatchEvent(event);
+    }
   };
-
-  // Очистка всех чертежей
   const cleanDrawings = () => {
     setDataForServer((prev) => ({
       ...prev,
@@ -100,6 +102,8 @@ function ProductRedactorAdd(props) {
     setDrawingsPreviews([]);
     if (drawingsInputRef.current) {
       drawingsInputRef.current.value = "";
+      const event = new Event("change", { bubbles: true });
+      drawingsInputRef.current.dispatchEvent(event);
     }
   };
 
@@ -122,6 +126,11 @@ function ProductRedactorAdd(props) {
   };
 
   async function sendData() {
+    if (isLoading) return; // Предотвращаем повторные отправки
+
+    setIsLoading(true);
+    setError(null);
+
     try {
       // Формируем features — массив строк
       const features = productDitails.map(
@@ -150,16 +159,17 @@ function ProductRedactorAdd(props) {
           formData.append("drawings", dataForServer.drawings[i]);
         }
       }
+      console.log(dataForServer);
       if (
-        (formData.name != "",
-        formData.articul != "",
-        formData.scale != "",
-        formData.type != "",
-        formData.description != "",
-        formData.price != "",
-        formData.purpose != "",
-        formData.image1 != null,
-        formData.drawings != null)
+        dataForServer.name != "" &&
+        dataForServer.articul != "" &&
+        dataForServer.scale != "" &&
+        dataForServer.type != "" &&
+        dataForServer.description != "" &&
+        dataForServer.price != "" &&
+        dataForServer.purpose != "" &&
+        dataForServer.image != null &&
+        dataForServer.drawings != null
       ) {
         const response = await axios.post(
           "https://tranzitelektro.ru/api/colection/add",
@@ -174,11 +184,22 @@ function ProductRedactorAdd(props) {
       console.log("Ответ сервера:", response.data);
     } catch (error) {
       console.error("Ошибка при добавлении:", error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <>
+      <h1 className="ditails-text">Название</h1>
+      <input
+        type="text"
+        name="name"
+        className="titleInput"
+        value={dataForServer.name}
+        onChange={(e) => handleInputChange("name", e.target.value)}
+      />
+
       <div className="image-upload-section">
         <h2 className="ditails-text">Основное изображение товара</h2>
         {imagePreview && (
@@ -191,7 +212,7 @@ function ProductRedactorAdd(props) {
           ref={fileInputRef}
           onChange={handleFileChange}
         />
-        <button type="button" className="deleteDiscount" onClick={cleanFile}>
+        <button type="button" className="deleteProduct" onClick={cleanFile}>
           Удалить
         </button>
       </div>
@@ -208,7 +229,7 @@ function ProductRedactorAdd(props) {
               />
               <button
                 type="button"
-                className="deleteDiscount"
+                className="deleteProduct"
                 onClick={() => removeDrawing(index)}
               >
                 Удалить
@@ -228,7 +249,7 @@ function ProductRedactorAdd(props) {
           {drawingsPreviews.length > 0 && (
             <button
               type="button"
-              className="deleteDiscount"
+              className="deleteProduct"
               onClick={cleanDrawings}
             >
               Удалить все
@@ -236,16 +257,6 @@ function ProductRedactorAdd(props) {
           )}
         </div>
       </div>
-
-      {/* Остальные поля формы */}
-      <h1 className="ditails-text">Название</h1>
-      <input
-        type="text"
-        name="name"
-        className="titleInput"
-        value={dataForServer.name}
-        onChange={(e) => handleInputChange("name", e.target.value)}
-      />
 
       <h1 className="ditails-text">Категория: {dataForServer.category}</h1>
       <h1
@@ -322,8 +333,8 @@ function ProductRedactorAdd(props) {
       />
 
       <div className="discountDitails-header">
-        <p className="discountDitails-text">Детали акции</p>
-        <button className="changeDiscount" onClick={addProductDitail}>
+        <p className="discountDitails-text">Свойства товара</p>
+        <button className="changeProduct" onClick={addProductDitail}>
           Добавить
         </button>
       </div>
@@ -352,7 +363,7 @@ function ProductRedactorAdd(props) {
             />
           </div>
           <button
-            className="deleteDiscount m-t"
+            className="deleteProduct margin-top"
             onClick={() => removeProductDitail(index)}
           >
             Удалить
@@ -361,12 +372,16 @@ function ProductRedactorAdd(props) {
       ))}
       {error != null ? <p className="errorText">{error}</p> : ""}
       <div className="productButtonContainer">
-        <button className="changeDiscount" onClick={() => addProductDitail()}>
+        <button className="changeProduct" onClick={() => addProductDitail()}>
           Добавить свойство
         </button>
 
-        <button className="changeDiscount" onClick={sendData}>
-          Загрузить данные
+        <button
+          className={isLoading ? "dataLoading" : "changeProduct"}
+          onClick={sendData}
+          disabled={isLoading}
+        >
+          {isLoading ? "Загрузка данных..." : "Загрузить данные"}
         </button>
       </div>
     </>

@@ -31,6 +31,21 @@ function OrderCheck() {
       }
     );
   }
+  async function sendReminderingMail(email, name, adress) {
+    const response = await axios.post(
+      `https://tranzitelektro.ru/api/user/remind`,
+      { email: email, name: name, adress: adress },
+      {
+        withCredentials: true,
+        validateStatus: () => true,
+      }
+    );
+    if (response.status == 201 || response.status == 200) {
+      alert("Напоминание отправлено");
+    } else {
+      alert("Ошибка отправки");
+    }
+  }
   function handleInputChange(elementId, newAdress) {
     setTempInputValues((prev) => ({
       ...prev,
@@ -85,6 +100,14 @@ function OrderCheck() {
               Применить
             </button>
           </div>
+          <button
+            className="sendMailButton"
+            onClick={() =>
+              sendReminderingMail(order.email, order.name, order.adress)
+            }
+          >
+            Оповестить о готовности
+          </button>
           <div className="orderContainer">
             {order.products?.map((product) => (
               <div className="orderInfo-container">

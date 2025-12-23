@@ -5,9 +5,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/userdashboard.css";
 function UserDashboard() {
-  const [userInfo, setUserInfo] = useState();
+  const [isLoading, setIsLoading] = useState(null);
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
   const [userOrderInfo, setUserOrderInfo] = useState([]);
   const [available, setAvailable] = useState(null);
+  const [dataForServer, setDataForServer] = useState(null);
   const [tempInputValues, setTempInputValues] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
@@ -22,7 +25,11 @@ function UserDashboard() {
           }
         )
         .then((response) => {
-          setUserInfo(response.data);
+          setDataForServer({
+            email: response.data.email,
+            name: response.data.name,
+            role: response.data.role,
+          });
         });
       axios
         .get(
@@ -56,6 +63,12 @@ function UserDashboard() {
       }
     );
   }
+  function handleDataChange(name, value) {
+    setDataForServer((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
   function handleInputChange(elementId, newAdress) {
     setTempInputValues((prev) => ({
       ...prev,
@@ -76,6 +89,42 @@ function UserDashboard() {
     }
     setTempInputValues({});
   }
+  async function updateData() {
+    if (isLoading) return; // Предотвращаем повторные отправки
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const data = {
+        id: localStorage.getItem("user"),
+        email: dataForServer.email,
+        name: dataForServer.name,
+        role: dataForServer.role,
+      };
+      if (data.name != "" && data.email != "") {
+        const response = await axios.put(
+          "https://tranzitelektro.ru/api/user/changedata",
+          data,
+          {
+            validateStatus: () => true,
+          }
+        );
+        if (response.status === 200 || response.status === 201) {
+          setError(null);
+          setMessage("Запрос успешно отправлен!");
+        } else {
+          setError(response.data.message);
+        }
+      } else {
+        setError("*заполните все поля");
+      }
+    } catch (error) {
+      console.error("Ошибка при добавлении:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
   return (
     <div className="userContainer">
       <div className="logoutContainer">
@@ -91,9 +140,31 @@ function UserDashboard() {
       </div>
       <div className="personalDataItem-container">
         <h1 className="personalDataItem-header">Мои данные</h1>
-        <h1 className="personalDataItem-text">Имя: {userInfo?.name}</h1>
-        <h1 className="personalDataItem-text">Email: {userInfo?.email}</h1>
+        <div className="personalDataSection-container">
+          <h1 className="personalDataItem-text">Имя:</h1>
+          <input
+            className="dataInput"
+            onChange={(e) => handleDataChange("name", e.target.value)}
+            value={dataForServer?.name}
+          />
+        </div>
+        <div className="personalDataSection-container">
+          <h1 className="personalDataItem-text">Email:</h1>
+          <input
+            className="dataInput"
+            onChange={(e) => handleDataChange("email", e.target.value)}
+            value={dataForServer?.email}
+          />
+        </div>
+        <div className="personalDataButton-container">
+          {error != null ? <p className="errorText">{error}</p> : ""}
+          {message != null ? <p className="confirmText">{message}</p> : ""}
+          <button className="changeDiscount" onClick={updateData}>
+            Загрузить данные
+          </button>
+        </div>
       </div>
+
       <h1 className="orderInfo-header">Мои заказы</h1>
       {userOrderInfo.length != 0 ? (
         userOrderInfo?.map((order) => (

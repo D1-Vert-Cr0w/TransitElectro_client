@@ -21,6 +21,7 @@ function Shop() {
   const [filtrPreset, setFiltrPreset] = useState("");
   const [filtr, setFiltr] = useState([]);
   const [pageQuantity, setPageQuantity] = useState();
+  console.log(params);
   useEffect(() => {
     setPageIndex(1);
     axios
@@ -72,7 +73,7 @@ function Shop() {
     axios
       .get(
         `https://tranzitelektro.ru/api/filtr/list/${
-          params.subcategory ?? params.category ?? params.extrasubcategory
+          params.extrasubcategory ?? params.subcategory ?? params.category
         }`
       )
       .then((response) => {

@@ -146,8 +146,8 @@ function Cartpage() {
           <div className="alertText-container">
             <p className="alertText">Ваш заказ отправлен на рассмотрение.</p>
             <p className="alertText">
-              Посмотреть его статус и изменить адрес доставки вы можете в личном
-              кабинете.
+              Когда он будет готов, вам прийдёт сообщение на почту. Изменить
+              адрес доставки вы можете в личном кабинете.
             </p>
             <img className="lamp" src={lamp} />
           </div>
@@ -209,7 +209,6 @@ function Cartpage() {
                 ref={input}
                 placeholder="Введите адрес"
                 className="deliveryAdres"
-                onChange={() => setAdressIsChosen(true)}
               />
               <p
                 className="errorText"

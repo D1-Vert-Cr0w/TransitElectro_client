@@ -63,6 +63,19 @@
     padding-top: 8px;
     padding-left: 30px;
 }
+.sendMailButton{
+    display: block;
+    height: 50px;
+    width: 350px;
+    border-radius: 2px;
+    font-size: 20px;
+    background-color: #353F40;
+    color: white;
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    margin-left: 60px;
+}
 .orderInfo-item{
     font-size: 20px;
     padding-right: 10px;
@@ -117,7 +130,19 @@
 .adressInput{
     max-width: 296px;
 }
-
+.personalDataSection-container{
+    display: grid;
+    grid-template-columns: 120px auto;
+    margin: 10px 0;
+}
+.dataInput{
+    font-size: 18px;
+    width: 300px;
+}
+.personalDataButton-container{
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
 .adressControllButtonContainer{
     display: flex;
 }
@@ -193,6 +218,15 @@
 
 }
 @media (max-width:640px) {
+    .personalDataSection-container{
+    display: grid;
+    grid-template-columns: 100px auto;
+    margin: 10px 0;
+}
+.dataInput{
+    font-size: 14px;
+    width: 200px;
+}
     .orderInfo-container{
     display: grid;
     grid-template-columns: none;

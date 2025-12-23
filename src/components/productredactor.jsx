@@ -4,6 +4,7 @@ import axios from "axios";
 import "../styles/discountredactor.css";
 import ProductRedactorChange from "./productredactor_change";
 import ProductRedactorAdd from "./productredactor_add";
+
 function ProductRedactor() {
   const [componentState, setComponentState] = useState("viewing");
   const [pageIndex, setPageIndex] = useState(1);
@@ -18,6 +19,66 @@ function ProductRedactor() {
   const [dataForServer, setDataForServer] = useState(null);
   const [areCategoriesLoaded, setAreCategoriesLoaded] = useState(false);
 
+  // Функция для загрузки списка товаров
+  const loadProducts = async () => {
+    if (componentState !== "viewing" || !chosenCategory || !areCategoriesLoaded)
+      return;
+
+    try {
+      const response = await axios.get(
+        "https://tranzitelektro.ru/api/colection/list",
+        {
+          params: {
+            page: pageIndex,
+            category: chosenCategory,
+            subcategory: chosenSubCategory,
+            extrasubcategory: chosenExtraSubCategory,
+          },
+        }
+      );
+      setProductList(response.data);
+    } catch (error) {
+      console.error("Ошибка загрузки товаров:", error);
+    }
+  };
+
+  // Функция для загрузки количества страниц
+  const loadPageCount = async () => {
+    if (componentState !== "viewing" || !chosenCategory || !areCategoriesLoaded)
+      return;
+
+    try {
+      const response = await axios.get(
+        `https://tranzitelektro.ru/api/colection/count`,
+        {
+          params: {
+            category: chosenCategory,
+            subcategory: chosenSubCategory,
+            extrasubcategory: chosenExtraSubCategory,
+          },
+        }
+      );
+      const count = response.data;
+      setPageQuantity(count > parseInt(count) ? parseInt(count + 1) : count);
+    } catch (error) {
+      console.error("Ошибка загрузки количества страниц:", error);
+    }
+  };
+
+  // Функция для загрузки всех данных текущей страницы
+  const loadCurrentPageData = async () => {
+    await loadPageCount();
+    await loadProducts();
+
+    // Если текущая страница пустая и не первая - переходим на предыдущую
+    if (productList.length === 0 && pageIndex > 1) {
+      const newPageIndex = pageIndex - 1;
+      setPageIndex(newPageIndex);
+      // Загружаем данные для новой страницы
+      await loadProducts();
+    }
+  };
+
   useEffect(() => {
     async function fetchCategory() {
       const categories = await axios
@@ -31,6 +92,7 @@ function ProductRedactor() {
     }
     fetchCategory();
   }, []);
+
   useEffect(() => {
     async function fetchSubcategories() {
       if (!chosenCategory) return;
@@ -92,70 +154,11 @@ function ProductRedactor() {
     }
   }, [chosenSubCategory]);
 
+  // Загружаем данные при изменении зависимостей
   useEffect(() => {
-    async function fetchPageCount() {
-      if (
-        componentState !== "viewing" ||
-        !chosenCategory ||
-        !areCategoriesLoaded
-      )
-        return;
-
-      try {
-        const response = await axios.get(
-          `https://tranzitelektro.ru/api/colection/count`,
-          {
-            params: {
-              category: chosenCategory,
-              subcategory: chosenSubCategory,
-              extrasubcategory: chosenExtraSubCategory,
-            },
-          }
-        );
-        const count = response.data;
-        setPageQuantity(count > parseInt(count) ? parseInt(count + 1) : count);
-      } catch (error) {
-        console.error("Ошибка загрузки количества страниц:", error);
-      }
+    if (componentState === "viewing" && chosenCategory && areCategoriesLoaded) {
+      loadCurrentPageData();
     }
-
-    fetchPageCount();
-  }, [
-    componentState,
-    areCategoriesLoaded,
-    chosenCategory,
-    chosenSubCategory,
-    chosenExtraSubCategory,
-  ]);
-
-  useEffect(() => {
-    async function fetchProducts() {
-      if (
-        componentState !== "viewing" ||
-        !chosenCategory ||
-        !areCategoriesLoaded
-      )
-        return;
-
-      try {
-        const response = await axios.get(
-          "https://tranzitelektro.ru/api/colection/list",
-          {
-            params: {
-              page: pageIndex,
-              category: chosenCategory,
-              subcategory: chosenSubCategory,
-              extrasubcategory: chosenExtraSubCategory,
-            },
-          }
-        );
-        setProductList(response.data);
-      } catch (error) {
-        console.error("Ошибка загрузки товаров:", error);
-      }
-    }
-
-    fetchProducts();
   }, [
     componentState,
     areCategoriesLoaded,
@@ -164,6 +167,7 @@ function ProductRedactor() {
     chosenExtraSubCategory,
     pageIndex,
   ]);
+
   function addProduct() {
     setDataForServer({
       image: null,
@@ -182,6 +186,7 @@ function ProductRedactor() {
     });
     setComponentState("adding");
   }
+
   function changeProduct(id) {
     const elementForChange = productList.find((element) => element._id == id);
     setDataForServer({
@@ -202,33 +207,40 @@ function ProductRedactor() {
     });
     setComponentState("changing");
   }
-  function removeProduct(id) {
-    axios
-      .delete(`https://tranzitelektro.ru/api/colection/delete/${id}`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        const newData = productList.filter((element) => element._id !== id);
-        setProductList(newData);
-      });
-  }
-  const pages = [];
-  for (let index = 0; index < pageQuantity; index++) {
-    {
-      pages.push(
-        <h1
-          style={{
-            display: `${componentState == "viewing" ? "block" : "none"}`,
-          }}
-          className={`pageNumber ${index + 1 === pageIndex ? "yellow" : ""}`}
-          onClick={() => setPageIndex(index + 1)}
-          key={index + 1}
-        >
-          {index + 1}
-        </h1>
+
+  async function removeProduct(id) {
+    try {
+      // Удаляем товар
+      await axios.delete(
+        `https://tranzitelektro.ru/api/colection/delete/${id}`,
+        {
+          withCredentials: true,
+        }
       );
+
+      // Перезагружаем данные текущей страницы
+      await loadCurrentPageData();
+    } catch (error) {
+      console.error("Ошибка при удалении товара:", error);
     }
   }
+
+  const pages = [];
+  for (let index = 0; index < pageQuantity; index++) {
+    pages.push(
+      <h1
+        style={{
+          display: `${componentState == "viewing" ? "block" : "none"}`,
+        }}
+        className={`pageNumber ${index + 1 === pageIndex ? "yellow" : ""}`}
+        onClick={() => setPageIndex(index + 1)}
+        key={index + 1}
+      >
+        {index + 1}
+      </h1>
+    );
+  }
+
   return (
     <div className="discountMainWrap">
       <div className="discountControllButtonContainer headerDorder">
@@ -319,8 +331,16 @@ function ProductRedactor() {
       ) : (
         ""
       )}
-      {pages}
+      <div
+        style={{
+          display: `${pages.length > 1 ? "flex" : "none"}`,
+        }}
+        className="redctorPageContainer"
+      >
+        {pages}
+      </div>
     </div>
   );
 }
+
 export default ProductRedactor;

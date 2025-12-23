@@ -6,6 +6,9 @@ import "../styles/categoryredactor.css";
 function ExtraSubCategoryRedactor() {
   const [componentState, setComponentState] = useState("viewing");
   const [categoryList, setCategoryList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageQuantity, setPageQuantity] = useState(null);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const fileInputRef = useRef(null);
   const [chosenCategory, setChosenCategory] = useState(null);
@@ -39,10 +42,33 @@ function ExtraSubCategoryRedactor() {
     async function fetchSubCategories() {
       try {
         const response = await axios.get(
-          `https://tranzitelektro.ru/api/extrasubcategory/list/${chosenCategory}`,
+          `https://tranzitelektro.ru/api/extrasubcategory/listadmin/${chosenCategory}/${pageIndex}`,
           { withCredentials: true }
         );
         setSubCategoryList(response.data);
+      } catch (error) {
+        console.error("Ошибка загрузки подкатегорий:", error);
+      }
+    }
+    if (chosenCategory) {
+      fetchSubCategories();
+    }
+  }, [chosenCategory, componentState, pageIndex]);
+  useEffect(() => {
+    async function fetchSubCategories() {
+      try {
+        const response = await axios
+          .get(
+            `https://tranzitelektro.ru/api/extrasubcategory/count/${chosenCategory}`,
+            { withCredentials: true }
+          )
+          .then((response) => {
+            if (response.data > parseInt(response.data)) {
+              setPageQuantity(parseInt(response.data + 1));
+            } else {
+              setPageQuantity(response.data);
+            }
+          });
       } catch (error) {
         console.error("Ошибка загрузки подкатегорий:", error);
       }
@@ -171,18 +197,42 @@ function ExtraSubCategoryRedactor() {
       return updated;
     });
   }
-  function removeSubCategory(id, name) {
-    axios
-      .delete(`https://tranzitelektro.ru/api/extrasubcategory/delete/${id}`, {
+  async function removeSubCategory(id, name) {
+    try {
+      await axios.delete(
+        `https://tranzitelektro.ru/api/extrasubcategory/delete/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      await axios.delete(`https://tranzitelektro.ru/api/filtr/delete/${name}`, {
         withCredentials: true,
-      })
-      .then((response) => {
-        const newData = subCategoryList.filter((element) => element._id !== id);
-        setSubCategoryList(newData);
       });
-    axios.delete(`https://tranzitelektro.ru/api/filtr/delete/${name}`, {
-      withCredentials: true,
-    });
+      const countResponse = await axios.get(
+        `https://tranzitelektro.ru/api/extrasubcategory/count/${chosenCategory}`,
+        { withCredentials: true }
+      );
+
+      const totalCount = countResponse.data;
+      const itemsPerPage = 16;
+      const newPageQuantity = Math.ceil(totalCount / itemsPerPage) || 1;
+      let newPageIndex = pageIndex;
+      if (pageIndex > newPageQuantity) {
+        newPageIndex = newPageQuantity;
+      }
+      setPageQuantity(newPageQuantity);
+      if (newPageIndex !== pageIndex) {
+        setPageIndex(newPageIndex);
+      }
+      const pageToLoad = newPageIndex !== pageIndex ? newPageIndex : pageIndex;
+      const listResponse = await axios.get(
+        `https://tranzitelektro.ru/api/extrasubcategory/listadmin/${chosenCategory}/${pageToLoad}`,
+        { withCredentials: true }
+      );
+      setSubCategoryList(listResponse.data);
+    } catch (error) {
+      console.error("Ошибка при удалении:", error);
+    }
   }
   function changeFeatureValue(index, featureIndex, newvalue) {
     setFiltrFeatures((prevFeatures) => {
@@ -217,20 +267,29 @@ function ExtraSubCategoryRedactor() {
     });
   }
   async function sendData() {
+    if (isLoading) return; // Предотвращаем повторные отправки
+
+    setIsLoading(true);
+    setError(null);
+
+    let currentSrc;
     try {
-      const response = await axios.get(
-        `https://tranzitelektro.ru/api/extrasubcategory/single/${dataForServer.parentCategory}`
-      );
-      let currentSrc =
-        dataForServer.src +
-        "/" +
-        `${response.data.parentCategory}` +
-        "/" +
-        `${dataForServer.parentCategory}` +
-        "/" +
-        `${dataForServer.name}`;
-      if (currentSrc.includes("/product/")) {
+      if (dataForServer.src.includes("/product/")) {
         currentSrc = dataForServer.src + `${dataForServer.product}`;
+      } else {
+        const response = await axios.get(
+          `https://tranzitelektro.ru/api/subcategories/getinfo/${dataForServer.parentCategory}`
+        );
+        console.log(response.data);
+        currentSrc =
+          dataForServer.src +
+          `${response.data}` +
+          "/" +
+          `${dataForServer.parentCategory}` +
+          "/" +
+          `${dataForServer.name}`;
+
+        console.log(currentSrc);
       }
       const categoryData = {
         name: dataForServer.name,
@@ -238,22 +297,22 @@ function ExtraSubCategoryRedactor() {
         src: currentSrc,
         image1: dataForServer.image,
       };
-      const addResponse = await axios.post(
-        "https://tranzitelektro.ru/api/extrasubcategory/add",
-        categoryData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
       if (
         categoryData.name != "" &&
         categoryData.parentCategory != "" &&
         categoryData.image1 != null &&
         dataForServer?.product != ""
       ) {
+        const addResponse = await axios.post(
+          "https://tranzitelektro.ru/api/extrasubcategory/add",
+          categoryData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        );
         if (filtrFeatures != null) {
           const arr = [];
           arr.push(dataForServer.name);
@@ -266,27 +325,41 @@ function ExtraSubCategoryRedactor() {
             filtrData
           );
         }
+        if (error != null) {
+          setError(null);
+        }
       } else {
         setError("*Заполните все поля");
       }
-
-      if (error != null) {
-        setError(null);
-      }
     } catch (error) {
       setError("Ошибка при добавлении:" + error);
+    } finally {
+      setIsLoading(false);
     }
   }
   async function updateData() {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    setError(null);
+    let currentSrc = dataForServer.src;
     try {
-      let currentSrc =
-        dataForServer.src +
-        `${dataForServer.parentCategory}` +
-        "/" +
-        `${dataForServer.name}`;
       if (currentSrc.includes("/product/")) {
         currentSrc = dataForServer.src + `${dataForServer.product}`;
+      } else {
+        const response = await axios.get(
+          `https://tranzitelektro.ru/api/subcategories/getinfo/${dataForServer.parentCategory}`
+        );
+        console.log(response.data);
+        currentSrc =
+          dataForServer.src +
+          `${response.data}` +
+          "/" +
+          `${dataForServer.parentCategory}` +
+          "/" +
+          `${dataForServer.name}`;
       }
+      console.log(currentSrc);
       const categoryData = {
         id: dataForServer.id,
         name: dataForServer.name,
@@ -343,11 +416,32 @@ function ExtraSubCategoryRedactor() {
       }
     } catch (error) {
       setError("Ошибка при добавлении:" + error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  const pages = [];
+  for (let index = 0; index < pageQuantity; index++) {
+    {
+      pages.push(
+        <h1
+          className={`pageNumber ${index + 1 === pageIndex ? "yellow" : ""}`}
+          onClick={() => setPageIndex(index + 1)}
+          key={index + 1}
+        >
+          {index + 1}
+        </h1>
+      );
     }
   }
   return (
     <div className="categoryMainWrap">
-      <div className="controllButtonContainer">
+      <div
+        style={{
+          display: `${categoryList.length != 0 ? "flex" : "none"}`,
+        }}
+        className="controllButtonContainer"
+      >
         <button
           className="changeCategory"
           onClick={() => setComponentState("viewing")}
@@ -372,13 +466,21 @@ function ExtraSubCategoryRedactor() {
       </div>
       {componentState == "viewing" ? (
         <>
-          <h1
-            style={{
-              display: `${subCategoryList.length == 0 ? "block" : "none"}`,
-            }}
-          >
-            У этой категории отсутствуют подкатегории
-          </h1>
+          {categoryList.length == 0 ? (
+            <p className="warningText">
+              Нет подкатегорий 1-го уровня, ссылающихся на подкатегории 2-го
+              уровня. Добавьте таковые или проверьте типы ссылкок существующих
+            </p>
+          ) : (
+            <h1
+              style={{
+                display: `${subCategoryList.length == 0 ? "block" : "none"}`,
+              }}
+              className="warningText"
+            >
+              У этой категории отсутствуют подкатегории
+            </h1>
+          )}
           {subCategoryList.map((category) => (
             <div className="categoryItem">
               <h1 className="categoryName">{category.name}</h1>
@@ -398,6 +500,14 @@ function ExtraSubCategoryRedactor() {
               </div>
             </div>
           ))}
+          <div
+            style={{
+              display: `${pages.length != 1 ? "flex" : "none"}`,
+            }}
+            className="redctorPageContainer"
+          >
+            {pages}
+          </div>
         </>
       ) : (
         ""
@@ -409,6 +519,7 @@ function ExtraSubCategoryRedactor() {
           )}
           <input
             type="file"
+            className="imageInput"
             accept="image/*"
             ref={fileInputRef}
             onChange={handleFileChange}
@@ -417,7 +528,7 @@ function ExtraSubCategoryRedactor() {
             Удалить файл
           </button>
           <div>
-            <h1>Название подкатегории</h1>
+            <h1 className="categoryRedactorTitle">Название подкатегории</h1>
             <input
               type="text"
               name="name"
@@ -428,7 +539,7 @@ function ExtraSubCategoryRedactor() {
             />
           </div>
           <div>
-            <h1>Категории-родителя</h1>
+            <h1 className="categoryRedactorTitle">Категории-родителя</h1>
             <select
               className="selectSrcOption"
               value={dataForServer.parentCategory}
@@ -441,7 +552,7 @@ function ExtraSubCategoryRedactor() {
               ))}
             </select>
           </div>
-          <h1>Тип ссылки</h1>
+          <h1 className="categoryRedactorTitle">Тип ссылки</h1>
           <select
             value={dataForServer.src}
             className="selectSrcOption "
@@ -453,7 +564,7 @@ function ExtraSubCategoryRedactor() {
 
           {dataForServer.product != undefined ? (
             <>
-              <h1>Название товара</h1>
+              <h1 className="categoryRedactorTitle">Название товара</h1>
               <input
                 type="text"
                 name="name"
@@ -469,7 +580,7 @@ function ExtraSubCategoryRedactor() {
 
           {filtrFeatures?.map((feature, featureIndex) => (
             <div className="categoryInputContainer " key={featureIndex}>
-              <h1>Название свойства</h1>
+              <h1 className="categoryRedactorTitle">Название свойства</h1>
               <input
                 className="categoryInput"
                 value={feature.name}
@@ -491,13 +602,13 @@ function ExtraSubCategoryRedactor() {
                   Удалить свойство
                 </button>
               </div>
-              <h1 className="">Варианты значений</h1>
+              <h1 className="categoryRedactorTitle">Варианты значений</h1>
               <div className="inputFeatureContainer vertical">
                 {feature.value.map((value, index) => (
-                  <div className="inputContainer">
+                  <div className="inputFeatureContainer">
                     <input
                       value={value}
-                      className="categoryInput"
+                      className="featureInput"
                       onChange={(e) =>
                         changeFeatureValue(index, featureIndex, e.target.value)
                       }
@@ -523,8 +634,12 @@ function ExtraSubCategoryRedactor() {
             >
               Добавить свойство
             </button>
-            <button className="changeCategory" onClick={() => sendData()}>
-              Загрузить данные
+            <button
+              className={isLoading ? "dataLoading" : "changeProduct"}
+              onClick={sendData}
+              disabled={isLoading}
+            >
+              {isLoading ? "Загрузка данных..." : "Загрузить данные"}
             </button>
           </div>
         </>
@@ -539,6 +654,7 @@ function ExtraSubCategoryRedactor() {
           <input
             type="file"
             accept="image/*"
+            className="imageInput"
             ref={fileInputRef}
             onChange={handleFileChange}
           />
@@ -546,7 +662,7 @@ function ExtraSubCategoryRedactor() {
             Удалить файл
           </button>
           <div>
-            <h1>Название подкатегории</h1>
+            <h1 className="categoryRedactorTitle">Название подкатегории</h1>
             <input
               type="text"
               name="name"
@@ -557,7 +673,7 @@ function ExtraSubCategoryRedactor() {
             />
           </div>
           <div>
-            <h1>Категории-родителя</h1>
+            <h1 className="categoryRedactorTitle">Категории-родителя</h1>
             <select
               className="selectSrcOption"
               value={dataForServer.parentCategory}
@@ -570,7 +686,7 @@ function ExtraSubCategoryRedactor() {
               ))}
             </select>
           </div>
-          <h1>Тип ссылки</h1>
+          <h1 className="categoryRedactorTitle">Тип ссылки</h1>
           <select
             value={dataForServer.src}
             className="selectSrcOption "
@@ -582,7 +698,7 @@ function ExtraSubCategoryRedactor() {
 
           {dataForServer.product != undefined ? (
             <>
-              <h1>Название товара</h1>
+              <h1 className="categoryRedactorTitle">Название товара</h1>
               <input
                 type="text"
                 name="name"
@@ -598,7 +714,7 @@ function ExtraSubCategoryRedactor() {
 
           {filtrFeatures?.map((feature, featureIndex) => (
             <div className="categoryInputContainer " key={featureIndex}>
-              <h1>Название свойства</h1>
+              <h1 className="categoryRedactorTitle">Название свойства</h1>
               <input
                 className="categoryInput"
                 value={feature.name}
@@ -620,13 +736,13 @@ function ExtraSubCategoryRedactor() {
                   Удалить свойство
                 </button>
               </div>
-              <h1 className="">Варианты значений</h1>
+              <h1 className="categoryRedactorTitle">Варианты значений</h1>
               <div className="inputFeatureContainer vertical">
                 {feature.value.map((value, index) => (
-                  <div className="inputContainer">
+                  <div className="inputFeatureContainer">
                     <input
                       value={value}
-                      className="categoryInput"
+                      className="featureInput"
                       onChange={(e) =>
                         changeFeatureValue(index, featureIndex, e.target.value)
                       }
@@ -652,8 +768,12 @@ function ExtraSubCategoryRedactor() {
             >
               Добавить свойство
             </button>
-            <button className="changeCategory" onClick={() => updateData()}>
-              Загрузить данные
+            <button
+              className={isLoading ? "dataLoading" : "changeProduct"}
+              onClick={updateData}
+              disabled={isLoading}
+            >
+              {isLoading ? "Загрузка данных..." : "Загрузить данные"}
             </button>
           </div>
         </>

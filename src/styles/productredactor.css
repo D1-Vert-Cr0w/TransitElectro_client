@@ -27,6 +27,21 @@
     text-align: center;
     border: 1px solid black;
 }
+.dataLoading{
+    display: block;
+    margin-right: 40px;
+    background-color: #FFCC00;
+    height: 40px;
+    font-size: 20px;
+    max-width: 450px;
+    padding: 0 15px;
+    text-align: center;
+    border: 1px solid black;
+}
+.redctorPageContainer{
+    display: flex;
+    gap: 10px;
+}
 .deleteDiscount{
     display: block;
     color: black;
@@ -80,7 +95,7 @@
     margin: 10px 0;
     flex-wrap: nowrap;
 }
-.m-t{
+.margin-top{
     margin-top: 25px;
 }
 .imageInput{
@@ -103,6 +118,25 @@
     vertical-align: top;
     overflow-wrap: break-word
 }
+.changeProduct{
+    display: block;
+    margin-right: 40px;
+    color: white;
+    background-color: rgb(53, 63, 64);
+    height: 40px;
+    font-size: 20px;
+    max-width: 450px;
+    padding: 0 15px;
+    text-align: center;
+    border: 1px solid black;}
+.deleteProduct{display: block;
+    color: black;
+    background-color: #FFCC00;
+    height: 40px;
+    font-size: 20px;
+    width: 150px;
+    text-align: center;
+    border: 1px solid black;}
 .ditailTextInput{
     display: inline-block;
     width: 100%;

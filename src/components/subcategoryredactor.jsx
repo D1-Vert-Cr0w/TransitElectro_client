@@ -6,9 +6,12 @@ import "../styles/categoryredactor.css";
 function SubCategoryRedactor() {
   const [componentState, setComponentState] = useState("viewing");
   const [categoryList, setCategoryList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const fileInputRef = useRef(null);
   const [chosenCategory, setChosenCategory] = useState(null);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageQuantity, setPageQuantity] = useState(null);
   const [dataForServer, setDataForServer] = useState();
   const [imagePreview, setImagePreview] = useState(null);
   const [filtrFeatures, setFiltrFeatures] = useState(null);
@@ -18,7 +21,7 @@ function SubCategoryRedactor() {
   useEffect(() => {
     async function fetchData() {
       const reqForCategories = axios
-        .get("https://tranzitelektro.ru/api/categories/list", {
+        .get(`https://tranzitelektro.ru/api/categories/list`, {
           withCredentials: true,
         })
         .then((response) => {
@@ -37,13 +40,31 @@ function SubCategoryRedactor() {
     if (chosenCategory) {
       const reqForSubCategories = axios
         .get(
-          `https://tranzitelektro.ru/api/subcategories/list/${chosenCategory}`,
+          `https://tranzitelektro.ru/api/subcategories/listadmin/${chosenCategory}/${pageIndex}`,
           {
             withCredentials: true,
           }
         )
         .then((response) => {
           setSubCategoryList(response.data);
+        });
+    }
+  }, [chosenCategory, pageIndex]);
+  useEffect(() => {
+    if (chosenCategory) {
+      const reqForQuantity = axios
+        .get(
+          `https://tranzitelektro.ru/api/subcategories/count/${chosenCategory}`,
+          {
+            withCredentials: true,
+          }
+        )
+        .then((response) => {
+          if (response.data > parseInt(response.data)) {
+            setPageQuantity(parseInt(response.data + 1));
+          } else {
+            setPageQuantity(response.data);
+          }
         });
     }
   }, [chosenCategory]);
@@ -166,18 +187,42 @@ function SubCategoryRedactor() {
       return updated;
     });
   }
-  function removeSubCategory(id, name) {
-    axios
-      .delete(`https://tranzitelektro.ru/api/subcategories/delete/${id}`, {
+  async function removeSubCategory(id, name) {
+    try {
+      await axios.delete(
+        `https://tranzitelektro.ru/api/subcategories/delete/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      await axios.delete(`https://tranzitelektro.ru/api/filtr/delete/${name}`, {
         withCredentials: true,
-      })
-      .then((response) => {
-        const newData = subCategoryList.filter((element) => element._id !== id);
-        setSubCategoryList(newData);
       });
-    axios.delete(`https://tranzitelektro.ru/api/filtr/delete/${name}`, {
-      withCredentials: true,
-    });
+      const countResponse = await axios.get(
+        `https://tranzitelektro.ru/api/subcategories/count/${chosenCategory}`,
+        { withCredentials: true }
+      );
+
+      const totalCount = countResponse.data;
+      const itemsPerPage = 16;
+      const newPageQuantity = Math.ceil(totalCount / itemsPerPage) || 1;
+      let newPageIndex = pageIndex;
+      if (pageIndex > newPageQuantity) {
+        newPageIndex = newPageQuantity;
+      }
+      setPageQuantity(newPageQuantity);
+      if (newPageIndex !== pageIndex) {
+        setPageIndex(newPageIndex);
+      }
+      const pageToLoad = newPageIndex !== pageIndex ? newPageIndex : pageIndex;
+      const listResponse = await axios.get(
+        `https://tranzitelektro.ru/api/subcategories/listadmin/${chosenCategory}/${pageToLoad}`,
+        { withCredentials: true }
+      );
+      setSubCategoryList(listResponse.data);
+    } catch (error) {
+      console.error("Ошибка при удалении:", error);
+    }
   }
   function changeFeatureValue(index, featureIndex, newvalue) {
     setFiltrFeatures((prevFeatures) => {
@@ -212,6 +257,10 @@ function SubCategoryRedactor() {
     });
   }
   async function sendData() {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    setError(null);
     try {
       let currentSrc =
         dataForServer.src +
@@ -265,9 +314,15 @@ function SubCategoryRedactor() {
       }
     } catch (error) {
       setError("Ошибка при добавлении:" + error);
+    } finally {
+      setIsLoading(false);
     }
   }
   async function updateData() {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    setError(null);
     try {
       let currentSrc =
         dataForServer.src +
@@ -333,6 +388,22 @@ function SubCategoryRedactor() {
       }
     } catch (error) {
       setError("Ошибка при добавлении:" + error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  const pages = [];
+  for (let index = 0; index < pageQuantity; index++) {
+    {
+      pages.push(
+        <h1
+          className={`pageNumber ${index + 1 === pageIndex ? "yellow" : ""}`}
+          onClick={() => setPageIndex(index + 1)}
+          key={index + 1}
+        >
+          {index + 1}
+        </h1>
+      );
     }
   }
   return (
@@ -388,6 +459,14 @@ function SubCategoryRedactor() {
               </div>
             </div>
           ))}
+          <div
+            style={{
+              display: `${pages.length != 1 ? "flex" : "none"}`,
+            }}
+            className="redctorPageContainer"
+          >
+            {pages}
+          </div>
         </>
       ) : (
         ""
@@ -400,6 +479,7 @@ function SubCategoryRedactor() {
           <input
             type="file"
             accept="image/*"
+            className="imageInput"
             ref={fileInputRef}
             onChange={handleFileChange}
           />
@@ -514,8 +594,12 @@ function SubCategoryRedactor() {
             >
               Добавить свойство
             </button>
-            <button className="changeCategory" onClick={() => sendData()}>
-              Загрузить данные
+            <button
+              className={isLoading ? "dataLoading" : "changeProduct"}
+              onClick={sendData}
+              disabled={isLoading}
+            >
+              {isLoading ? "Загрузка данных..." : "Загрузить данные"}
             </button>
           </div>
         </>
@@ -530,6 +614,7 @@ function SubCategoryRedactor() {
           <input
             type="file"
             accept="image/*"
+            className="imageInput"
             ref={fileInputRef}
             onChange={handleFileChange}
           />
@@ -644,8 +729,12 @@ function SubCategoryRedactor() {
             >
               Добавить свойство
             </button>
-            <button className="changeCategory" onClick={() => updateData()}>
-              Загрузить данные
+            <button
+              className={isLoading ? "dataLoading" : "changeProduct"}
+              onClick={updateData}
+              disabled={isLoading}
+            >
+              {isLoading ? "Загрузка данных..." : "Загрузить данные"}
             </button>
           </div>
         </>

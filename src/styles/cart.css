@@ -124,6 +124,7 @@ box-sizing: border-box;
 .alertText{
     font-size: 22px;
     display: block;
+    margin: 0 50px;
 }
 .alertText-container{
     margin-top: 50px;
@@ -146,6 +147,10 @@ box-sizing: border-box;
 }
 .errorText{
     color: rgb(210, 83, 83);
+    margin: 15px 0;
+}
+.confirmText{
+    margin: 15px 0;
 }
 .deliveryWrap{
     margin-left: auto;

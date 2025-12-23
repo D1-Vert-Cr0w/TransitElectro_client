@@ -43,7 +43,7 @@
     margin: 10px 0;
 }
 .discountDitails-header{
-    padding-right: 100px;
+    max-width: 550px;
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid black;

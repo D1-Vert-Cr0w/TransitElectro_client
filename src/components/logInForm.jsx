@@ -108,7 +108,7 @@ function LogInForm() {
       try {
         const response = await axios.post(
           "https://tranzitelektro.ru/api/user/password/reset",
-          { email: emailForCode, password: password },
+          { email: emailForCode, password: password, code: code },
           { validateStatus: () => true }
         );
         if (response.status === 200 || response.status === 201) {
@@ -117,6 +117,8 @@ function LogInForm() {
             "Ваш пароль успешно изменён. Закройте форму, и попробуйте войти в аккаунт снова"
           );
           setErrors("");
+          setPassword("");
+          setCode("");
         } else {
           setErrors(response.data.message);
         }
