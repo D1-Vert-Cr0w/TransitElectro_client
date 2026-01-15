@@ -34,20 +34,23 @@ axios.interceptors.response.use(
           }
         );
         localStorage.setItem("user", response.data.user);
-        return $api.request(originalRequest);
+        if (
+          originalRequest.url == "https://tranzitelektro.ru/api/user/check/null"
+        ) {
+          originalRequest.url = `https://tranzitelektro.ru/api/user/check/${localStorage.getItem(
+            "user"
+          )}`;
+          return $api.request(originalRequest);
+        } else {
+          return $api.request(originalRequest);
+        }
       } catch (e) {
         console.log("Не авторизован");
       }
     }
   }
 );
-if (!localStorage.getItem("user")) {
-  axios
-    .get("https://tranzitelektro.ru/api/user/reconnect", {
-      withCredentials: true,
-    })
-    .then((response) => localStorage.setItem("user", response.data));
-}
+
 function App() {
   return (
     <>

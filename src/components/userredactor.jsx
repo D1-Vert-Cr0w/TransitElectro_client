@@ -2,18 +2,19 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Product from "../pages/product.jsx";
-import "../styles/discountredactor.css";
+import "../styles/userredactor.css";
 function UserRedactor() {
   const [componentState, setComponentState] = useState("viewing");
   const [workerList, setWorkerList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [dataForServer, setDataForServer] = useState(null);
   const [error, setError] = useState(null);
+  const [selectedRole, setSelectedRole] = useState("all");
   const [message, setMessage] = useState(null);
   useEffect(() => {
     async function fetchData() {
       axios
-        .get("https://tranzitelektro.ru/api/user/listworkers", {
+        .get(`https://tranzitelektro.ru/api/user/list/${selectedRole}`, {
           withCredentials: true,
         })
         .then((response) => {
@@ -23,7 +24,7 @@ function UserRedactor() {
     if (componentState == "viewing") {
       fetchData();
     }
-  }, [componentState]);
+  }, [componentState, selectedRole]);
 
   function addWorker() {
     setDataForServer({
@@ -158,28 +159,47 @@ function UserRedactor() {
         <button className="changeDiscount" onClick={() => addWorker()}>
           Добавить
         </button>
+        <p className="selectRole">Роль:</p>
+        <select
+          className="selectSrcOption"
+          value={selectedRole}
+          onChange={(e) => setSelectedRole(e.target.value)}
+        >
+          <option value={"all"}>Все</option>
+          <option value={"user"}>Пользователь</option>
+          <option value={"manager"}>Менеджер</option>
+          <option value={"admin"}>Администратор</option>
+        </select>
       </div>
-      {componentState == "viewing"
-        ? workerList.map((user) => (
-            <div className="categoryItem">
-              <h1 className="categoryName">{user.name}</h1>
-              <div className="discountControllButtonContainer">
-                <button
-                  className="changeDiscount"
-                  onClick={() => changeUser(user._id)}
-                >
-                  Изменить
-                </button>
-                <button
-                  className="deleteDiscount"
-                  onClick={() => removeUser(user._id)}
-                >
-                  Удалить
-                </button>
+      {componentState == "viewing" ? (
+        <>
+          {workerList.length != 0 ? (
+            workerList.map((user) => (
+              <div className="categoryItem">
+                <h1 className="categoryName">{user.name}</h1>
+                <div className="discountControllButtonContainer">
+                  <button
+                    className="changeDiscount"
+                    onClick={() => changeUser(user._id)}
+                  >
+                    Изменить
+                  </button>
+                  <button
+                    className="deleteDiscount"
+                    onClick={() => removeUser(user._id)}
+                  >
+                    Удалить
+                  </button>
+                </div>
               </div>
-            </div>
-          ))
-        : ""}
+            ))
+          ) : (
+            <h1 className="warningText">Пользователей с такой ролью нет</h1>
+          )}
+        </>
+      ) : (
+        ""
+      )}
       {componentState == "adding" ? (
         <>
           <p className="discountDitails-text">Email</p>

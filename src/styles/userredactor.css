@@ -1,3 +1,8 @@
+.selectRole{
+    align-content: center;
+    font-size: 20px;
+    margin-right: 10px;
+}
 .discountMainWrap{
     margin-left: 30px;
     margin-bottom: 30px;
@@ -6,13 +11,7 @@
     width: 200px;
     height: 100px;
 }
-.discountControllButtonContainer {
-    margin: 10px 0;
-    display: flex;
-    padding-block: 5px;
-    margin-right: 20px;
-    
-}
+
 .headerDorder{
     border-bottom: 1px solid black;
 }

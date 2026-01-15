@@ -1,26 +1,33 @@
 import Header from "../components/header.jsx";
 import Footer from "../components/footer.jsx";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/userdashboard.css";
 function OrderCheck() {
   const [userOrderInfo, setUserOrderInfo] = useState();
   const [available, setAvailable] = useState(null);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageQuantity, setPageQuantity] = useState();
   const [tempInputValues, setTempInputValues] = useState({});
-  const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
       axios
-        .get(`https://tranzitelektro.ru/api/order/listall`, {
+        .get(`https://tranzitelektro.ru/api/order/listall/${pageIndex}`, {
           withCredentials: true,
         })
         .then((response) => {
           setUserOrderInfo(response.data);
         });
+      axios
+        .get(`https://tranzitelektro.ru/api/order/count`, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          setPageQuantity(response.data);
+        });
     }
     fetchData();
-  }, []);
+  }, [pageIndex]);
   async function deleteOrder(id) {
     const newOrderList = userOrderInfo.filter((element) => element._id !== id);
     setUserOrderInfo(newOrderList);
@@ -30,6 +37,29 @@ function OrderCheck() {
         withCredentials: true,
       }
     );
+    const countResponse = await axios.get(
+      `https://tranzitelektro.ru/api/order/count`,
+      {
+        withCredentials: true,
+      }
+    );
+    const totalCount = countResponse.data;
+    const itemsPerPage = 1;
+    const newPageQuantity = Math.ceil(totalCount / itemsPerPage) || 1;
+    let newPageIndex = pageIndex;
+    if (pageIndex > newPageQuantity) {
+      newPageIndex = newPageQuantity;
+    }
+    setPageQuantity(newPageQuantity);
+    if (newPageIndex !== pageIndex) {
+      setPageIndex(newPageIndex);
+    }
+    const pageToLoad = newPageIndex !== pageIndex ? newPageIndex : pageIndex;
+    const listResponse = await axios.get(
+      `https://tranzitelektro.ru/api/order/listall/${pageToLoad}`,
+      { withCredentials: true }
+    );
+    setUserOrderInfo(listResponse.data);
   }
   async function sendReminderingMail(email, name, adress) {
     const response = await axios.post(
@@ -65,6 +95,19 @@ function OrderCheck() {
     }
     setTempInputValues({});
   }
+  const pages = [];
+  for (let index = 0; index < pageQuantity; index++) {
+    pages.push(
+      <h1
+        className={`pageNumber ${index + 1 === pageIndex ? "yellow" : ""}`}
+        onClick={() => setPageIndex(index + 1)}
+        key={index + 1}
+      >
+        {index + 1}
+      </h1>
+    );
+  }
+
   return (
     <div className="userContainer">
       <h1 className="orderInfo-header">Заказы</h1>
@@ -125,6 +168,14 @@ function OrderCheck() {
           </div>
         </>
       ))}
+      <div
+        style={{
+          display: `${pages.length > 1 ? "flex" : "none"}`,
+        }}
+        className="orderPageContainer"
+      >
+        {pages}
+      </div>
     </div>
   );
 }
