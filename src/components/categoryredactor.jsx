@@ -17,16 +17,15 @@ function CategoryRedactor() {
   const [pageIndex, setPageIndex] = useState(1);
   const [pageQuantity, setPageQuantity] = useState(null);
   const [error, setError] = useState(null);
-
+  const [itemForDelete, setItemForDelete] = useState(null);
   const loadPageCount = async () => {
     try {
       const response = await axios.get(
         "https://tranzitelektro.ru/api/categories/count",
         {
           withCredentials: true,
-        }
+        },
       );
-
       const count = response.data;
       if (count > parseInt(count)) {
         setPageQuantity(parseInt(count + 1));
@@ -46,7 +45,7 @@ function CategoryRedactor() {
         `https://tranzitelektro.ru/api/categories/listadmin/${pageIndex}`,
         {
           withCredentials: true,
-        }
+        },
       );
       return response.data;
     } catch (error) {
@@ -76,7 +75,7 @@ function CategoryRedactor() {
         `https://tranzitelektro.ru/api/categories/listadmin/${page}`,
         {
           withCredentials: true,
-        }
+        },
       );
       return response.data;
     } catch (error) {
@@ -124,7 +123,7 @@ function CategoryRedactor() {
   const removeFeature = (indexToRemove) => {
     if (filtrFeatures.length != 1) {
       setFiltrFeatures((prev) =>
-        prev.filter((_, index) => index !== indexToRemove)
+        prev.filter((_, index) => index !== indexToRemove),
       );
     }
   };
@@ -221,7 +220,7 @@ function CategoryRedactor() {
         `https://tranzitelektro.ru/api/categories/delete/${id}`,
         {
           withCredentials: true,
-        }
+        },
       );
 
       if (name) {
@@ -229,7 +228,7 @@ function CategoryRedactor() {
           `https://tranzitelektro.ru/api/filtr/delete/${name}`,
           {
             withCredentials: true,
-          }
+          },
         );
       }
 
@@ -314,7 +313,7 @@ function CategoryRedactor() {
               "Content-Type": "multipart/form-data",
             },
             withCredentials: true,
-          }
+          },
         );
 
         if (filtrFeatures != null) {
@@ -326,7 +325,7 @@ function CategoryRedactor() {
           };
           await axios.post(
             "https://tranzitelektro.ru/api/filtr/add",
-            filtrData
+            filtrData,
           );
         }
         const count = await loadPageCount();
@@ -374,7 +373,7 @@ function CategoryRedactor() {
               "Content-Type": "multipart/form-data",
             },
             withCredentials: true,
-          }
+          },
         );
 
         if (filtrFeatures != null) {
@@ -387,7 +386,7 @@ function CategoryRedactor() {
           };
           await axios.put(
             "https://tranzitelektro.ru/api/filtr/update",
-            filtrData
+            filtrData,
           );
         }
 
@@ -399,7 +398,7 @@ function CategoryRedactor() {
             `https://tranzitelektro.ru/api/filtr/delete/${dataForServer.name}`,
             {
               withCredentials: true,
-            }
+            },
           );
         }
         await loadCurrentPageData();
@@ -425,7 +424,7 @@ function CategoryRedactor() {
         key={index + 1}
       >
         {index + 1}
-      </h1>
+      </h1>,
     );
   }
 
@@ -455,12 +454,31 @@ function CategoryRedactor() {
                 >
                   Изменить
                 </button>
-                <button
-                  className="deleteCategory"
-                  onClick={() => removeCategory(category._id, category.name)}
-                >
-                  Удалить
-                </button>
+                {itemForDelete != category._id ? (
+                  <button
+                    className="deleteCategory"
+                    onClick={() => setItemForDelete(category._id)}
+                  >
+                    Удалить
+                  </button>
+                ) : null}
+                {itemForDelete == category._id ? (
+                  <div className="deleteFinalBlock">
+                    <p className="orderInfo-text">Удалить:</p>
+                    <button
+                      className="deleteOrderButton accept"
+                      onClick={() => removeCategory(category._id)}
+                    >
+                      Да
+                    </button>
+                    <button
+                      className="deleteOrderButton reject"
+                      onClick={() => setItemForDelete(null)}
+                    >
+                      Нет
+                    </button>
+                  </div>
+                ) : null}
               </div>
             </div>
           ))}

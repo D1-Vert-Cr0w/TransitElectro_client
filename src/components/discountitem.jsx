@@ -3,7 +3,7 @@ import "../styles/discountitem.css";
 function DiscountItem(props) {
   return (
     <>
-      <div className="pageContainer">
+      <div className="pageContainer" data-aos="fade-up">
         <div className="Info-container">
           <div className="Info-textWrap">
             <h1 className="Info-header">{props.title}</h1>

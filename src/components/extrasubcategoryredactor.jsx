@@ -7,6 +7,7 @@ function ExtraSubCategoryRedactor() {
   const [componentState, setComponentState] = useState("viewing");
   const [categoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [itemForDelete, setItemForDelete] = useState(null);
   const [pageIndex, setPageIndex] = useState(1);
   const [pageQuantity, setPageQuantity] = useState(null);
   const [subCategoryList, setSubCategoryList] = useState([]);
@@ -23,7 +24,7 @@ function ExtraSubCategoryRedactor() {
       try {
         const categoriesResponse = await axios.get(
           "https://tranzitelektro.ru/api/subcategories/list",
-          { withCredentials: true }
+          { withCredentials: true },
         );
         const categoriesOnly = categoriesResponse.data
           .filter((item) => item.src && item.src.includes("/categories/"))
@@ -43,7 +44,7 @@ function ExtraSubCategoryRedactor() {
       try {
         const response = await axios.get(
           `https://tranzitelektro.ru/api/extrasubcategory/listadmin/${chosenCategory}/${pageIndex}`,
-          { withCredentials: true }
+          { withCredentials: true },
         );
         setSubCategoryList(response.data);
       } catch (error) {
@@ -60,7 +61,7 @@ function ExtraSubCategoryRedactor() {
         const response = await axios
           .get(
             `https://tranzitelektro.ru/api/extrasubcategory/count/${chosenCategory}`,
-            { withCredentials: true }
+            { withCredentials: true },
           )
           .then((response) => {
             if (response.data > parseInt(response.data)) {
@@ -108,7 +109,7 @@ function ExtraSubCategoryRedactor() {
   const removeFeature = (indexToRemove) => {
     if (filtrFeatures.length != 1) {
       setFiltrFeatures((prev) =>
-        prev.filter((_, index) => index !== indexToRemove)
+        prev.filter((_, index) => index !== indexToRemove),
       );
     }
   };
@@ -138,7 +139,7 @@ function ExtraSubCategoryRedactor() {
   }
   function changeSubCategory(id, name) {
     const elementForChange = subCategoryList.find(
-      (element) => element._id == id
+      (element) => element._id == id,
     );
     console.log(elementForChange);
     const url = "/" + elementForChange.src.split("/")[1] + "/";
@@ -197,20 +198,20 @@ function ExtraSubCategoryRedactor() {
       return updated;
     });
   }
-  async function removeSubCategory(id, name) {
+  async function removeExtraSubCategory(id, name) {
     try {
       await axios.delete(
         `https://tranzitelektro.ru/api/extrasubcategory/delete/${id}`,
         {
           withCredentials: true,
-        }
+        },
       );
       await axios.delete(`https://tranzitelektro.ru/api/filtr/delete/${name}`, {
         withCredentials: true,
       });
       const countResponse = await axios.get(
         `https://tranzitelektro.ru/api/extrasubcategory/count/${chosenCategory}`,
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       const totalCount = countResponse.data;
@@ -227,7 +228,7 @@ function ExtraSubCategoryRedactor() {
       const pageToLoad = newPageIndex !== pageIndex ? newPageIndex : pageIndex;
       const listResponse = await axios.get(
         `https://tranzitelektro.ru/api/extrasubcategory/listadmin/${chosenCategory}/${pageToLoad}`,
-        { withCredentials: true }
+        { withCredentials: true },
       );
       setSubCategoryList(listResponse.data);
     } catch (error) {
@@ -278,7 +279,7 @@ function ExtraSubCategoryRedactor() {
         currentSrc = dataForServer.src + `${dataForServer.product}`;
       } else {
         const response = await axios.get(
-          `https://tranzitelektro.ru/api/subcategories/getinfo/${dataForServer.parentCategory}`
+          `https://tranzitelektro.ru/api/subcategories/getinfo/${dataForServer.parentCategory}`,
         );
         console.log(response.data);
         currentSrc =
@@ -311,7 +312,7 @@ function ExtraSubCategoryRedactor() {
               "Content-Type": "multipart/form-data",
             },
             withCredentials: true,
-          }
+          },
         );
         if (filtrFeatures != null) {
           const arr = [];
@@ -322,7 +323,7 @@ function ExtraSubCategoryRedactor() {
           };
           const response = await axios.post(
             "https://tranzitelektro.ru/api/filtr/add",
-            filtrData
+            filtrData,
           );
         }
         if (error != null) {
@@ -348,7 +349,7 @@ function ExtraSubCategoryRedactor() {
         currentSrc = dataForServer.src + `${dataForServer.product}`;
       } else {
         const response = await axios.get(
-          `https://tranzitelektro.ru/api/subcategories/getinfo/${dataForServer.parentCategory}`
+          `https://tranzitelektro.ru/api/subcategories/getinfo/${dataForServer.parentCategory}`,
         );
         console.log(response.data);
         currentSrc =
@@ -381,7 +382,7 @@ function ExtraSubCategoryRedactor() {
               "Content-Type": "multipart/form-data",
             },
             withCredentials: true,
-          }
+          },
         );
         if (filtrFeatures != null) {
           const arr = [];
@@ -393,7 +394,7 @@ function ExtraSubCategoryRedactor() {
           };
           const response = await axios.put(
             "https://tranzitelektro.ru/api/filtr/update",
-            filtrData
+            filtrData,
           );
         }
         if (
@@ -404,7 +405,7 @@ function ExtraSubCategoryRedactor() {
             `https://tranzitelektro.ru/api/filtr/delete/${dataForServer.name}`,
             {
               withCredentials: true,
-            }
+            },
           );
         }
       } else {
@@ -430,7 +431,7 @@ function ExtraSubCategoryRedactor() {
           key={index + 1}
         >
           {index + 1}
-        </h1>
+        </h1>,
       );
     }
   }
@@ -491,12 +492,31 @@ function ExtraSubCategoryRedactor() {
                 >
                   Изменить
                 </button>
-                <button
-                  className="deleteCategory"
-                  onClick={() => removeSubCategory(category._id, category.name)}
-                >
-                  Удалить
-                </button>
+                {itemForDelete != category._id ? (
+                  <button
+                    className="deleteCategory"
+                    onClick={() => setItemForDelete(category._id)}
+                  >
+                    Удалить
+                  </button>
+                ) : null}
+                {itemForDelete == category._id ? (
+                  <div className="deleteFinalBlock">
+                    <p className="orderInfo-text">Удалить:</p>
+                    <button
+                      className="deleteOrderButton accept"
+                      onClick={() => removeExtraSubCategory(category._id)}
+                    >
+                      Да
+                    </button>
+                    <button
+                      className="deleteOrderButton reject"
+                      onClick={() => setItemForDelete(null)}
+                    >
+                      Нет
+                    </button>
+                  </div>
+                ) : null}
               </div>
             </div>
           ))}

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import cross from "../assets/cross.png";
 import "../styles/productredactor.css";
 
 function ProductRedactorChange(props) {
@@ -9,7 +10,7 @@ function ProductRedactorChange(props) {
   const [imagePreview, setImagePreview] = useState(props.dataForChange.image);
   const [isLoading, setIsLoading] = useState(false);
   const [prevDrawingsPreviews, setPrevDrawingsPreviews] = useState(
-    props.dataForChange.drawings
+    props.dataForChange.drawings,
   );
   const [drawingsPreviews, setDrawingsPreviews] = useState([]);
   const [productDitails, setProductDitails] = useState(
@@ -19,7 +20,7 @@ function ProductRedactorChange(props) {
         name,
         value: isNaN(value) ? value : Number(value),
       };
-    })
+    }),
   );
   const [dataForServer, setDataForServer] = useState({
     ...props.dataForChange,
@@ -33,7 +34,7 @@ function ProductRedactorChange(props) {
 
   const removeProductDitail = (indexToRemove) => {
     setProductDitails((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
+      prev.filter((_, index) => index !== indexToRemove),
     );
   };
 
@@ -47,8 +48,6 @@ function ProductRedactorChange(props) {
       return updated;
     });
   };
-
-  // Обработка загрузки основного изображения
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -63,23 +62,18 @@ function ProductRedactorChange(props) {
       reader.readAsDataURL(file);
     }
   };
-  // Обработка загрузки чертежей
   const handleDrawingsChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 0) {
-      // Добавляем новые файлы к существующим
       setDataForServer((prev) => ({
         ...prev,
         drawings: [...prev.drawings, ...files],
       }));
-
-      // Создаем превью для новых файлов
       const newPreviews = [];
       files.forEach((file) => {
         const reader = new FileReader();
         reader.onloadend = () => {
           newPreviews.push(reader.result);
-          // Обновляем состояние когда все превью созданы
           if (newPreviews.length === files.length) {
             setDrawingsPreviews((prev) => [...prev, ...newPreviews]);
           }
@@ -95,7 +89,7 @@ function ProductRedactorChange(props) {
       drawings: prev.drawings.filter((_, index) => index !== indexToRemove),
     }));
     setDrawingsPreviews((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
+      prev.filter((_, index) => index !== indexToRemove),
     );
     if (drawingsInputRef.current) {
       drawingsInputRef.current.value = "";
@@ -105,7 +99,7 @@ function ProductRedactorChange(props) {
   };
   const removePrevDrawing = (indexToRemove) => {
     setPrevDrawingsPreviews((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
+      prev.filter((_, index) => index !== indexToRemove),
     );
   };
 
@@ -141,7 +135,7 @@ function ProductRedactorChange(props) {
   };
 
   async function updateData() {
-    if (isLoading) return; // Предотвращаем повторные отправки
+    if (isLoading) return;
 
     setIsLoading(true);
     setError(null);
@@ -149,12 +143,11 @@ function ProductRedactorChange(props) {
     try {
       console.log(productDitails);
       const features = productDitails.map(
-        (item) => `${item.name.trim()}: ${String(item.value).trim()}`
+        (item) => `${item.name.trim()}: ${String(item.value).trim()}`,
       );
 
       // Создаем FormData
       const formData = new FormData();
-      // Добавляем обычные текстовые поля
       formData.append("id", dataForServer.id);
       formData.append("name", dataForServer.name);
       formData.append("articul", dataForServer.articul);
@@ -190,7 +183,7 @@ function ProductRedactorChange(props) {
           formData,
           {
             withCredentials: true,
-          }
+          },
         );
         setError(null);
       } else {
@@ -245,10 +238,10 @@ function ProductRedactorChange(props) {
               />
               <button
                 type="button"
-                className="deleteProduct"
+                className="deleteDrawing"
                 onClick={() => removePrevDrawing(index)}
               >
-                Удалить
+                <img src={cross} className="crossButton" />
               </button>
             </div>
           ))}
@@ -269,10 +262,10 @@ function ProductRedactorChange(props) {
               />
               <button
                 type="button"
-                className="deleteProduct"
+                className="deleteDrawing"
                 onClick={() => removeDrawing(index)}
               >
-                Удалить
+                <img src={cross} className="crossButton" />
               </button>
             </div>
           ))}

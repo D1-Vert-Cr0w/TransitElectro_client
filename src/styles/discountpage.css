@@ -5,3 +5,10 @@
     margin: 0 auto;
     margin-bottom: 40px;
 }
+.discountTitle{max-width: 1300px;
+    font-size: 46px;
+    width: 85%;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid black;}

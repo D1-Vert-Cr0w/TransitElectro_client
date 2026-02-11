@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/dashboardpage.css";
 import AdminDashboard from "../components/admin.jsx";
+import ManagerDashboard from "../components/managerdashboard.jsx";
 function Dashboard() {
   const [role, setRole] = useState();
   const navigate = useNavigate();
@@ -13,12 +14,10 @@ function Dashboard() {
     async function fetchData() {
       axios
         .get(
-          `https://tranzitelektro.ru/api/user/check/${localStorage.getItem(
-            "user"
-          )}`,
+          `https://tranzitelektro.ru/api/user/check/${localStorage.getItem("user")}`,
           {
             withCredentials: true,
-          }
+          },
         )
         .then((response) => {
           setRole(response.data);
@@ -26,13 +25,6 @@ function Dashboard() {
     }
     fetchData();
   }, []);
-  async function logout() {
-    await axios.delete("https://tranzitelektro.ru/api/user/logout", {
-      withCredentials: true,
-    });
-    localStorage.removeItem("user");
-    navigate("/", { replace: true });
-  }
   if (role == "user") {
     return (
       <>
@@ -40,6 +32,17 @@ function Dashboard() {
           <Header></Header>
         </div>
         <UserDashboard />
+        <Footer></Footer>
+      </>
+    );
+  }
+  if (role == "manager") {
+    return (
+      <>
+        <div className="headerWrap">
+          <Header></Header>
+        </div>
+        <ManagerDashboard />
         <Footer></Footer>
       </>
     );

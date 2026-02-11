@@ -10,7 +10,7 @@ function ProductRedactorAdd(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [drawingsPreviews, setDrawingsPreviews] = useState([]); // Превью чертежей
   const [productDitails, setProductDitails] = useState(
-    props.dataForChange.features
+    props.dataForChange.features,
   );
   const [dataForServer, setDataForServer] = useState({
     ...props.dataForChange,
@@ -24,7 +24,7 @@ function ProductRedactorAdd(props) {
 
   const removeProductDitail = (indexToRemove) => {
     setProductDitails((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
+      prev.filter((_, index) => index !== indexToRemove),
     );
   };
 
@@ -86,7 +86,7 @@ function ProductRedactorAdd(props) {
       drawings: prev.drawings.filter((_, index) => index !== indexToRemove),
     }));
     setDrawingsPreviews((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
+      prev.filter((_, index) => index !== indexToRemove),
     );
     if (drawingsInputRef.current) {
       drawingsInputRef.current.value = "";
@@ -134,7 +134,7 @@ function ProductRedactorAdd(props) {
     try {
       // Формируем features — массив строк
       const features = productDitails.map(
-        (item) => `${item.name.trim()}: ${item.value.trim()}`
+        (item) => `${item.name.trim()}: ${item.value.trim()}`,
       );
 
       // Создаем FormData
@@ -176,7 +176,7 @@ function ProductRedactorAdd(props) {
           formData,
           {
             withCredentials: true,
-          }
+          },
         );
       } else {
         setError("*Заполните все поля");

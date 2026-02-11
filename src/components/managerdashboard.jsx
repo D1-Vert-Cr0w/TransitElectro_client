@@ -1,5 +1,5 @@
-import Header from "../components/header.jsx";
-import Footer from "../components/footer.jsx";
+import Header from "./header.jsx";
+import Footer from "./footer.jsx";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -11,11 +11,11 @@ import OrderCheck from "./ordercheck.jsx";
 import ExtraSubCategoryRedactor from "./extrasubcategoryredactor.jsx";
 import ProductRedactor from "./productredactor.jsx";
 import UserRedactor from "./userredactor.jsx";
-function AdminDashboard() {
+function ManagerDashboard() {
   const [redactor, setRedactor] = useState("Просмотр заказов");
   const navigate = useNavigate();
   async function logout() {
-    await axios.delete("http://localhost:5000/user/logout", {
+    await axios.delete("https://tranzitelektro.ru/api/user/logout", {
       withCredentials: true,
     });
     localStorage.removeItem("user");
@@ -57,12 +57,6 @@ function AdminDashboard() {
         <div className="redactorMenu-item" onClick={() => setRedactor("Акции")}>
           Акции
         </div>
-        <div
-          className="redactorMenu-item"
-          onClick={() => setRedactor("Пользователи")}
-        >
-          Пользователи
-        </div>
       </div>
       <div className="mainRedactor-container">
         <div className="admin-logoutContainer">
@@ -90,9 +84,8 @@ function AdminDashboard() {
         )}
         {redactor == "Товары" ? <ProductRedactor></ProductRedactor> : ""}
         {redactor == "Акции" ? <DiscountRedactor></DiscountRedactor> : ""}
-        {redactor == "Пользователи" ? <UserRedactor></UserRedactor> : ""}
       </div>
     </div>
   );
 }
-export default AdminDashboard;
+export default ManagerDashboard;

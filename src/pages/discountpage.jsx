@@ -5,9 +5,19 @@ import { useEffect, useState } from "react";
 import "../styles/discountpage.css";
 import axios from "axios";
 import DiscountItem from "../components/discountitem.jsx";
-
+import Lamp from "../assets/lightbulb.svg";
+import Cog from "../assets/cog.svg";
+import AOS from "aos";
 function Discount() {
   const [discountsData, setDiscountsData] = useState([]);
+  const [pageLoaded, setPageLoaded] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPageLoaded(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
   useEffect(() => {
     axios
       .get(`https://tranzitelektro.ru/api/discount/list`)
@@ -18,21 +28,31 @@ function Discount() {
   }, []);
   return (
     <>
-      <div className="HeaderWrap">
-        <Header />
-      </div>
-      <div className="discPageContainer">
-        <h1 className="discountTitle">Акции</h1>
-        {discountsData.map((discount) => (
-          <DiscountItem
-            title={discount.title}
-            text={discount.text}
-            image={discount.image}
-          />
-        ))}
-      </div>
+      {pageLoaded == true ? (
+        <>
+          <div className="HeaderWrap">
+            <Header />
+          </div>
+          <div className="discPageContainer">
+            <h1 className="discountTitle">Акции</h1>
+            {discountsData.map((discount) => (
+              <DiscountItem
+                title={discount.title}
+                text={discount.text}
+                image={discount.image}
+              />
+            ))}
+          </div>
 
-      <Footer />
+          <Footer />
+        </>
+      ) : (
+        <div className="loadingBackground">
+          <div className="loadingAnimationElement"></div>
+          <img className="loadingImage" src={Lamp}></img>
+          <img className=" Cog" src={Cog}></img>
+        </div>
+      )}
     </>
   );
 }

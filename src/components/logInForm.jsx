@@ -18,6 +18,8 @@ function LogInForm() {
   const [email, setEmail] = useState("");
   const [emailForCode, setEmailForCode] = useState("");
   const [name, setName] = useState("");
+  const [surname, setSurName] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [formState, setFormState] = useState("login");
@@ -26,20 +28,15 @@ function LogInForm() {
   const [message, setMessage] = useState(null);
   const timerRef = useRef(null);
 
-  // Запуск таймера
   const startCountdown = () => {
-    setCountdown(60); // 60 секунд
+    setCountdown(60);
   };
-
-  // Очистка таймера
   const clearCountdown = () => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
   };
-
-  // Эффект для таймера
   useEffect(() => {
     if (countdown > 0) {
       timerRef.current = setInterval(() => {
@@ -71,7 +68,7 @@ function LogInForm() {
         const response = await axios.post(
           "https://tranzitelektro.ru/api/user/sendcode",
           { email: emailForCode },
-          { validateStatus: () => true }
+          { validateStatus: () => true },
         );
         if (response.status === 200 || response.status === 201) {
           setFormState("check");
@@ -91,7 +88,7 @@ function LogInForm() {
       const response = await axios.post(
         "https://tranzitelektro.ru/api/user/code/check",
         { email: emailForCode, code: code },
-        { validateStatus: () => true }
+        { validateStatus: () => true },
       );
       if (response.status === 200 || response.status === 201) {
         setFormState("reset");
@@ -109,12 +106,12 @@ function LogInForm() {
         const response = await axios.post(
           "https://tranzitelektro.ru/api/user/password/reset",
           { email: emailForCode, password: password, code: code },
-          { validateStatus: () => true }
+          { validateStatus: () => true },
         );
         if (response.status === 200 || response.status === 201) {
           setFormState("success");
           setMessage(
-            "Ваш пароль успешно изменён. Закройте форму, и попробуйте войти в аккаунт снова"
+            "Ваш пароль успешно изменён. Закройте форму, и попробуйте войти в аккаунт снова",
           );
           setErrors("");
           setPassword("");
@@ -134,7 +131,7 @@ function LogInForm() {
       const response = await axios.post(
         "https://tranzitelektro.ru/api/user/login",
         { email: email, password: password },
-        { withCredentials: true, validateStatus: () => true }
+        { withCredentials: true, validateStatus: () => true },
       );
       if (response.status === 200 || response.status === 201) {
         setFormState("success");
@@ -160,8 +157,14 @@ function LogInForm() {
       try {
         const response = await axios.post(
           "https://tranzitelektro.ru/api/user/registration",
-          { email: email, password: password, name: name },
-          { withCredentials: true, validateStatus: () => true }
+          {
+            email: email,
+            password: password,
+            name: name,
+            surname: surname,
+            phone: phone,
+          },
+          { withCredentials: true, validateStatus: () => true },
         );
         if (response.status === 200 || response.status === 201) {
           localStorage.setItem("user", response.data.user);
@@ -280,10 +283,9 @@ function LogInForm() {
         ) : formState == "reg" ? (
           <>
             <div className="closeButtonContainer">
-              <button
-                className="crossButton"
-                onClick={() => closeLoginForm()}
-              ></button>
+              <button className="crossButton" onClick={() => closeLoginForm()}>
+                <img src={cross} className="crossButton" />
+              </button>
             </div>
             <h1 className="formTitle">Регистрация аккаунта</h1>
             <input
@@ -298,7 +300,25 @@ function LogInForm() {
                 onChange={(event) => setName(event.target.value)}
                 value={name}
                 type="text"
-                placeholder="Имя пользователя"
+                placeholder="Имя"
+                className="formInput"
+              />
+            </div>
+            <div>
+              <input
+                onChange={(event) => setSurName(event.target.value)}
+                value={surname}
+                type="text"
+                placeholder="Фамилия"
+                className="formInput"
+              />
+            </div>
+            <div>
+              <input
+                onChange={(event) => setPhone(event.target.value)}
+                value={phone}
+                type="teд"
+                placeholder="+7 (___) ___-__-__"
                 className="formInput"
               />
             </div>

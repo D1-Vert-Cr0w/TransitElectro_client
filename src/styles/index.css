@@ -39,3 +39,56 @@ p {
 button{
   all:unset
 }
+.loadingBackground{
+  background-color: white;
+  z-index: 0;
+}
+.Cog{
+  animation: rotation linear 0.5s infinite;
+  width: 250px;
+  height: 250px;
+  top: 50%;
+  left: 50%;
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 2;
+}
+.loadingAnimationElement{
+  width: 248px;
+  height: 248px;
+  transform: translate(-124px, -124px);
+  animation: lightingUp linear 0.75s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #FFCC00;
+  z-index: 1;
+}
+.loadingImage{
+  width: 250px;
+  height: 250px;
+  transform: translate(-125px, -125px);
+  top: 50%;
+  left: 50%;
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 2;
+}
+@keyframes lightingUp {
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+}
+@keyframes rotation {
+  from{
+    transform: translate(-125px, -125px) rotate(0deg);
+    transform-origin: center;
+  }
+  to{
+    transform: translate(-125px, -125px) rotate(360deg);
+    transform-origin: center;
+  }
+}

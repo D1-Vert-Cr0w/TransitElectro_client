@@ -8,6 +8,7 @@ import ProductRedactorAdd from "./productredactor_add";
 function ProductRedactor() {
   const [componentState, setComponentState] = useState("viewing");
   const [pageIndex, setPageIndex] = useState(1);
+  const [itemForDelete, setItemForDelete] = useState(null);
   const [pageQuantity, setPageQuantity] = useState();
   const [productList, setProductList] = useState([]);
   const [chosenCategory, setChosenCategory] = useState(null);
@@ -34,7 +35,7 @@ function ProductRedactor() {
             subcategory: chosenSubCategory,
             extrasubcategory: chosenExtraSubCategory,
           },
-        }
+        },
       );
       setProductList(response.data);
     } catch (error) {
@@ -56,7 +57,7 @@ function ProductRedactor() {
             subcategory: chosenSubCategory,
             extrasubcategory: chosenExtraSubCategory,
           },
-        }
+        },
       );
       const count = response.data;
       setPageQuantity(count > parseInt(count) ? parseInt(count + 1) : count);
@@ -100,7 +101,7 @@ function ProductRedactor() {
       try {
         const response = await axios.get(
           `https://tranzitelektro.ru/api/subcategories/list/${chosenCategory}`,
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         if (response.data.length !== 0) {
@@ -132,7 +133,7 @@ function ProductRedactor() {
       try {
         const response = await axios.get(
           `https://tranzitelektro.ru/api/extrasubcategory/list/${chosenSubCategory}`,
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         if (response.data.length !== 0) {
@@ -153,8 +154,6 @@ function ProductRedactor() {
       fetchExtraSubcategories();
     }
   }, [chosenSubCategory]);
-
-  // Загружаем данные при изменении зависимостей
   useEffect(() => {
     if (componentState === "viewing" && chosenCategory && areCategoriesLoaded) {
       loadCurrentPageData();
@@ -215,7 +214,7 @@ function ProductRedactor() {
         `https://tranzitelektro.ru/api/colection/delete/${id}`,
         {
           withCredentials: true,
-        }
+        },
       );
 
       // Перезагружаем данные текущей страницы
@@ -237,7 +236,7 @@ function ProductRedactor() {
         key={index + 1}
       >
         {index + 1}
-      </h1>
+      </h1>,
     );
   }
 
@@ -309,12 +308,31 @@ function ProductRedactor() {
                 >
                   Изменить
                 </button>
-                <button
-                  className="deleteDiscount"
-                  onClick={() => removeProduct(product._id)}
-                >
-                  Удалить
-                </button>
+                {itemForDelete != product._id ? (
+                  <button
+                    className="deleteCategory"
+                    onClick={() => setItemForDelete(product._id)}
+                  >
+                    Удалить
+                  </button>
+                ) : null}
+                {itemForDelete == product._id ? (
+                  <div className="deleteFinalBlock">
+                    <p className="orderInfo-text">Удалить:</p>
+                    <button
+                      className="deleteOrderButton accept"
+                      onClick={() => removeProduct(product._id)}
+                    >
+                      Да
+                    </button>
+                    <button
+                      className="deleteOrderButton reject"
+                      onClick={() => setItemForDelete(null)}
+                    >
+                      Нет
+                    </button>
+                  </div>
+                ) : null}
               </div>
             </div>
           ))

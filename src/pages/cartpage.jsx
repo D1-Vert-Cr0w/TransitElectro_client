@@ -17,12 +17,10 @@ function Cartpage() {
     try {
       if (localStorage.getItem("user") != null) {
         const cartDataReq = await axios.get(
-          `https://tranzitelektro.ru/api/cart/list/${localStorage.getItem(
-            "user"
-          )}`,
+          `https://tranzitelektro.ru/api/cart/list/${localStorage.getItem("user")}`,
           {
             withCredentials: true,
-          }
+          },
         );
         if (cartDataReq.data.products != undefined) {
           console.log(cartDataReq.data._id);
@@ -47,7 +45,7 @@ function Cartpage() {
         },
         {
           withCredentials: true,
-        }
+        },
       );
     } catch (e) {
       console.log(e);
@@ -115,7 +113,7 @@ function Cartpage() {
           },
           {
             withCredentials: true,
-          }
+          },
         );
         const cartDelete = await axios.delete(
           `https://tranzitelektro.ru/api/cart/delete`,
@@ -124,7 +122,7 @@ function Cartpage() {
           },
           {
             withCredentials: true,
-          }
+          },
         );
         setIsSended(true);
         setCartData([]);

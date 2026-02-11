@@ -6,10 +6,20 @@ import "../styles/categories.css";
 import CategoryItem from "../components/categoryitem";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
+import Lamp from "../assets/lightbulb.svg";
+import Cog from "../assets/cog.svg";
+import AOS from "aos";
 function ExtraSubCategories() {
   const { subcategory } = useParams();
   const [extraSubCategoryData, setExtraSubCategoryData] = useState([]);
+  const [pageLoaded, setPageLoaded] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPageLoaded(true);
+    }, 250);
+
+    return () => clearTimeout(timer);
+  }, []);
   useEffect(() => {
     axios
       .get(`https://tranzitelektro.ru/api/extrasubcategory/list/${subcategory}`)
@@ -20,26 +30,36 @@ function ExtraSubCategories() {
   }, []);
   return (
     <>
-      <div className="HeaderWrap">
-        <Header />
-      </div>
+      {pageLoaded == true ? (
+        <>
+          <div className="HeaderWrap">
+            <Header />
+          </div>
 
-      <h1 className="katalogTitle">{subcategory}</h1>
-      <div className="categoryContainer">
-        {extraSubCategoryData.map((subcategory) => (
-          <CategoryItem
-            name={subcategory.name}
-            src={subcategory.src}
-            image={subcategory.image}
-          />
-        ))}
-        {extraSubCategoryData.length == 0 ? (
-          <h1 className="notFoundText">Подкатегории не найдены</h1>
-        ) : (
-          ""
-        )}
-      </div>
-      <Footer />
+          <h1 className="katalogTitle">{subcategory}</h1>
+          <div className="categoryContainer">
+            {extraSubCategoryData.map((subcategory) => (
+              <CategoryItem
+                name={subcategory.name}
+                src={subcategory.src}
+                image={subcategory.image}
+              />
+            ))}
+            {extraSubCategoryData.length == 0 ? (
+              <h1 className="notFoundText">Подкатегории не найдены</h1>
+            ) : (
+              ""
+            )}
+          </div>
+          <Footer />
+        </>
+      ) : (
+        <div className="loadingBackground">
+          <div className="loadingAnimationElement"></div>
+          <img className="loadingImage" src={Lamp}></img>
+          <img className=" Cog" src={Cog}></img>
+        </div>
+      )}
     </>
   );
 }

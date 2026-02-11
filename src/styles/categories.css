@@ -37,6 +37,7 @@
 }
 }
 @media screen and (max-width: 660px) {
+    .categoryContainer{justify-content: space-around;}
     .katalogTitle{
     font-size: 38px;
     margin-top: 30px;

@@ -7,6 +7,7 @@ import ExtraSubCategories from "../pages/extrasubcategories.jsx";
 import Product from "../pages/product.jsx";
 import Shop from "../pages/shoppage.jsx";
 import { Routes } from "react-router-dom";
+import { useEffect } from "react";
 import "../styles/index.css";
 import axios from "axios";
 import Cartpage from "../pages/cartpage.jsx";
@@ -14,6 +15,8 @@ import Dashboard from "../pages/dashboardpage.jsx";
 import { AuthProvider } from "../contexts/AuthContext.jsx";
 import Discount from "../pages/discountpage.jsx";
 import DiscountDitails from "../pages/discountdetails.jsx";
+import AOS from "aos";
+import "aos/dist/aos.css";
 const $api = axios.create({
   withCredentials: true,
   baseURL: "https://tranzitelektro.ru/api",
@@ -31,14 +34,14 @@ axios.interceptors.response.use(
           "https://tranzitelektro.ru/api/user/refresh",
           {
             withCredentials: true,
-          }
+          },
         );
         localStorage.setItem("user", response.data.user);
         if (
           originalRequest.url == "https://tranzitelektro.ru/api/user/check/null"
         ) {
           originalRequest.url = `https://tranzitelektro.ru/api/user/check/${localStorage.getItem(
-            "user"
+            "user",
           )}`;
           return $api.request(originalRequest);
         } else {
@@ -48,8 +51,13 @@ axios.interceptors.response.use(
         console.log("Не авторизован");
       }
     }
-  }
+  },
 );
+axios
+  .get("https://tranzitelektro.ru/api/user/reconnect", {
+    withCredentials: true,
+  })
+  .then((response) => localStorage.setItem("user", response.data));
 
 function App() {
   return (

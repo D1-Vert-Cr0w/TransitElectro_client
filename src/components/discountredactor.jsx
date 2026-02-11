@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Product from "../pages/product.jsx";
 import "../styles/discountredactor.css";
+import BannerRedactor from "./bannerredactor.jsx";
 function DiscountRedactor() {
   const [componentState, setComponentState] = useState("viewing");
   const [discountList, setDiscountList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [itemForDelete, setItemForDelete] = useState(null);
   const [discountDitails, setDiscountDitails] = useState(null);
   const [dataForServer, setDataForServer] = useState(null);
   const [prevData, setPrevData] = useState(null);
@@ -51,7 +54,7 @@ function DiscountRedactor() {
     setComponentState("changing");
     setError(null);
   }
-  function removeDitail(id) {
+  function removeDiscount(id) {
     axios
       .delete(`https://tranzitelektro.ru/api/discount/delete/${id}`, {
         withCredentials: true,
@@ -65,9 +68,9 @@ function DiscountRedactor() {
   function addDetail() {
     setDiscountDitails((prev) => [...prev, { title: "", text: "" }]);
   }
-  const removeDiscount = (indexToRemove) => {
+  const removeDitail = (indexToRemove) => {
     setDiscountDitails((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
+      prev.filter((_, index) => index !== indexToRemove),
     );
   };
   const handleDiscountChange = (fieldName, value, index) => {
@@ -111,6 +114,8 @@ function DiscountRedactor() {
     }
   };
   async function sendData() {
+    if (isLoading) return;
+    setIsLoading(true);
     let isDitaisInfoFull = true;
     try {
       const data = {
@@ -139,7 +144,7 @@ function DiscountRedactor() {
               "Content-Type": "multipart/form-data",
             },
             withCredentials: true,
-          }
+          },
         );
         setPrevData(data);
         if (error != null) {
@@ -150,9 +155,14 @@ function DiscountRedactor() {
       }
     } catch (error) {
       console.error("Ошибка при добавлении:", error);
+    } finally {
+      setIsLoading(false);
     }
   }
   async function updateData() {
+    if (isLoading) return;
+
+    setIsLoading(true);
     let isDitaisInfoFull = true;
     try {
       const data = {
@@ -184,7 +194,7 @@ function DiscountRedactor() {
               "Content-Type": "multipart/form-data",
             },
             withCredentials: true,
-          }
+          },
         );
         setPrevData(data);
         if (error != null) {
@@ -195,6 +205,8 @@ function DiscountRedactor() {
       }
     } catch (error) {
       console.error("Ошибка при добавлении:", error);
+    } finally {
+      setIsLoading(false);
     }
   }
   return (
@@ -209,7 +221,16 @@ function DiscountRedactor() {
         <button className="changeDiscount" onClick={() => addDiscount()}>
           Добавить
         </button>
+        <button
+          className="changeDiscount"
+          onClick={() => setComponentState("bannerRedactor")}
+        >
+          Изображения главной страницы
+        </button>
       </div>
+      {componentState == "bannerRedactor" ? (
+        <BannerRedactor></BannerRedactor>
+      ) : null}
       {componentState == "viewing"
         ? discountList.map((discount) => (
             <div className="categoryItem">
@@ -221,12 +242,31 @@ function DiscountRedactor() {
                 >
                   Изменить
                 </button>
-                <button
-                  className="deleteDiscount"
-                  onClick={() => removeDitail(discount._id)}
-                >
-                  Удалить
-                </button>
+                {itemForDelete != discount._id ? (
+                  <button
+                    className="deleteCategory"
+                    onClick={() => setItemForDelete(discount._id)}
+                  >
+                    Удалить
+                  </button>
+                ) : null}
+                {itemForDelete == discount._id ? (
+                  <div className="deleteFinalBlock">
+                    <p className="orderInfo-text">Удалить:</p>
+                    <button
+                      className="deleteOrderButton accept"
+                      onClick={() => removeDiscount(discount._id)}
+                    >
+                      Да
+                    </button>
+                    <button
+                      className="deleteOrderButton reject"
+                      onClick={() => setItemForDelete(null)}
+                    >
+                      Нет
+                    </button>
+                  </div>
+                ) : null}
               </div>
             </div>
           ))
@@ -288,7 +328,7 @@ function DiscountRedactor() {
               />
               <button
                 className="deleteDiscount"
-                onClick={() => removeDiscount(index)}
+                onClick={() => removeDitail(index)}
               >
                 Удалить
               </button>
@@ -296,8 +336,12 @@ function DiscountRedactor() {
           ))}
           {error != null ? <p>{error}</p> : ""}
 
-          <button className="changeDiscount" onClick={sendData}>
-            Загрузить данные
+          <button
+            className={isLoading ? "dataLoading" : "changeProduct"}
+            onClick={sendData}
+            disabled={isLoading}
+          >
+            {isLoading ? "Загрузка данных..." : "Загрузить данные"}
           </button>
         </>
       ) : (
@@ -370,8 +414,12 @@ function DiscountRedactor() {
             </div>
           ))}
           {error != null ? <p>{error}</p> : ""}
-          <button className="changeDiscount " onClick={updateData}>
-            Загрузить данные
+          <button
+            className={isLoading ? "dataLoading" : "changeProduct"}
+            onClick={updateData}
+            disabled={isLoading}
+          >
+            {isLoading ? "Загрузка данных..." : "Загрузить данные"}
           </button>
         </>
       ) : (

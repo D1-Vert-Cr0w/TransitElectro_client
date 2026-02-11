@@ -11,6 +11,7 @@ function SubCategoryRedactor() {
   const fileInputRef = useRef(null);
   const [chosenCategory, setChosenCategory] = useState(null);
   const [pageIndex, setPageIndex] = useState(1);
+  const [itemForDelete, setItemForDelete] = useState(null);
   const [pageQuantity, setPageQuantity] = useState(null);
   const [dataForServer, setDataForServer] = useState();
   const [imagePreview, setImagePreview] = useState(null);
@@ -43,7 +44,7 @@ function SubCategoryRedactor() {
           `https://tranzitelektro.ru/api/subcategories/listadmin/${chosenCategory}/${pageIndex}`,
           {
             withCredentials: true,
-          }
+          },
         )
         .then((response) => {
           setSubCategoryList(response.data);
@@ -57,7 +58,7 @@ function SubCategoryRedactor() {
           `https://tranzitelektro.ru/api/subcategories/count/${chosenCategory}`,
           {
             withCredentials: true,
-          }
+          },
         )
         .then((response) => {
           if (response.data > parseInt(response.data)) {
@@ -99,7 +100,7 @@ function SubCategoryRedactor() {
   const removeFeature = (indexToRemove) => {
     if (filtrFeatures.length != 1) {
       setFiltrFeatures((prev) =>
-        prev.filter((_, index) => index !== indexToRemove)
+        prev.filter((_, index) => index !== indexToRemove),
       );
     }
   };
@@ -128,7 +129,7 @@ function SubCategoryRedactor() {
   }
   function changeSubCategory(id, name) {
     const elementForChange = subCategoryList.find(
-      (element) => element._id == id
+      (element) => element._id == id,
     );
     console.log(elementForChange);
     const url = "/" + elementForChange.src.split("/")[1] + "/";
@@ -193,14 +194,14 @@ function SubCategoryRedactor() {
         `https://tranzitelektro.ru/api/subcategories/delete/${id}`,
         {
           withCredentials: true,
-        }
+        },
       );
       await axios.delete(`https://tranzitelektro.ru/api/filtr/delete/${name}`, {
         withCredentials: true,
       });
       const countResponse = await axios.get(
         `https://tranzitelektro.ru/api/subcategories/count/${chosenCategory}`,
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       const totalCount = countResponse.data;
@@ -217,7 +218,7 @@ function SubCategoryRedactor() {
       const pageToLoad = newPageIndex !== pageIndex ? newPageIndex : pageIndex;
       const listResponse = await axios.get(
         `https://tranzitelektro.ru/api/subcategories/listadmin/${chosenCategory}/${pageToLoad}`,
-        { withCredentials: true }
+        { withCredentials: true },
       );
       setSubCategoryList(listResponse.data);
     } catch (error) {
@@ -291,7 +292,7 @@ function SubCategoryRedactor() {
               "Content-Type": "multipart/form-data",
             },
             withCredentials: true,
-          }
+          },
         );
         if (filtrFeatures != null) {
           const arr = [];
@@ -302,7 +303,7 @@ function SubCategoryRedactor() {
           };
           const response = await axios.post(
             "https://tranzitelektro.ru/api/filtr/add",
-            filtrData
+            filtrData,
           );
         }
       } else {
@@ -353,7 +354,7 @@ function SubCategoryRedactor() {
               "Content-Type": "multipart/form-data",
             },
             withCredentials: true,
-          }
+          },
         );
         if (filtrFeatures != null) {
           const arr = [];
@@ -365,7 +366,7 @@ function SubCategoryRedactor() {
           };
           const response = await axios.put(
             "https://tranzitelektro.ru/api/filtr/update",
-            filtrData
+            filtrData,
           );
         }
         if (
@@ -376,7 +377,7 @@ function SubCategoryRedactor() {
             `https://tranzitelektro.ru/api/filtr/delete/${dataForServer.name}`,
             {
               withCredentials: true,
-            }
+            },
           );
         }
       } else {
@@ -402,7 +403,7 @@ function SubCategoryRedactor() {
           key={index + 1}
         >
           {index + 1}
-        </h1>
+        </h1>,
       );
     }
   }
@@ -450,12 +451,31 @@ function SubCategoryRedactor() {
                 >
                   Изменить
                 </button>
-                <button
-                  className="deleteCategory"
-                  onClick={() => removeSubCategory(category._id, category.name)}
-                >
-                  Удалить
-                </button>
+                {itemForDelete != category._id ? (
+                  <button
+                    className="deleteCategory"
+                    onClick={() => setItemForDelete(category._id)}
+                  >
+                    Удалить
+                  </button>
+                ) : null}
+                {itemForDelete == category._id ? (
+                  <div className="deleteFinalBlock">
+                    <p className="orderInfo-text">Удалить:</p>
+                    <button
+                      className="deleteOrderButton accept"
+                      onClick={() => removeSubCategory(category._id)}
+                    >
+                      Да
+                    </button>
+                    <button
+                      className="deleteOrderButton reject"
+                      onClick={() => setItemForDelete(null)}
+                    >
+                      Нет
+                    </button>
+                  </div>
+                ) : null}
               </div>
             </div>
           ))}
