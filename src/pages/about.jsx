@@ -45,25 +45,14 @@ function About() {
           <div className="bannerWrap">
             <img className="aboutBanner" src={Banner} />
             <div className="textOverlay">
-              <p
-                className="bannerTitle"
-                {...(pageLoaded ? { "data-aos": "fade-up" } : {})}
-              >
-                О нас
-              </p>
-              <p
-                className="bannerSubTitle"
-                {...(pageLoaded ? { "data-aos": "fade-up" } : {})}
-              >
+              <p className="bannerTitle">О нас</p>
+              <p className="bannerSubTitle">
                 Транзит Электро - компания по продаже электрооборудования,
                 ведущая свою деятельность с 2023 года
               </p>
             </div>
           </div>
-          <div
-            className="infoWrap"
-            {...(pageLoaded ? { "data-aos": "fade-up" } : {})}
-          >
+          <div className="infoWrap">
             <p className="infoText">
               Мы предлагаем широкий ассортимент электротехники. Утончённые
               решения для декора интерьера, уличных участков, всё для ремонта и
@@ -72,10 +61,7 @@ function About() {
             </p>
             <img src={infoImg} className="infoImg" alt="House" />
           </div>
-          <div
-            className="partnersWrap"
-            {...(pageLoaded ? { "data-aos": "fade-up" } : {})}
-          >
+          <div className="partnersWrap">
             <p className="partnersTitle">Наши партнеры</p>
             <div className="partnersLogosWrap">
               <Link to={"https://www.iek.ru/?ysclid=mizxhpzs9d239586578"}>
