@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function CategoryItem(props) {
   return (
     <>
-      <div className="categoryCardWraper" data-aos="fade-up">
+      <div className="categoryCardWraper">
         <Link to={props.src}>
           <div className="categoryCardImageWrap">
             <img className="categoryCardImage" src={props.image}></img>
