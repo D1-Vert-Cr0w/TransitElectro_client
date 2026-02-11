@@ -198,7 +198,7 @@ function UserDashboard() {
             <div className="orderContainer">
               {order.products?.map((product) => (
                 <div className="orderInfo-container">
-                  <div className="orderInfo-item">{product.name}:</div>
+                  <div className="orderInfo-item">{product.name}</div>
                   <div className="orderInfo-infogroup">
                     <div className="orderInfo-item price">
                       Цена: {product.price} руб.

@@ -14,7 +14,7 @@ function DiscountDitails() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoaded(true);
-    }, 500);
+    }, 750);
 
     return () => clearTimeout(timer);
   }, []);
@@ -29,45 +29,40 @@ function DiscountDitails() {
   }, []);
   return (
     <>
-      {pageLoaded == true ? (
-        <>
-          <div className="headerWrap">
-            <Header />
-          </div>
-          <div
-            style={{ display: "flex", flexDirection: "column", height: "100%" }}
-          >
-            <div className="pageContainer">
-              <div className="mainInfo-container">
-                <div className="mainInfo-textWrap">
-                  <h1 className="mainInfo-header">{discountData.title}</h1>
-                  <div className="mainInfo-text">{discountData.text}</div>
-                </div>
-                <img className="mainInfo-img" src={discountData.image} />
-              </div>
-              {discountData.ditails && discountData.ditails.length > 0 && (
-                <div className="details-container">
-                  {discountData.ditails.map((detail) => (
-                    <>
-                      <h1 className="ditailsTitle">{detail?.title}</h1>
-                      <p className="ditailsText">{detail?.text}</p>
-                    </>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="prodFooterWrap">
-            <Footer />
-          </div>
-        </>
-      ) : (
+      {pageLoaded == false ? (
         <div className="loadingBackground">
           <div className="loadingAnimationElement"></div>
           <img className="loadingImage" src={Lamp}></img>
           <img className=" Cog" src={Cog}></img>
         </div>
-      )}
+      ) : null}
+      <div className="headerWrap">
+        <Header />
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        <div className="pageContainer">
+          <div className="mainInfo-container">
+            <div className="mainInfo-textWrap">
+              <h1 className="mainInfo-header">{discountData.title}</h1>
+              <div className="mainInfo-text">{discountData.text}</div>
+            </div>
+            <img className="mainInfo-img" src={discountData.image} />
+          </div>
+          {discountData.ditails && discountData.ditails.length > 0 && (
+            <div className="details-container">
+              {discountData.ditails.map((detail) => (
+                <>
+                  <h1 className="ditailsTitle">{detail?.title}</h1>
+                  <p className="ditailsText">{detail?.text}</p>
+                </>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="prodFooterWrap">
+        <Footer />
+      </div>
     </>
   );
 }

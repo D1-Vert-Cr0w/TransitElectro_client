@@ -1,7 +1,7 @@
 .orderInfo-container{
     display: grid;
     align-items: center;
-    grid-template-columns: 100px 400px;
+    grid-template-columns: 60% 40%;
     
     margin-bottom: 20px;
 }
@@ -28,6 +28,7 @@
 }
 .orderInfo-infogroup{
     display: grid;
+    width: 100%;
     grid-template-columns: 50% 50%; 
 }
 .personalDataItem-container{
@@ -150,6 +151,7 @@
 }
 .orderInfo-item{
     font-size: 20px;
+    padding: 0 5px;
     max-width: 600px;
     box-sizing: border-box;
 }
@@ -271,9 +273,7 @@
     align-items: center;
 }
 @media (max-width:1080px) {
-    .orderInfo-container{
-    grid-template-columns: 15% 40%;
-}
+
 .personalDataItem-header{
     padding-left: 30px;
     font-size: 20px;
@@ -310,9 +310,6 @@
 @media (max-width:786px) {
 .adressTitle{
     font-size: 18px;
-}
-.orderInfo-container {
-    grid-template-columns: 30% 70%;
 }
     .logoutButton{
     font-size: 16px;
@@ -359,7 +356,11 @@
     margin: 10px 0;
 }
 .orderInfo-container {
-    grid-template-columns: 25% 75%;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    border-bottom: 1px solid black;
+    grid-template-columns: none;
 }
 .dataInput{
     font-size: 14px;
@@ -378,7 +379,17 @@
     .orderInfo-infogroup {
     grid-template-columns: 55% 45%;
 }
+    .dataInput {
+        width: 170px;
+    }
+        .personalDataItem-text {
+        font-size: 16px;
+    }
+        .personalDataSection-container {
+        grid-template-columns: 120px auto;
+    }
 .orderInfo-container {
     grid-template-columns: 20% 80%;
+    
 }
 }

@@ -15,7 +15,7 @@ function AdminDashboard() {
   const [redactor, setRedactor] = useState("Просмотр заказов");
   const navigate = useNavigate();
   async function logout() {
-    await axios.delete("http://localhost:5000/user/logout", {
+    await axios.delete("https://tranzitelektro.ru/api/user/logout", {
       withCredentials: true,
     });
     localStorage.removeItem("user");

@@ -21,37 +21,34 @@ function Categories() {
     const timer = setTimeout(() => {
       setPageLoaded(true);
       AOS.refresh();
-    }, 250);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
   return (
     <>
-      {pageLoaded == true ? (
-        <>
-          <div className="HeaderWrap">
-            <Header />
-          </div>
-
-          <h1 className="katalogTitle">Каталог</h1>
-          <div className="categoryContainer">
-            {categoryData.map((category) => (
-              <CategoryItem
-                name={category.name}
-                src={category.src}
-                image={category.image}
-              />
-            ))}
-          </div>
-          <Footer />
-        </>
-      ) : (
+      {pageLoaded == false ? (
         <div className="loadingBackground">
           <div className="loadingAnimationElement"></div>
           <img className="loadingImage" src={Lamp}></img>
           <img className=" Cog" src={Cog}></img>
         </div>
-      )}
+      ) : null}
+      <div className="HeaderWrap">
+        <Header />
+      </div>
+
+      <h1 className="katalogTitle">Каталог</h1>
+      <div className="categoryContainer">
+        {categoryData.map((category) => (
+          <CategoryItem
+            name={category.name}
+            src={category.src}
+            image={category.image}
+          />
+        ))}
+      </div>
+      <Footer />
     </>
   );
 }

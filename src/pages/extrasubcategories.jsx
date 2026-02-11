@@ -16,7 +16,7 @@ function ExtraSubCategories() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoaded(true);
-    }, 250);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -30,36 +30,33 @@ function ExtraSubCategories() {
   }, []);
   return (
     <>
-      {pageLoaded == true ? (
-        <>
-          <div className="HeaderWrap">
-            <Header />
-          </div>
-
-          <h1 className="katalogTitle">{subcategory}</h1>
-          <div className="categoryContainer">
-            {extraSubCategoryData.map((subcategory) => (
-              <CategoryItem
-                name={subcategory.name}
-                src={subcategory.src}
-                image={subcategory.image}
-              />
-            ))}
-            {extraSubCategoryData.length == 0 ? (
-              <h1 className="notFoundText">Подкатегории не найдены</h1>
-            ) : (
-              ""
-            )}
-          </div>
-          <Footer />
-        </>
-      ) : (
+      {pageLoaded == false ? (
         <div className="loadingBackground">
           <div className="loadingAnimationElement"></div>
           <img className="loadingImage" src={Lamp}></img>
           <img className=" Cog" src={Cog}></img>
         </div>
-      )}
+      ) : null}
+      <div className="HeaderWrap">
+        <Header />
+      </div>
+
+      <h1 className="katalogTitle">{subcategory}</h1>
+      <div className="categoryContainer">
+        {extraSubCategoryData.map((subcategory) => (
+          <CategoryItem
+            name={subcategory.name}
+            src={subcategory.src}
+            image={subcategory.image}
+          />
+        ))}
+        {extraSubCategoryData.length == 0 ? (
+          <h1 className="notFoundText">Подкатегории не найдены</h1>
+        ) : (
+          ""
+        )}
+      </div>
+      <Footer />
     </>
   );
 }

@@ -14,7 +14,7 @@ function Discount() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoaded(true);
-    }, 500);
+    }, 750);
 
     return () => clearTimeout(timer);
   }, []);
@@ -28,31 +28,28 @@ function Discount() {
   }, []);
   return (
     <>
-      {pageLoaded == true ? (
-        <>
-          <div className="HeaderWrap">
-            <Header />
-          </div>
-          <div className="discPageContainer">
-            <h1 className="discountTitle">Акции</h1>
-            {discountsData.map((discount) => (
-              <DiscountItem
-                title={discount.title}
-                text={discount.text}
-                image={discount.image}
-              />
-            ))}
-          </div>
-
-          <Footer />
-        </>
-      ) : (
+      {pageLoaded == false ? (
         <div className="loadingBackground">
           <div className="loadingAnimationElement"></div>
           <img className="loadingImage" src={Lamp}></img>
           <img className=" Cog" src={Cog}></img>
         </div>
-      )}
+      ) : null}
+      <div className="HeaderWrap">
+        <Header />
+      </div>
+      <div className="discPageContainer">
+        <h1 className="discountTitle">Акции</h1>
+        {discountsData.map((discount) => (
+          <DiscountItem
+            title={discount.title}
+            text={discount.text}
+            image={discount.image}
+          />
+        ))}
+      </div>
+
+      <Footer />
     </>
   );
 }

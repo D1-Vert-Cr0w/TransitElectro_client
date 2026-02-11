@@ -116,94 +116,89 @@ function Shop() {
   }
   return (
     <>
-      {pageLoaded == true ? (
-        <>
-          <div className="shopHeaderWrap">
-            <Header />
-          </div>
-          <h1 className="shopTitleWrap">
-            {params.subcategory ?? params.category ?? params.extrasubcategory}
-          </h1>
-          <div className="shopWrap">
-            <div className="DropdownContainer">
-              <Dropdown
-                title={"Фильтр"}
-                content={
-                  <div className="filtrContainer">
-                    {filtr.length != 0
-                      ? filtr.map((preset) => (
-                          <>
-                            <h1 className="featureTitle">{preset.name}</h1>
-                            {preset.value.map((feature) => (
-                              <div className="featureContainer">
-                                <div
-                                  className="checkButton"
-                                  onClick={() => {
-                                    changeFiltrPresset(preset.name, feature);
-                                  }}
-                                >
-                                  <div
-                                    className={`checkIn ${
-                                      filtrPreset
-                                        .split(";")
-                                        .includes(preset.name + ": " + feature)
-                                        ? "yellow"
-                                        : ""
-                                    }`}
-                                  ></div>
-                                </div>
-                                <p className="featureValue">{feature}</p>
-                              </div>
-                            ))}
-                          </>
-                        ))
-                      : ""}
-                  </div>
-                }
-              />
-            </div>
-            <div className="mainContainer">
-              <div
-                className={`${
-                  filtr.length == 0
-                    ? "containerWithoutFiltr "
-                    : "productsContainer"
-                }`}
-              >
-                {products.map((product) => (
-                  <Item
-                    id={product.id}
-                    name={product.name}
-                    price={product.price}
-                    image={product.image}
-                  />
-                ))}
-              </div>
-              <h1
-                style={{
-                  display: `${products.length == 0 ? "block" : "none"}`,
-                }}
-                className="notFoundLable"
-              >
-                Товары не найдены
-              </h1>
-              <div
-                style={{ display: `${pageQuantity != 1 ? "block" : "none"}` }}
-                className="pageNumContainer"
-              >
-                {pages}
-              </div>
-            </div>
-          </div>
-          <Footer />
-        </>
-      ) : (
+      {pageLoaded == false ? (
         <div className="loadingBackground">
           <div className="loadingAnimationElement"></div>
           <img className="loadingImage" src={Lamp}></img>
           <img className=" Cog" src={Cog}></img>
         </div>
-      )}
+      ) : null}
+      <div className="shopHeaderWrap">
+        <Header />
+      </div>
+      <h1 className="shopTitleWrap">
+        {params.subcategory ?? params.category ?? params.extrasubcategory}
+      </h1>
+      <div className="shopWrap">
+        <div className="DropdownContainer">
+          <Dropdown
+            title={"Фильтр"}
+            content={
+              <div className="filtrContainer">
+                {filtr.length != 0
+                  ? filtr.map((preset) => (
+                      <>
+                        <h1 className="featureTitle">{preset.name}</h1>
+                        {preset.value.map((feature) => (
+                          <div className="featureContainer">
+                            <div
+                              className="checkButton"
+                              onClick={() => {
+                                changeFiltrPresset(preset.name, feature);
+                              }}
+                            >
+                              <div
+                                className={`checkIn ${
+                                  filtrPreset
+                                    .split(";")
+                                    .includes(preset.name + ": " + feature)
+                                    ? "yellow"
+                                    : ""
+                                }`}
+                              ></div>
+                            </div>
+                            <p className="featureValue">{feature}</p>
+                          </div>
+                        ))}
+                      </>
+                    ))
+                  : ""}
+              </div>
+            }
+          />
+        </div>
+        <div className="mainContainer">
+          <div
+            className={`${
+              filtr.length == 0 ? "containerWithoutFiltr " : "productsContainer"
+            }`}
+          >
+            {products.map((product) => (
+              <Item
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                image={product.image}
+              />
+            ))}
+          </div>
+          <h1
+            style={{
+              display: `${products.length == 0 ? "block" : "none"}`,
+            }}
+            className="notFoundLable"
+          >
+            Товары не найдены
+          </h1>
+          <div
+            style={{ display: `${pageQuantity != 1 ? "block" : "none"}` }}
+            className="pageNumContainer"
+          >
+            {pages}
+          </div>
+        </div>
+      </div>
+      <Footer />
     </>
   );
 }

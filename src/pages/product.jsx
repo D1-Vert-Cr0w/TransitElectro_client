@@ -19,7 +19,7 @@ function Product() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoaded(true);
-    }, 250);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -77,140 +77,135 @@ function Product() {
   }
   return (
     <>
-      {pageLoaded == true ? (
-        <>
-          <div
-            style={{ display: "flex", flexDirection: "column", height: "100%" }}
-          >
-            <div className="shopHeaderWrap">
-              <Header />
-            </div>
-            <div className="productBody">
-              <h1 className="prodPageTitle">{productData.name}</h1>
-              <div className="prodInfoWrap">
-                <div className="prodImageWrap">
-                  <img className="prodImage" src={productData.image} />
-                </div>
-                <div className="prodBaseInfo">
-                  <ul>
-                    <li
-                      style={{
-                        display: `${productData.type != "-" ? "block" : "none"}`,
-                      }}
-                      className="parametr"
-                    >
-                      <span className="paramName">Тип: </span>
-                      {productData.type}
-                    </li>
-                    <li
-                      style={{
-                        display: `${productData.scale != "-" ? "block" : "none"}`,
-                      }}
-                      className="parametr"
-                    >
-                      <span className="paramName">Размер: </span>
-                      {productData.scale}
-                    </li>
-                    <li
-                      style={{
-                        display: `${productData.purpose != "-" ? "block" : "none"}`,
-                      }}
-                      className="parametr"
-                    >
-                      <span className="paramName">Применение: </span>{" "}
-                      {productData.purpose}
-                    </li>
-                  </ul>
-                  <p className="singleProdPrice">{productData.price} руб</p>
-                  <div className="quantityButton-container">
-                    <button
-                      className="cartItem-button"
-                      onClick={() => changeQuantity(+1)}
-                    >
-                      +
-                    </button>
-                    <input
-                      value={tempInputValues != -1 ? tempInputValues : quantity}
-                      onChange={(e) => handleQuantityChange(e.target.value)}
-                      onBlur={(e) => handleBlur(e.target.value)}
-                      type="number"
-                      onKeyDown={handleKeyDown}
-                      className="cartItem-quantity"
-                    />
-                    <button
-                      className="cartItem-button minus"
-                      onClick={() => changeQuantity(-1)}
-                    >
-                      -
-                    </button>
-                    <button
-                      className="toCart-button"
-                      onClick={() =>
-                        addToCart(
-                          productData._id,
-                          productData.image,
-                          productData.name,
-                          quantity,
-                          productData.price,
-                        )
-                      }
-                    >
-                      В корзину
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <h1
-                style={{
-                  display: `${
-                    productData.features != undefined &&
-                    productData.features.length != 0
-                      ? "block"
-                      : "none"
-                  }`,
-                }}
-                className="paramsLable"
-              >
-                Параметры
-              </h1>
-
-              <div>
-                {productData.features != undefined
-                  ? productData.features.map((feature) => (
-                      <p className="descrPart">{feature}</p>
-                    ))
-                  : ""}
-              </div>
-              {productData.drawings != undefined &&
-              productData.drawings.length != 0 ? (
-                <>
-                  <h1 className="paramsLable">Чертежи</h1>
-                  <div className="prodImageDrawingWrap">
-                    {productData.drawings.map((drawing) => (
-                      <img className="prodImageDrawing" src={drawing} />
-                    ))}
-                  </div>
-                </>
-              ) : (
-                ""
-              )}
-
-              <div className="prodInfoTitle">Описание</div>
-              <hr className="infoHr"></hr>
-              <div className="prodInfoText">{productData.description}</div>
-            </div>
-            <div className="prodFooterWrap">
-              <Footer />
-            </div>
-          </div>
-        </>
-      ) : (
+      {pageLoaded == false ? (
         <div className="loadingBackground">
           <div className="loadingAnimationElement"></div>
           <img className="loadingImage" src={Lamp}></img>
           <img className=" Cog" src={Cog}></img>
         </div>
-      )}
+      ) : null}
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        <div className="shopHeaderWrap">
+          <Header />
+        </div>
+        <div className="productBody">
+          <h1 className="prodPageTitle">{productData.name}</h1>
+          <div className="prodInfoWrap">
+            <div className="prodImageWrap">
+              <img className="prodImage" src={productData.image} />
+            </div>
+            <div className="prodBaseInfo">
+              <ul>
+                <li
+                  style={{
+                    display: `${productData.type != "-" ? "block" : "none"}`,
+                  }}
+                  className="parametr"
+                >
+                  <span className="paramName">Тип: </span>
+                  {productData.type}
+                </li>
+                <li
+                  style={{
+                    display: `${productData.scale != "-" ? "block" : "none"}`,
+                  }}
+                  className="parametr"
+                >
+                  <span className="paramName">Размер: </span>
+                  {productData.scale}
+                </li>
+                <li
+                  style={{
+                    display: `${productData.purpose != "-" ? "block" : "none"}`,
+                  }}
+                  className="parametr"
+                >
+                  <span className="paramName">Применение: </span>{" "}
+                  {productData.purpose}
+                </li>
+              </ul>
+              <p className="singleProdPrice">{productData.price} руб</p>
+              <div className="quantityButton-container">
+                <button
+                  className="cartItem-button"
+                  onClick={() => changeQuantity(+1)}
+                >
+                  +
+                </button>
+                <input
+                  value={tempInputValues != -1 ? tempInputValues : quantity}
+                  onChange={(e) => handleQuantityChange(e.target.value)}
+                  onBlur={(e) => handleBlur(e.target.value)}
+                  type="number"
+                  onKeyDown={handleKeyDown}
+                  className="cartItem-quantity"
+                />
+                <button
+                  className="cartItem-button minus"
+                  onClick={() => changeQuantity(-1)}
+                >
+                  -
+                </button>
+                <button
+                  className="toCart-button"
+                  onClick={() =>
+                    addToCart(
+                      productData._id,
+                      productData.image,
+                      productData.name,
+                      quantity,
+                      productData.price,
+                    )
+                  }
+                >
+                  В корзину
+                </button>
+              </div>
+            </div>
+          </div>
+          <h1
+            style={{
+              display: `${
+                productData.features != undefined &&
+                productData.features.length != 0
+                  ? "block"
+                  : "none"
+              }`,
+            }}
+            className="paramsLable"
+          >
+            Параметры
+          </h1>
+
+          <div>
+            {productData.features != undefined
+              ? productData.features.map((feature) => (
+                  <p className="descrPart">{feature}</p>
+                ))
+              : ""}
+          </div>
+          {productData.drawings != undefined &&
+          productData.drawings.length != 0 ? (
+            <>
+              <h1 className="paramsLable">Чертежи</h1>
+              <div className="prodImageDrawingWrap">
+                {productData.drawings.map((drawing) => (
+                  <img className="prodImageDrawing" src={drawing} />
+                ))}
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+
+          <div className="prodInfoTitle">Описание</div>
+          <hr className="infoHr"></hr>
+          <div className="prodInfoText">{productData.description}</div>
+        </div>
+        <div className="prodFooterWrap">
+          <Footer />
+        </div>
+      </div>
     </>
   );
 }
