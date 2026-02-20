@@ -24,6 +24,15 @@ function Main() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoaded(true);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animOnScroll");
+          }
+        });
+      }, {});
+      const elementsToAnimate = document.querySelectorAll(".animFlag");
+      elementsToAnimate.forEach((el) => observer.observe(el));
     }, 500);
 
     return () => clearTimeout(timer);
@@ -84,8 +93,8 @@ function Main() {
           ))}
         </div>
       </div>
-      <h1 className="itemsLable">Новинки</h1>
-      <div className="swiper-pos-wrapper">
+      <h1 className="itemsLable animFlag">Новинки</h1>
+      <div className="swiper-pos-wrapper animFlag">
         <Swiper
           modules={[Navigation, Autoplay]}
           autoplay={5000}
@@ -121,9 +130,9 @@ function Main() {
         <img className="dividImg" src={DivideImg} />
         <hr className="dividHr"></hr>
       </div>
-      <h1 className="itemsLable">Популярные товары</h1>
+      <h1 className="itemsLable animFlag">Популярные товары</h1>
       <div className="footerPos">
-        <div className="swiper-pos-wrapper">
+        <div className="swiper-pos-wrapper animFlag">
           <Swiper
             modules={[Navigation, Autoplay]}
             autoplay={5000}

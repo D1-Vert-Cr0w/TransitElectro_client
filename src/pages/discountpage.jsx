@@ -14,7 +14,16 @@ function Discount() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoaded(true);
-    }, 750);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animOnScroll");
+          }
+        });
+      }, {});
+      const elementsToAnimate = document.querySelectorAll(".animFlag");
+      elementsToAnimate.forEach((el) => observer.observe(el));
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -41,11 +50,13 @@ function Discount() {
       <div className="discPageContainer">
         <h1 className="discountTitle">Акции</h1>
         {discountsData.map((discount) => (
-          <DiscountItem
-            title={discount.title}
-            text={discount.text}
-            image={discount.image}
-          />
+          <div className="animFlag">
+            <DiscountItem
+              title={discount.title}
+              text={discount.text}
+              image={discount.image}
+            />
+          </div>
         ))}
       </div>
 

@@ -16,6 +16,15 @@ function SubCategories() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoaded(true);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animOnScroll");
+          }
+        });
+      }, {});
+      const elementsToAnimate = document.querySelectorAll(".animFlag");
+      elementsToAnimate.forEach((el) => observer.observe(el));
     }, 500);
 
     return () => clearTimeout(timer);
@@ -26,7 +35,7 @@ function SubCategories() {
       .then((response) => {
         setSubCategoryData(response.data);
       });
-  }, []);
+  }, [category]);
   return (
     <>
       {pageLoaded == false ? (
@@ -41,7 +50,7 @@ function SubCategories() {
       </div>
 
       <h1 className="katalogTitle">{category}</h1>
-      <div className="categoryContainer">
+      <div className="categoryContainer animFlag">
         {subCategoryData.map((category) => (
           <CategoryItem
             name={category.name}

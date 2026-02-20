@@ -17,6 +17,7 @@ import Discount from "../pages/discountpage.jsx";
 import DiscountDitails from "../pages/discountdetails.jsx";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Delivery from "../pages/delivery.jsx";
 const $api = axios.create({
   withCredentials: true,
   baseURL: "https://tranzitelektro.ru/api",
@@ -73,6 +74,7 @@ function App() {
             element={<DiscountDitails />}
           ></Route>
           <Route path="/cart" element={<Cartpage />}></Route>
+          <Route path="/delivery" element={<Delivery />}></Route>
           <Route path="/shop/:category" element={<Shop />}></Route>
           <Route path="/shop/:category/:subcategory" element={<Shop />}></Route>
           <Route

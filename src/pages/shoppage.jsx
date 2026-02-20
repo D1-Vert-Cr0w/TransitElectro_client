@@ -26,8 +26,23 @@ function Shop() {
   const [pageQuantity, setPageQuantity] = useState();
   const [pageLoaded, setPageLoaded] = useState(false);
   useEffect(() => {
+    setSubcategoryParams(params.subcategory);
+    extrasetSubcategoryParams(params.extrasubcategory);
+    setCategoryParams(params.category);
+    setPageIndex(1);
+  }, [params]);
+  useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoaded(true);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animOnScroll");
+          }
+        });
+      }, {});
+      const elementsToAnimate = document.querySelectorAll(".animFlag");
+      elementsToAnimate.forEach((el) => observer.observe(el));
     }, 500);
 
     return () => clearTimeout(timer);
@@ -126,7 +141,7 @@ function Shop() {
       <div className="shopHeaderWrap">
         <Header />
       </div>
-      <h1 className="shopTitleWrap">
+      <h1 className="shopTitleWrap animFlag">
         {params.subcategory ?? params.category ?? params.extrasubcategory}
       </h1>
       <div className="shopWrap">
@@ -167,7 +182,7 @@ function Shop() {
             }
           />
         </div>
-        <div className="mainContainer">
+        <div className="mainContainer animFlag">
           <div
             className={`${
               filtr.length == 0 ? "containerWithoutFiltr " : "productsContainer"

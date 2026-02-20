@@ -31,8 +31,16 @@ function About() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoaded(true);
-      AOS.refresh();
-    }, 750);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animOnScroll");
+          }
+        });
+      }, {});
+      const elementsToAnimate = document.querySelectorAll(".animFlag");
+      elementsToAnimate.forEach((el) => observer.observe(el));
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -49,25 +57,25 @@ function About() {
       <div className="bannerWrap">
         <img className="aboutBanner" src={Banner} />
         <div className="textOverlay">
-          <p className="bannerTitle">О нас</p>
-          <p className="bannerSubTitle">
+          <p className="bannerTitle animFlag">О нас</p>
+          <p className="bannerSubTitle animFlag">
             Транзит Электро - компания по продаже электрооборудования, ведущая
             свою деятельность с 2023 года
           </p>
         </div>
       </div>
       <div className="infoWrap">
-        <p className="infoText">
+        <p className="infoText animFlag">
           Мы предлагаем широкий ассортимент электротехники. Утончённые решения
           для декора интерьера, уличных участков, всё для ремонта и не только.
           Наши партнеры - лидеры рынка, такие как IEK, DKC, Jazz Way и другие. С
           нами ваша жизнь станет ярче
         </p>
-        <img src={infoImg} className="infoImg" alt="House" />
+        <img src={infoImg} className="infoImg  animFlag" alt="House" />
       </div>
       <div className="partnersWrap">
-        <p className="partnersTitle">Наши партнеры</p>
-        <div className="partnersLogosWrap">
+        <p className="partnersTitle animFlag">Наши партнеры</p>
+        <div className="partnersLogosWrap animFlag">
           <Link to={"https://www.iek.ru/?ysclid=mizxhpzs9d239586578"}>
             <img className="partnersLogoElem" src={IEK} alt="iek" />
           </Link>
@@ -82,7 +90,7 @@ function About() {
           </Link>
         </div>
       </div>
-      <div className="contactsWrap">
+      <div className="contactsWrap animFlag">
         <div className="mapContainer" id="map">
           <YMaps>
             <Map
@@ -113,7 +121,7 @@ function About() {
                 className={`about-arrowButton ${isOpen ? "arrowActive" : ""}`}
                 onClick={toggleAccordion}
               />
-              <p className="about-accordionSubtitle">Информация об ООО</p>
+              <p className="about-accordionSubtitle">Реквизиты компании</p>
             </div>
             <hr className="accordionBorder"></hr>
             <div

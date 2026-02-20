@@ -47,7 +47,7 @@ button{
   position: fixed;
 }
 .Cog{
-  animation: rotation linear 0.5s infinite;
+  animation: rotation linear 1.5s infinite;
   width: 250px;
   height: 250px;
   top: 50%;
@@ -76,6 +76,19 @@ button{
   box-sizing: border-box;
   position: absolute;
   z-index: 30;
+}
+.animOnScroll{
+  animation: fadeIn linear 0.4s;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes lightingUp {
   from{

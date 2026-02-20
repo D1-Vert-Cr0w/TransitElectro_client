@@ -20,7 +20,15 @@ function Categories() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoaded(true);
-      AOS.refresh();
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animOnScroll");
+          }
+        });
+      }, {});
+      const elementsToAnimate = document.querySelectorAll(".animFlag");
+      elementsToAnimate.forEach((el) => observer.observe(el));
     }, 500);
 
     return () => clearTimeout(timer);
@@ -39,7 +47,7 @@ function Categories() {
       </div>
 
       <h1 className="katalogTitle">Каталог</h1>
-      <div className="categoryContainer">
+      <div className="categoryContainer animFlag">
         {categoryData.map((category) => (
           <CategoryItem
             name={category.name}

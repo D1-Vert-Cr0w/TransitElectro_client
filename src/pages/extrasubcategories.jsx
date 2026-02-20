@@ -16,6 +16,15 @@ function ExtraSubCategories() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoaded(true);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animOnScroll");
+          }
+        });
+      }, {});
+      const elementsToAnimate = document.querySelectorAll(".animFlag");
+      elementsToAnimate.forEach((el) => observer.observe(el));
     }, 500);
 
     return () => clearTimeout(timer);
@@ -41,8 +50,8 @@ function ExtraSubCategories() {
         <Header />
       </div>
 
-      <h1 className="katalogTitle">{subcategory}</h1>
-      <div className="categoryContainer">
+      <h1 className="katalogTitle animFlag">{subcategory}</h1>
+      <div className="categoryContainer animFlag">
         {extraSubCategoryData.map((subcategory) => (
           <CategoryItem
             name={subcategory.name}

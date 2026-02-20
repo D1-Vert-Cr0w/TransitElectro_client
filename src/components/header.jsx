@@ -11,11 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 function Header() {
   const { openLoginForm, isLoggedIn } = useAuth();
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 840);
   const [categoryData, setMacroCategoryData] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 840);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -72,6 +72,11 @@ function Header() {
                 Акции
               </Link>
             </div>
+            <div className="mrgnlft">
+              <Link to="/delivery" className="linkDecor">
+                Доставка
+              </Link>
+            </div>
           </div>
 
           <div className="crossButtonContainer">
@@ -106,6 +111,11 @@ function Header() {
             <Link to="/discount" className="linkDecor">
               <h1 className="mobileMenuItem">
                 <span className="linkDecor">Акции</span>
+              </h1>
+            </Link>
+            <Link to="/delivery" className="linkDecor">
+              <h1 className="mobileMenuItem">
+                <span className="linkDecor">Доставка</span>
               </h1>
             </Link>
             <h1 className="mobileMenuItem">
