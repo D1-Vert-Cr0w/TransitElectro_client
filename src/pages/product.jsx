@@ -127,10 +127,10 @@ function Product() {
               <p className="singleProdPrice">{productData.price} руб</p>
               <div className="quantityButton-container">
                 <button
-                  className="cartItem-button"
-                  onClick={() => changeQuantity(+1)}
+                  className="cartItem-button minus"
+                  onClick={() => changeQuantity(-1)}
                 >
-                  +
+                  -
                 </button>
                 <input
                   value={tempInputValues != -1 ? tempInputValues : quantity}
@@ -141,10 +141,10 @@ function Product() {
                   className="cartItem-quantity"
                 />
                 <button
-                  className="cartItem-button minus"
-                  onClick={() => changeQuantity(-1)}
+                  className="cartItem-button"
+                  onClick={() => changeQuantity(+1)}
                 >
-                  -
+                  +
                 </button>
                 <button
                   className="toCart-button"

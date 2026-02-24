@@ -183,7 +183,14 @@ function UserDashboard() {
         userOrderInfo?.map((order) => (
           <div className="orderMainWrap">
             <div className="odrerControlPannel">
-              <h1 className="orderInfo-date">Оформление: {order.date}</h1>
+              <h1 className="orderInfo-date">
+                Оформление:{" "}
+                {order.date.split("/")[1] +
+                  "/" +
+                  order.date.split("/")[0] +
+                  "/" +
+                  order.date.split("/")[2]}
+              </h1>
               <button
                 className="deleteOrderButton"
                 onClick={() => deleteOrder(order._id)}

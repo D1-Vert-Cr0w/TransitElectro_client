@@ -144,8 +144,7 @@ function Cartpage() {
           <div className="alertText-container">
             <p className="alertText">Ваш заказ отправлен на рассмотрение.</p>
             <p className="alertText">
-              Когда он будет готов, вам прийдёт сообщение на почту. Изменить
-              адрес доставки вы можете в личном кабинете.
+              Когда он будет готов, вам прийдёт сообщение на почту.
             </p>
             <img className="lamp" src={lamp} />
           </div>

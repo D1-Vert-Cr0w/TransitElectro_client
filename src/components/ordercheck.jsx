@@ -124,7 +124,14 @@ function OrderCheck() {
           <h1 className="orderInfo-date">Почта: {order.email}</h1>
           <h1 className="orderInfo-date">Имя: {order.name}</h1>
           <div className="odrerControlPannel">
-            <h1 className="orderInfo-date">Оформление: {order.date}</h1>
+            <h1 className="orderInfo-date">
+              Оформление:{" "}
+              {order.date.split("/")[1] +
+                "/" +
+                order.date.split("/")[0] +
+                "/" +
+                order.date.split("/")[2]}
+            </h1>
           </div>
           <div className="adressContainer">
             <div className="adressTitle">Адрес: {order.adress}</div>

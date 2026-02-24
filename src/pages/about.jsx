@@ -142,7 +142,7 @@ function About() {
                 <span className="boldText">Юридический адрес:</span>
                 <br></br>
                 614530, Пермский край, м. о. Пермский, д. Якунчики, ул.
-                Подлесная, д. 14
+                Подлесная, д. 15
               </p>
               <hr className="about-accordionBorder"></hr>
             </div>
@@ -150,7 +150,7 @@ function About() {
           <p className="contactsFooter">
             Пермский край, м. о. Пермский, д. Якунчики, ул. Подлесная, д. 15
             <br></br>
-            +7(342)247-77-37<br></br>
+            +7 (950) 469-12-98<br></br>
             tranzitelektro@bk.ru
           </p>
         </div>

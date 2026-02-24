@@ -5,7 +5,6 @@
     width: 85%;
     margin: 0 auto;
     margin-top: 50px;
-    align-items: center;
 }
 .deliveryBannerImg{
     height: 450px;
@@ -52,6 +51,12 @@
 .advantagesTextContainer{
     margin-left: 40px;
 }
+.infoTextContainer{
+    max-width: 1300px;
+    width: 85%;
+    margin: 0 auto;
+    margin-top: 30px;
+}
 .advantagesSubtitle{
     font-size: 22px;
     margin-bottom: 10px;
@@ -61,4 +66,41 @@
 }
 .footerMargin{
     margin-bottom: 70px;
+}
+@media screen and (max-width: 1080px){
+    .deliveryBannerText{
+    font-size: 14px;
+    margin: 5px 0;
+}
+.deliveryBannerImg{
+    height: 350px;
+    width: 350px;
+    margin-right: 50px;
+}
+.advantagesSubtitle{
+    font-size: 18px;
+}
+.advantagesText{
+    font-size: 14px;
+}
+}
+@media screen and (max-width: 840px){
+.deliveryBannerContainer {
+    margin-top: 20px;
+flex-direction: column;
+}
+.deliveryBannerImg{
+    height: 450px;
+    width: 450px;
+    margin-right: none;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+}
+@media screen and (max-width: 549px){
+
+.deliveryBannerImg{
+    height: 325px;
+    width: 325px;
+}
 }

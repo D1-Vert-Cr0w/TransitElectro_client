@@ -55,39 +55,38 @@ function Delivery() {
             персональный менеджер всегда готов оказать содействие в организации
             самовывоза.
           </p>
-          <p className="deliveryBannerText">
-            График работы склада: понедельник – пятница, 8:00 – 17:00
-          </p>
-          <div className="newPart">
-            <p className="deliveryBannerText">
-              Необходимые документы для получения:
-            </p>
-            <p className="deliveryBannerText">
-              • Доверенность на водителя или экспедитора
-            </p>
-            <p className="deliveryBannerText">
-              • Паспорт лица, указанного в доверенности
-            </p>
-          </div>
-          <p className="deliveryBannerText">
-            Помимо наших проверенных партнеров, мы готовы организовать отправку
-            через:
-          </p>
-          <p className="deliveryBannerText">
-            • Федеральную транспортную компанию по вашему выбору
-          </p>
-          <p className="deliveryBannerText">
-            • Отдельный автотранспорт для крупногабаритных заказов
-          </p>
-          <p className="deliveryBannerText">
-            • Догрузом для оптимизации затрат
-          </p>
-          <p className="deliveryBannerText">
-            • Железнодорожным транспортом для межрегиональных поставок
-          </p>
         </div>
       </div>
-
+      <div className="infoTextContainer">
+        <p className="deliveryBannerText">
+          График работы склада: понедельник – пятница, 8:00 – 17:00
+        </p>
+        <div className="newPart">
+          <p className="deliveryBannerText">
+            Необходимые документы для получения:
+          </p>
+          <p className="deliveryBannerText">
+            • Доверенность на водителя или экспедитора
+          </p>
+          <p className="deliveryBannerText">
+            • Паспорт лица, указанного в доверенности
+          </p>
+        </div>
+        <p className="deliveryBannerText">
+          Помимо наших проверенных партнеров, мы готовы организовать отправку
+          через:
+        </p>
+        <p className="deliveryBannerText">
+          • Федеральную транспортную компанию по вашему выбору
+        </p>
+        <p className="deliveryBannerText">
+          • Отдельный автотранспорт для крупногабаритных заказов
+        </p>
+        <p className="deliveryBannerText">• Догрузом для оптимизации затрат</p>
+        <p className="deliveryBannerText">
+          • Железнодорожным транспортом для межрегиональных поставок
+        </p>
+      </div>
       <h1 className="katalogTitle animFlag">Упаковка продукции</h1>
       <div className="deliveryTextContainer animFlag">
         <p className="deliveryBannerText">
