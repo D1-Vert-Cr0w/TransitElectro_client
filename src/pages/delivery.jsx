@@ -55,6 +55,38 @@ function Delivery() {
             персональный менеджер всегда готов оказать содействие в организации
             самовывоза.
           </p>
+          <div className="hiden1080">
+            <p className="deliveryBannerText">
+              График работы склада: понедельник – пятница, 8:00 – 17:00
+            </p>
+            <div className="newPart">
+              <p className="deliveryBannerText">
+                Необходимые документы для получения:
+              </p>
+              <p className="deliveryBannerText">
+                • Доверенность на водителя или экспедитора
+              </p>
+              <p className="deliveryBannerText">
+                • Паспорт лица, указанного в доверенности
+              </p>
+            </div>
+            <p className="deliveryBannerText">
+              Помимо наших проверенных партнеров, мы готовы организовать
+              отправку через:
+            </p>
+            <p className="deliveryBannerText">
+              • Федеральную транспортную компанию по вашему выбору
+            </p>
+            <p className="deliveryBannerText">
+              • Отдельный автотранспорт для крупногабаритных заказов
+            </p>
+            <p className="deliveryBannerText">
+              • Догрузом для оптимизации затрат
+            </p>
+            <p className="deliveryBannerText">
+              • Железнодорожным транспортом для межрегиональных поставок
+            </p>
+          </div>
         </div>
       </div>
       <div className="infoTextContainer">

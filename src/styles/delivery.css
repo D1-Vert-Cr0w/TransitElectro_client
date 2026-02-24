@@ -4,11 +4,12 @@
     font-size: 46px;
     width: 85%;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 .deliveryBannerImg{
     height: 450px;
     width: 450px;
+    margin-top: 20px;
     margin-right: 50px;
 }
 .deliveryTextContainer{
@@ -56,6 +57,7 @@
     width: 85%;
     margin: 0 auto;
     margin-top: 30px;
+    display: none;
 }
 .advantagesSubtitle{
     font-size: 22px;
@@ -71,6 +73,12 @@
     .deliveryBannerText{
     font-size: 14px;
     margin: 5px 0;
+}
+.hiden1080{
+    display: none;
+}
+.infoTextContainer{
+    display: block;
 }
 .deliveryBannerImg{
     height: 350px;
