@@ -2,13 +2,15 @@ import "../styles/shoppage.css";
 import Footer from "../components/footer.jsx";
 import Header from "../components/header.jsx";
 import Item from "../components/item.jsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Dropdown from "../components/dropdown.jsx";
 import axios from "axios";
 import AOS from "aos";
 import Lamp from "../assets/lightbulb.svg";
+import search from "../assets/search.svg";
+import cross from "../assets/cross.png";
 import Cog from "../assets/cog.svg";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 function Shop() {
   const params = useParams();
@@ -23,6 +25,9 @@ function Shop() {
   const [categoryParams, setCategoryParams] = useState(params.category);
   const [filtrPreset, setFiltrPreset] = useState("");
   const [filtr, setFiltr] = useState([]);
+  const inputRef = useRef(null);
+  const [message, setMessage] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
   const [pageQuantity, setPageQuantity] = useState();
   const [pageLoaded, setPageLoaded] = useState(false);
   useEffect(() => {
@@ -129,6 +134,24 @@ function Shop() {
     }
     setFiltrPreset(testString.join(";"));
   }
+
+  async function findProducts() {
+    const response = await axios.get(
+      `https://tranzitelektro.ru/api/colection/search/${inputRef.current.value}`,
+      {
+        validateStatus: () => true,
+      },
+    );
+    if (response.status == 404) {
+      setMessage("По вашему запросу ничего не найдено");
+    } else {
+      if (response.data.length != 0) {
+        setSearchResults(response.data);
+      } else {
+        setMessage("Введите название товара");
+      }
+    }
+  }
   return (
     <>
       {pageLoaded == false ? (
@@ -141,9 +164,11 @@ function Shop() {
       <div className="shopHeaderWrap">
         <Header />
       </div>
+
       <h1 className="shopTitleWrap animFlag">
         {params.subcategory ?? params.category ?? params.extrasubcategory}
       </h1>
+
       <div className="shopWrap">
         <div className="DropdownContainer">
           <Dropdown
@@ -182,7 +207,57 @@ function Shop() {
             }
           />
         </div>
+
         <div className="mainContainer animFlag">
+          <div className="headerShopTitleWrap">
+            <div className="searchWrap">
+              <input
+                type="text"
+                name="name"
+                placeholder="Название"
+                className="searchShopInput"
+                ref={inputRef}
+              />
+
+              <div className="searchButtonWrap">
+                <button
+                  className="searchButton"
+                  onClick={() => {
+                    (setMessage(null), setSearchResults([]), findProducts());
+                  }}
+                >
+                  <img className="shopPageIcon" src={search} />
+                </button>
+                <button
+                  className="searchCleanButton"
+                  onClick={() => {
+                    (setSearchResults([]),
+                      setMessage(null),
+                      (inputRef.current.value = ""));
+                  }}
+                >
+                  <img className="shopPageIcon" src={cross} />
+                </button>
+              </div>
+              <div
+                className="shopResultWrap"
+                style={{
+                  display: `${searchResults.length != 0 || message != null ? "block" : "none"}`,
+                }}
+              >
+                <div className="resultBlock">
+                  {searchResults.map((product) => (
+                    <Link to={product.src}>
+                      <p className="resultItem">{product.name}</p>
+                    </Link>
+                  ))}
+                  {message != null ? (
+                    <div className="messageWrap">{message}</div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </div>
           <div
             className={`${
               filtr.length == 0 ? "containerWithoutFiltr " : "productsContainer"

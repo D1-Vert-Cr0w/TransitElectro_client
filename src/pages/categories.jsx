@@ -1,14 +1,20 @@
 import Header from "../components/header";
 import Footer from "../components/footer";
 import CategoryItem from "../components/categoryitem";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../styles/categories.css";
 import axios from "axios";
 import Lamp from "../assets/lightbulb.svg";
 import Cog from "../assets/cog.svg";
 import AOS from "aos";
+import search from "../assets/search.svg";
+import cross from "../assets/cross.png";
+import { Link } from "react-router-dom";
 function Categories() {
   const [categoryData, setCategoryData] = useState([]);
+  const [message, setMessage] = useState(null);
+  const inputRef = useRef(null);
+  const [searchResults, setSearchResults] = useState([]);
   useEffect(() => {
     axios
       .get(`https://tranzitelektro.ru/api/categories/list`)
@@ -33,6 +39,47 @@ function Categories() {
 
     return () => clearTimeout(timer);
   }, []);
+  async function findCategories() {
+    console.log(inputRef.current.value);
+    const [categories, subcategories, extrasubcategories] = await Promise.all([
+      axios.get(
+        `https://tranzitelektro.ru/api/categories/search/${inputRef.current.value}`,
+        {
+          validateStatus: () => true,
+        },
+      ),
+      axios.get(
+        `https://tranzitelektro.ru/api/subcategories/search/${inputRef.current.value}`,
+        {
+          validateStatus: () => true,
+        },
+      ),
+      axios.get(
+        `https://tranzitelektro.ru/api/extrasubcategory/search/${inputRef.current.value}`,
+        {
+          validateStatus: () => true,
+        },
+      ),
+    ]);
+    if (
+      categories.status == 404 &&
+      subcategories.status == 404 &&
+      extrasubcategories.status == 404
+    ) {
+      setMessage("По вашему запросу ничего не найдено");
+    } else {
+      const allResults = [
+        ...categories.data,
+        ...subcategories.data,
+        ...extrasubcategories.data,
+      ];
+      if (allResults.length != 0) {
+        setSearchResults(allResults);
+      } else {
+        setMessage("Введите название категории");
+      }
+    }
+  }
   return (
     <>
       {pageLoaded == false ? (
@@ -45,8 +92,62 @@ function Categories() {
       <div className="HeaderWrap">
         <Header />
       </div>
-
-      <h1 className="katalogTitle">Каталог</h1>
+      <div className="headerTitleWrap">
+        <h1 className="katalogTitle">Каталог</h1>
+        <div className="searchWrap">
+          <input
+            type="text"
+            name="name"
+            placeholder="Название"
+            className="searchInput"
+            ref={inputRef}
+          />
+          <div className="searchButtonWrap">
+            <button
+              className="searchButton"
+              onClick={() => {
+                (setMessage(null), setSearchResults([]), findCategories());
+              }}
+            >
+              <img className="shopPageIcon" src={search} />
+            </button>
+            <button
+              className="searchCleanButton"
+              onClick={() => {
+                (setSearchResults([]),
+                  setMessage(null),
+                  (inputRef.current.value = ""));
+              }}
+            >
+              <img className="shopPageIcon" src={cross} />
+            </button>
+          </div>
+          <div
+            className="resultWrap"
+            style={{
+              display: `${searchResults.length != 0 || message != null ? "block" : "none"}`,
+            }}
+          >
+            <div className="resultBlock">
+              {searchResults.map((category) => (
+                <Link to={category.src}>
+                  <p className="resultItem">{category.name}</p>
+                </Link>
+              ))}
+              {message != null ? (
+                <div
+                  className="messageWrap"
+                  style={{
+                    display: `${message != null ? "block" : "none"}`,
+                  }}
+                >
+                  {message}
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="categoryContainer animFlag">
         {categoryData.map((category) => (
           <CategoryItem

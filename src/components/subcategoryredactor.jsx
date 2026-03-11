@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Product from "../pages/product.jsx";
+import search from "../assets/search.svg";
+import cross from "../assets/cross.png";
 import "../styles/categoryredactor.css";
 function SubCategoryRedactor() {
   const [componentState, setComponentState] = useState("viewing");
@@ -19,6 +21,8 @@ function SubCategoryRedactor() {
   const [filtrId, setFiltrID] = useState(null);
   const [prevSrc, setPrevSrc] = useState(null);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
+  const inputRef = useRef(null);
   useEffect(() => {
     async function fetchData() {
       const reqForCategories = axios
@@ -37,38 +41,64 @@ function SubCategoryRedactor() {
       fetchData();
     }
   }, [componentState]);
-  useEffect(() => {
-    if (chosenCategory) {
-      const reqForSubCategories = axios
-        .get(
-          `https://tranzitelektro.ru/api/subcategories/listadmin/${chosenCategory}/${pageIndex}`,
-          {
-            withCredentials: true,
-          },
-        )
-        .then((response) => {
-          setSubCategoryList(response.data);
-        });
+  async function loadCategoriesByPage(page) {
+    try {
+      const response = await axios.get(
+        `https://tranzitelektro.ru/api/subcategories/listadmin/${chosenCategory}/${page}`,
+        {
+          withCredentials: true,
+          params: { searchParams: inputRef.current.value },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Ошибка загрузки категорий:", error);
+      return [];
     }
-  }, [chosenCategory, pageIndex]);
-  useEffect(() => {
-    if (chosenCategory) {
-      const reqForQuantity = axios
-        .get(
-          `https://tranzitelektro.ru/api/subcategories/count/${chosenCategory}`,
-          {
-            withCredentials: true,
-          },
-        )
-        .then((response) => {
-          if (response.data > parseInt(response.data)) {
-            setPageQuantity(parseInt(response.data + 1));
-          } else {
-            setPageQuantity(response.data);
-          }
-        });
+  }
+  const loadPageCount = async () => {
+    try {
+      const response = await axios.get(
+        `https://tranzitelektro.ru/api/subcategories/count/${chosenCategory}`,
+        {
+          withCredentials: true,
+          params: { searchParams: inputRef.current.value },
+        },
+      );
+      const count = response.data;
+      if (count > parseInt(count)) {
+        setPageQuantity(parseInt(count + 1));
+      } else {
+        setPageQuantity(count);
+      }
+      return count;
+    } catch (error) {
+      console.error("Ошибка загрузки количества страниц:", error);
+      return 0;
     }
-  }, [chosenCategory]);
+  };
+
+  const loadCurrentPageData = async () => {
+    await loadPageCount();
+    const categories = await loadCategoriesByPage(pageIndex);
+
+    if (categories.length === 0 && pageIndex > 1) {
+      const newPageIndex = pageIndex - 1;
+      setPageIndex(newPageIndex);
+
+      const newCategories = await loadCategoriesByPage(newPageIndex);
+      setSubCategoryList(newCategories);
+      await loadPageCount();
+    } else {
+      setSubCategoryList(categories);
+    }
+  };
+  useEffect(() => {
+    if (componentState === "viewing") {
+      loadCurrentPageData();
+    }
+  }, [componentState, pageIndex, chosenCategory]);
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -204,23 +234,17 @@ function SubCategoryRedactor() {
         { withCredentials: true },
       );
 
-      const totalCount = countResponse.data;
-      const itemsPerPage = 16;
-      const newPageQuantity = Math.ceil(totalCount / itemsPerPage) || 1;
-      let newPageIndex = pageIndex;
-      if (pageIndex > newPageQuantity) {
-        newPageIndex = newPageQuantity;
-      }
-      setPageQuantity(newPageQuantity);
-      if (newPageIndex !== pageIndex) {
+      const categories = await loadCategoriesByPage(pageIndex);
+
+      if (categories.length === 0 && pageIndex > 1) {
+        const newPageIndex = pageIndex - 1;
         setPageIndex(newPageIndex);
+        const newCategories = await loadCategoriesByPage(newPageIndex);
+        setSubCategoryList(newCategories);
+      } else {
+        setSubCategoryList(categories);
       }
-      const pageToLoad = newPageIndex !== pageIndex ? newPageIndex : pageIndex;
-      const listResponse = await axios.get(
-        `https://tranzitelektro.ru/api/subcategories/listadmin/${chosenCategory}/${pageToLoad}`,
-        { withCredentials: true },
-      );
-      setSubCategoryList(listResponse.data);
+      await loadPageCount();
     } catch (error) {
       console.error("Ошибка при удалении:", error);
     }
@@ -407,6 +431,19 @@ function SubCategoryRedactor() {
       );
     }
   }
+  async function categoriesSearch(operationType) {
+    if (inputRef.current.value == "") {
+      setMessage("Ведите название для поиска");
+    } else {
+      if (operationType == "find") {
+        loadCurrentPageData();
+      }
+      if (operationType == "reset") {
+        inputRef.current.value = "";
+        loadCurrentPageData();
+      }
+    }
+  }
   return (
     <div className="categoryMainWrap">
       <div className="controllButtonContainer">
@@ -432,14 +469,56 @@ function SubCategoryRedactor() {
           ))}
         </select>
       </div>
+
       {componentState == "viewing" ? (
         <>
+          <div className="searchWrap">
+            <input
+              type="text"
+              name="name"
+              placeholder="Введите название категории"
+              className="searchShopInput"
+              ref={inputRef}
+            />
+            <div className="searchButtonWrap">
+              <button
+                className="searchButton"
+                onClick={() => {
+                  (setMessage(null), categoriesSearch("find"));
+                }}
+              >
+                <img className="shopPageIcon" src={search} />
+              </button>
+              <button
+                className="searchCleanButton"
+                onClick={() => {
+                  (categoriesSearch("reset"),
+                    setMessage(null),
+                    (inputRef.current.value = ""));
+                }}
+              >
+                <img className="shopPageIcon" src={cross} />
+              </button>
+            </div>
+            <div
+              className="resultWrap"
+              style={{
+                display: `${message != null ? "block" : "none"}`,
+              }}
+            >
+              <div className="resultBlock">
+                {message != null ? (
+                  <div className="messageWrap">{message}</div>
+                ) : null}
+              </div>
+            </div>
+          </div>
           <h1
             style={{
               display: `${subCategoryList.length == 0 ? "block" : "none"}`,
             }}
           >
-            У этой категории отсутствуют подкатегории
+            Категории не найдены
           </h1>
           {subCategoryList.map((category) => (
             <div className="categoryItem">
@@ -518,7 +597,7 @@ function SubCategoryRedactor() {
             />
           </div>
           <div>
-            <h1>Категории-родителя</h1>
+            <h1>Название категории-родителя</h1>
             <select
               className="selectSrcOption"
               value={dataForServer.parentCategory}
@@ -653,7 +732,7 @@ function SubCategoryRedactor() {
             />
           </div>
           <div>
-            <h1>Категории-родителя</h1>
+            <h1>Название категории-родителя</h1>
             <select
               className="selectSrcOption"
               value={dataForServer.parentCategory}

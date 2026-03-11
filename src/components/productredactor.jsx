@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import "../styles/discountredactor.css";
 import ProductRedactorChange from "./productredactor_change";
 import ProductRedactorAdd from "./productredactor_add";
-
+import search from "../assets/search.svg";
+import cross from "../assets/cross.png";
 function ProductRedactor() {
   const [componentState, setComponentState] = useState("viewing");
   const [pageIndex, setPageIndex] = useState(1);
@@ -19,8 +20,8 @@ function ProductRedactor() {
   const [extraSubcategoryParams, setExtraSubCategoryParams] = useState(null);
   const [dataForServer, setDataForServer] = useState(null);
   const [areCategoriesLoaded, setAreCategoriesLoaded] = useState(false);
-
-  // Функция для загрузки списка товаров
+  const inputRef = useRef(null);
+  const [message, setMessage] = useState(null);
   const loadProducts = async () => {
     if (componentState !== "viewing" || !chosenCategory || !areCategoriesLoaded)
       return;
@@ -34,6 +35,7 @@ function ProductRedactor() {
             category: chosenCategory,
             subcategory: chosenSubCategory,
             extrasubcategory: chosenExtraSubCategory,
+            searchParams: inputRef.current.value,
           },
         },
       );
@@ -42,8 +44,6 @@ function ProductRedactor() {
       console.error("Ошибка загрузки товаров:", error);
     }
   };
-
-  // Функция для загрузки количества страниц
   const loadPageCount = async () => {
     if (componentState !== "viewing" || !chosenCategory || !areCategoriesLoaded)
       return;
@@ -56,6 +56,7 @@ function ProductRedactor() {
             category: chosenCategory,
             subcategory: chosenSubCategory,
             extrasubcategory: chosenExtraSubCategory,
+            searchParams: inputRef.current.value,
           },
         },
       );
@@ -65,17 +66,12 @@ function ProductRedactor() {
       console.error("Ошибка загрузки количества страниц:", error);
     }
   };
-
-  // Функция для загрузки всех данных текущей страницы
   const loadCurrentPageData = async () => {
     await loadPageCount();
     await loadProducts();
-
-    // Если текущая страница пустая и не первая - переходим на предыдущую
     if (productList.length === 0 && pageIndex > 1) {
       const newPageIndex = pageIndex - 1;
       setPageIndex(newPageIndex);
-      // Загружаем данные для новой страницы
       await loadProducts();
     }
   };
@@ -88,7 +84,7 @@ function ProductRedactor() {
         })
         .then((response) => {
           setCategoryParams(response.data);
-          setChosenCategory(response.data[0].name);
+          setChosenCategory("-");
         });
     }
     fetchCategory();
@@ -106,7 +102,7 @@ function ProductRedactor() {
 
         if (response.data.length !== 0) {
           setSubCategoryParams(response.data);
-          setChosenSubCategory(response.data[0].name);
+          setChosenSubCategory("-");
           setExtraSubCategoryParams(null);
           setChosenExtraSubCategory(null);
           setAreCategoriesLoaded(false);
@@ -138,7 +134,7 @@ function ProductRedactor() {
 
         if (response.data.length !== 0) {
           setExtraSubCategoryParams(response.data);
-          setChosenExtraSubCategory(response.data[0].name);
+          setChosenExtraSubCategory("-");
           setAreCategoriesLoaded(true);
         } else {
           setExtraSubCategoryParams(null);
@@ -173,9 +169,9 @@ function ProductRedactor() {
       drawings: null,
       articul: "",
       name: "",
-      category: chosenCategory,
-      subcategory: chosenSubCategory ?? "-",
-      extrasubcategory: chosenExtraSubCategory ?? "-",
+      category: "",
+      subcategory: "",
+      extrasubcategory: "",
       scale: "",
       type: "",
       purpose: "",
@@ -209,15 +205,12 @@ function ProductRedactor() {
 
   async function removeProduct(id) {
     try {
-      // Удаляем товар
       await axios.delete(
         `https://tranzitelektro.ru/api/colection/delete/${id}`,
         {
           withCredentials: true,
         },
       );
-
-      // Перезагружаем данные текущей страницы
       await loadCurrentPageData();
     } catch (error) {
       console.error("Ошибка при удалении товара:", error);
@@ -239,7 +232,19 @@ function ProductRedactor() {
       </h1>,
     );
   }
-
+  async function categoriesSearch(operationType) {
+    if (inputRef.current.value == "") {
+      setMessage("Ведите название для поиска");
+    } else {
+      if (operationType == "find") {
+        loadCurrentPageData();
+      }
+      if (operationType == "reset") {
+        inputRef.current.value = "";
+        loadCurrentPageData();
+      }
+    }
+  }
   return (
     <div className="discountMainWrap">
       <div className="discountControllButtonContainer headerDorder">
@@ -260,6 +265,7 @@ function ProductRedactor() {
           value={chosenCategory}
           onChange={(e) => setChosenCategory(e.target.value)}
         >
+          <option value={"-"}>-</option>
           {categoryParams?.map((category) => (
             <option value={category.name}>{category.name}</option>
           ))}
@@ -276,6 +282,7 @@ function ProductRedactor() {
           value={chosenSubCategory}
           onChange={(e) => setChosenSubCategory(e.target.value)}
         >
+          <option value={null}>-</option>
           {subcategoryParams?.map((category) => (
             <option value={category.name}>{category.name}</option>
           ))}
@@ -292,13 +299,64 @@ function ProductRedactor() {
           value={chosenExtraSubCategory}
           onChange={(e) => setChosenExtraSubCategory(e.target.value)}
         >
+          <option value={null}>-</option>
           {extraSubcategoryParams?.map((category) => (
             <option value={category.name}>{category.name}</option>
           ))}
         </select>
       </div>
-      {componentState == "viewing"
-        ? productList.map((product) => (
+
+      {componentState == "viewing" ? (
+        <>
+          <div className="searchWrap">
+            <input
+              type="text"
+              name="name"
+              placeholder="Введите название категории"
+              className="searchShopInput"
+              ref={inputRef}
+            />
+            <div className="searchButtonWrap">
+              <button
+                className="searchButton"
+                onClick={() => {
+                  (setMessage(null), categoriesSearch("find"));
+                }}
+              >
+                <img className="shopPageIcon" src={search} />
+              </button>
+              <button
+                className="searchCleanButton"
+                onClick={() => {
+                  (categoriesSearch("reset"),
+                    setMessage(null),
+                    (inputRef.current.value = ""));
+                }}
+              >
+                <img className="shopPageIcon" src={cross} />
+              </button>
+            </div>
+            <div
+              className="resultWrap"
+              style={{
+                display: `${message != null ? "block" : "none"}`,
+              }}
+            >
+              <div className="resultBlock">
+                {message != null ? (
+                  <div className="messageWrap">{message}</div>
+                ) : null}
+              </div>
+            </div>
+          </div>
+          <h1
+            style={{
+              display: `${productList.length == 0 ? "block" : "none"}`,
+            }}
+          >
+            Товары не найдены
+          </h1>
+          {productList.map((product) => (
             <div className="categoryItem">
               <h1 className="categoryName">{product.name}</h1>
               <div className="discountControllButtonContainer">
@@ -335,8 +393,11 @@ function ProductRedactor() {
                 ) : null}
               </div>
             </div>
-          ))
-        : ""}
+          ))}
+        </>
+      ) : (
+        ""
+      )}
       {componentState == "adding" ? (
         <ProductRedactorAdd dataForChange={dataForServer}></ProductRedactorAdd>
       ) : (

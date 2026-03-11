@@ -6,8 +6,22 @@ import infoImg from "../assets/infoimg.jpg";
 import IEK from "../assets/iek.png";
 import EKF from "../assets/ekf.svg";
 import jazzway from "../assets/jazzway.webp";
+import chint from "../assets/chint.svg";
+import tokovElectric from "../assets/tokovElectric.svg";
+import leadvance from "../assets/leadvance.svg";
+import navigator from "../assets/navigator.svg";
+import systemElectric from "../assets/system-electric.svg";
 import DKC from "../assets/dkc.png";
 import Arrow from "../assets/arrow.svg";
+import universal from "../assets/universal.svg";
+import arlight from "../assets/arlight.svg";
+import bailu from "../assets/bailu.svg";
+import era from "../assets/era.svg";
+import delta from "../assets/delta.svg";
+import keaz from "../assets/keaz.svg";
+import lighttecknologies from "../assets/lighttecknologies.svg";
+import inHome from "../assets/inhome.svg";
+import dekraft from "../assets/dekraft.svg";
 import { useRef, useState, useEffect } from "react";
 import React from "react";
 import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
@@ -59,17 +73,20 @@ function About() {
         <div className="textOverlay">
           <p className="bannerTitle animFlag">О нас</p>
           <p className="bannerSubTitle animFlag">
-            Транзит Электро - компания по продаже электрооборудования, ведущая
-            свою деятельность с 2023 года
+            «Транзит Электро» — динамично развивающаяся компания на рынке. Мы
+            зарекомендовали себя как ответственный партнер, готовый предложить
+            оптимальные решения для вашего бизнеса.
           </p>
         </div>
       </div>
       <div className="infoWrap">
         <p className="infoText animFlag">
-          Мы предлагаем широкий ассортимент электротехники. Утончённые решения
-          для декора интерьера, уличных участков, всё для ремонта и не только.
-          Наши партнеры - лидеры рынка, такие как IEK, DKC, Jazz Way и другие. С
-          нами ваша жизнь станет ярче
+          Мы предлагаем комплексные электротехнические решения для проектов
+          любой сложности. В нашем ассортименте — всё: от надежных базовых
+          компонентов для монтажа до элегантных систем интерьерного и
+          ландшафтного освещения. Мы работаем только с признанными лидерами
+          отрасли, такими как IEK, DKC, Jazz Way, гарантируя высочайшее
+          качество, безопасность и безупречную эстетику каждого элемента.
         </p>
         <img src={infoImg} className="infoImg  animFlag" alt="House" />
       </div>
@@ -87,6 +104,69 @@ function About() {
           </Link>
           <Link to={"https://jazz-way.com/?ysclid=mizxlylih4554349065"}>
             <img className="partnersLogoElem" src={jazzway} alt="jazzway" />
+          </Link>
+          <Link to={"https://systeme.ru/"}>
+            <img
+              className="partnersLogoElem"
+              src={systemElectric}
+              alt="SystemElectric"
+            />
+          </Link>
+          <Link to={"https://navigator-light.ru/?ysclid=mmj8rm5wa0423022137"}>
+            <img
+              className="partnersLogoElem"
+              src={navigator}
+              alt="navigator-light"
+            />
+          </Link>
+          <Link to={"https://tokov.pro/"}>
+            <img
+              className="partnersLogoElem"
+              src={tokovElectric}
+              alt="TokovElectric"
+            />
+          </Link>
+          <Link to={"https://www.ledvance.com/en-int/professional-lighting"}>
+            <img className="partnersLogoElem" src={leadvance} alt="leadcance" />
+          </Link>
+          <Link to={"https://chint.ru/"}>
+            <img className="partnersLogoElem" src={chint} alt="chint" />
+          </Link>
+
+          <Link
+            to={
+              "https://univ.su/index.php/katalog-mob/elektroustanovochnye-izdeliya"
+            }
+          >
+            <img className="partnersLogoElem" src={universal} alt="universal" />
+          </Link>
+          <Link to={"https://arlight.ru/?ysclid=mmm44pyrq9155976504"}>
+            <img className="partnersLogoElem" src={arlight} alt="arlight" />
+          </Link>
+          <Link to={"https://www.ballu.ru/"}>
+            <img className="partnersLogoElem" src={bailu} alt="bailu" />
+          </Link>
+          <Link to={"https://www.eraworld.ru/?ysclid=mmm45h2i22872225559"}>
+            <img className="partnersLogoElem" src={era} alt="era" />
+          </Link>
+          <Link to={"https://www.delta-battery.ru/?ysclid=mmm46sz6dp883156515"}>
+            <img className="partnersLogoElem" src={delta} alt="delta" />
+          </Link>
+          <Link to={"https://keaz.ru/catalog?ysclid=mmm47bus3y178777686"}>
+            <img className="partnersLogoElem" src={keaz} alt="keaz" />
+          </Link>
+          <Link to={"https://in-home.ru/?ysclid=mmm48wpkj4966795684"}>
+            <img className="partnersLogoElem" src={inHome} alt="inhome" />
+          </Link>
+          <Link to={"https://www.ltcompany.com/"}>
+            <img
+              className="partnersLogoElem"
+              src={lighttecknologies}
+              alt="lighttecknologies"
+            />
+          </Link>
+          <Link to={"https://chint.ru/"}>
+            <img className="partnersLogoElem" src={dekraft} alt="dekraft" />
           </Link>
         </div>
       </div>
@@ -130,8 +210,10 @@ function About() {
               className="about-hiddenWrap"
             >
               <p className="about-hiddenText">
-                <span className="boldText">Директор:</span> Яковлев Евгений
-                Павлович<br></br>
+                <span className="boldText">
+                  Директор:<br></br>
+                </span>{" "}
+                Яковлев Евгений Павлович<br></br>
                 <span className="boldText">ОГРН:</span> 1235900001633
                 <br></br>
                 <span className="boldText">ИНН:</span> 5948067245<br></br>

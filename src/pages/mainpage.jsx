@@ -72,7 +72,7 @@ function Main() {
               className="carouselWrap"
               style={{ transform: `translate(${-100 * imageIndex}%)` }}
             >
-              {image.url == "-" ? (
+              {image.url.substring(image.url.lastIndexOf("/") + 1) === "-" ? (
                 <img className="carouselItem" src={image.image}></img>
               ) : (
                 <Link to={image.url}>

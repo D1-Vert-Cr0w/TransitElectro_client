@@ -37,8 +37,10 @@ function Delivery() {
           <img className=" Cog" src={Cog}></img>
         </div>
       ) : null}
-      <Header />
-      <h1 className="katalogTitle">Доставка</h1>
+      <div className="HeaderWrap">
+        <Header />
+      </div>
+      <h1 className="deliveryTextTitle">Доставка</h1>
       <div className="deliveryBannerContainer">
         <img className="deliveryBannerImg" src={Banner} />
         <div className="animFlag">
@@ -119,7 +121,7 @@ function Delivery() {
           • Железнодорожным транспортом для межрегиональных поставок
         </p>
       </div>
-      <h1 className="katalogTitle animFlag">Упаковка продукции</h1>
+      <h1 className="deliveryTextTitle animFlag">Упаковка продукции</h1>
       <div className="deliveryTextContainer animFlag">
         <p className="deliveryBannerText">
           Надежная упаковка – гарантия сохранности вашего заказа на всех этапах
@@ -176,7 +178,9 @@ function Delivery() {
           </p>
         </div>
       </div>
-      <h1 className="katalogTitle animFlag">Как получить счет на оплату</h1>
+      <h1 className="deliveryTextTitle animFlag">
+        Как получить счет на оплату
+      </h1>
       <div className="deliveryTextContainer animFlag">
         <p className="deliveryBannerText">
           Для формирования счета направьте карточку предприятия с полными
@@ -201,7 +205,7 @@ function Delivery() {
           Реквизиты для оплаты: ООО «Транзит Электро» ИНН 5948067245
         </p>
       </div>
-      <h1 className="katalogTitle animFlag">Оплата</h1>
+      <h1 className="deliveryTextTitle animFlag">Оплата</h1>
       <div className="deliveryTextContainer animFlag">
         <p className="deliveryBannerText">
           Мы работаем по системе безналичного расчета, что обеспечивает
@@ -220,7 +224,9 @@ function Delivery() {
           Реквизиты для оплаты: ООО «Транзит Электро» ИНН 5948067245
         </p>
       </div>
-      <h1 className="katalogTitle animFlag">Как получить счет на оплату</h1>
+      <h1 className="deliveryTextTitle animFlag">
+        Как получить счет на оплату
+      </h1>
       <div className="deliveryTextContainer footerMargin animFlag">
         <p className="deliveryBannerText">
           Для формирования счета направьте карточку предприятия с полными

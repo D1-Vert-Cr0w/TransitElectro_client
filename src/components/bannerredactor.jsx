@@ -6,8 +6,7 @@ import cross from "../assets/cross.png";
 function BannerRedactor() {
   const fileInputRef = useRef(null);
   const [imagesPreview, setImagesPreview] = useState([]);
-  const [images, setImages] = useState([]);
-  const [url, setUrl] = useState(null);
+  const [url, setUrl] = useState("-");
   const [discountData, setDiscountData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -46,7 +45,7 @@ function BannerRedactor() {
     try {
       const formData = new FormData();
       formData.append("image", file);
-      formData.append("url", `http://localhost:5173/discount/ditails/${url}`);
+      formData.append("url", `/discount/ditails/${url}`);
       const response = await axios.post(
         "https://tranzitelektro.ru/api/banner/add",
         formData,
@@ -68,7 +67,6 @@ function BannerRedactor() {
 
   async function removeDrawing(index, id) {
     setImagesPreview((prev) => prev.filter((_, i) => i !== index));
-    setImages((prev) => prev.filter((_, i) => i !== index));
     const deletereq = await axios.delete(
       `https://tranzitelektro.ru/api/banner/delete/${id}`,
       { withCredentials: true },
@@ -119,7 +117,7 @@ function BannerRedactor() {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           >
-            <option value={"-"}>-</option>
+            <option value="-">-</option>
             {discountData.map((discount) => (
               <option value={discount.title}>{discount.title}</option>
             ))}

@@ -290,26 +290,35 @@ function ProductRedactorChange(props) {
           )}
         </div>
       </div>
-      <h1 className="ditails-text">Категория: {dataForServer.category}</h1>
-      <h1
-        className="ditails-text"
-        style={{
-          display: `${dataForServer.subcategory != "-" ? "block" : "none"}`,
-        }}
-      >
-        Подкатегория 1: {dataForServer.subcategory}
-      </h1>
-      <h1
-        className="ditails-text"
-        style={{
-          display: `${
-            dataForServer.extrasubcategory != "-" ? "block" : "none"
-          }`,
-        }}
-      >
-        Подкатегория 2: {dataForServer.extrasubcategory}
-      </h1>
+      <h1 className="ditails-text">Категория</h1>
+      <input
+        type="text"
+        name="category"
+        className="titleInput"
+        value={dataForServer.category}
+        onChange={(e) => handleInputChange("category", e.target.value)}
+      />
 
+      <h1 className="ditails-text">Подкатегория 1</h1>
+      <input
+        type="text"
+        name="subcategory"
+        className="titleInput"
+        value={dataForServer.subcategory}
+        onChange={(e) => handleInputChange("subcategory", e.target.value)}
+      />
+      <h1 className="ditails-text">Подкатегория 2</h1>
+      <input
+        type="text"
+        name="extrasubcategory"
+        className="titleInput"
+        value={
+          dataForServer.extrasubcategory != undefined
+            ? dataForServer.extrasubcategory
+            : " "
+        }
+        onChange={(e) => handleInputChange("extrasubcategory", e.target.value)}
+      />
       <h1 className="ditails-text">Артикул</h1>
       <input
         type="text"

@@ -1,12 +1,14 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import Product from "../pages/product.jsx";
 import "../styles/categoryredactor.css";
-
+import search from "../assets/search.svg";
+import cross from "../assets/cross.png";
 function CategoryRedactor() {
   const [componentState, setComponentState] = useState("viewing");
   const [categoryList, setCategoryList] = useState([]);
+  const inputRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
   const [dataForServer, setDataForServer] = useState();
@@ -18,12 +20,14 @@ function CategoryRedactor() {
   const [pageQuantity, setPageQuantity] = useState(null);
   const [error, setError] = useState(null);
   const [itemForDelete, setItemForDelete] = useState(null);
+  const [message, setMessage] = useState(null);
   const loadPageCount = async () => {
     try {
       const response = await axios.get(
         "https://tranzitelektro.ru/api/categories/count",
         {
           withCredentials: true,
+          params: { searchParams: inputRef.current.value },
         },
       );
       const count = response.data;
@@ -39,48 +43,35 @@ function CategoryRedactor() {
     }
   };
 
-  const loadCategories = async () => {
-    try {
-      const response = await axios.get(
-        `https://tranzitelektro.ru/api/categories/listadmin/${pageIndex}`,
-        {
-          withCredentials: true,
-        },
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Ошибка загрузки категорий:", error);
-      return [];
-    }
-  };
-
-  const loadCurrentPageData = async () => {
-    await loadPageCount();
-    const categories = await loadCategories();
-
-    if (categories.length === 0 && pageIndex > 1) {
-      const newPageIndex = pageIndex - 1;
-      setPageIndex(newPageIndex);
-
-      const newCategories = await loadCategories(newPageIndex);
-      setCategoryList(newCategories);
-      await loadPageCount();
-    } else {
-      setCategoryList(categories);
-    }
-  };
-  const loadCategoriesByPage = async (page) => {
+  async function loadCategoriesByPage(page) {
     try {
       const response = await axios.get(
         `https://tranzitelektro.ru/api/categories/listadmin/${page}`,
         {
           withCredentials: true,
+          params: { searchParams: inputRef.current.value },
         },
       );
       return response.data;
     } catch (error) {
       console.error("Ошибка загрузки категорий:", error);
       return [];
+    }
+  }
+
+  const loadCurrentPageData = async () => {
+    await loadPageCount();
+    const categories = await loadCategoriesByPage(pageIndex);
+
+    if (categories.length === 0 && pageIndex > 1) {
+      const newPageIndex = pageIndex - 1;
+      setPageIndex(newPageIndex);
+
+      const newCategories = await loadCategoriesByPage(newPageIndex);
+      setCategoryList(newCategories);
+      await loadPageCount();
+    } else {
+      setCategoryList(categories);
     }
   };
 
@@ -428,6 +419,19 @@ function CategoryRedactor() {
     );
   }
 
+  async function categoriesSearch(operationType) {
+    if (inputRef.current.value == "") {
+      setMessage("Ведите название для поиска");
+    } else {
+      if (operationType == "find") {
+        loadCurrentPageData();
+      }
+      if (operationType == "reset") {
+        inputRef.current.value = "";
+        loadCurrentPageData();
+      }
+    }
+  }
   return (
     <div className="categoryMainWrap">
       <div className="controllButtonContainer">
@@ -444,6 +448,47 @@ function CategoryRedactor() {
 
       {componentState == "viewing" ? (
         <>
+          <div className="searchWrap">
+            <input
+              type="text"
+              name="name"
+              placeholder="Введите название категории"
+              className="searchShopInput"
+              ref={inputRef}
+            />
+            <div className="searchButtonWrap">
+              <button
+                className="searchButton"
+                onClick={() => {
+                  (setMessage(null), categoriesSearch("find"));
+                }}
+              >
+                <img className="shopPageIcon" src={search} />
+              </button>
+              <button
+                className="searchCleanButton"
+                onClick={() => {
+                  (categoriesSearch("reset"),
+                    setMessage(null),
+                    (inputRef.current.value = ""));
+                }}
+              >
+                <img className="shopPageIcon" src={cross} />
+              </button>
+            </div>
+            <div
+              className="resultWrap"
+              style={{
+                display: `${message != null ? "block" : "none"}`,
+              }}
+            >
+              <div className="resultBlock">
+                {message != null ? (
+                  <div className="messageWrap">{message}</div>
+                ) : null}
+              </div>
+            </div>
+          </div>
           {categoryList.map((category) => (
             <div className="categoryItem" key={category._id}>
               <h1 className="categoryName">{category.name}</h1>

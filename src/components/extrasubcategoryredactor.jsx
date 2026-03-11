@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Product from "../pages/product.jsx";
+import search from "../assets/search.svg";
+import cross from "../assets/cross.png";
 import "../styles/categoryredactor.css";
 function ExtraSubCategoryRedactor() {
   const [componentState, setComponentState] = useState("viewing");
@@ -12,6 +14,8 @@ function ExtraSubCategoryRedactor() {
   const [pageQuantity, setPageQuantity] = useState(null);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const fileInputRef = useRef(null);
+  const inputRef = useRef(null);
+  const [message, setMessage] = useState(null);
   const [chosenCategory, setChosenCategory] = useState(null);
   const [dataForServer, setDataForServer] = useState();
   const [imagePreview, setImagePreview] = useState(null);
@@ -39,45 +43,64 @@ function ExtraSubCategoryRedactor() {
       fetchInitialData();
     }
   }, [componentState]);
-  useEffect(() => {
-    async function fetchSubCategories() {
-      try {
-        const response = await axios.get(
-          `https://tranzitelektro.ru/api/extrasubcategory/listadmin/${chosenCategory}/${pageIndex}`,
-          { withCredentials: true },
-        );
-        setSubCategoryList(response.data);
-      } catch (error) {
-        console.error("Ошибка загрузки подкатегорий:", error);
+  async function loadCategoriesByPage(page) {
+    try {
+      const response = await axios.get(
+        `https://tranzitelektro.ru/api/extrasubcategory/listadmin/${chosenCategory}/${page}`,
+        {
+          withCredentials: true,
+          params: { searchParams: inputRef.current.value },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Ошибка загрузки категорий:", error);
+      return [];
+    }
+  }
+  const loadPageCount = async () => {
+    try {
+      const response = await axios.get(
+        `https://tranzitelektro.ru/api/extrasubcategory/count/${chosenCategory}`,
+        {
+          withCredentials: true,
+          params: { searchParams: inputRef.current.value },
+        },
+      );
+      const count = response.data;
+      if (count > parseInt(count)) {
+        setPageQuantity(parseInt(count + 1));
+      } else {
+        setPageQuantity(count);
       }
+      return count;
+    } catch (error) {
+      console.error("Ошибка загрузки количества страниц:", error);
+      return 0;
     }
-    if (chosenCategory) {
-      fetchSubCategories();
+  };
+
+  const loadCurrentPageData = async () => {
+    await loadPageCount();
+    const categories = await loadCategoriesByPage(pageIndex);
+
+    if (categories.length === 0 && pageIndex > 1) {
+      const newPageIndex = pageIndex - 1;
+      setPageIndex(newPageIndex);
+
+      const newCategories = await loadCategoriesByPage(newPageIndex);
+      setSubCategoryList(newCategories);
+      await loadPageCount();
+    } else {
+      setSubCategoryList(categories);
     }
-  }, [chosenCategory, componentState, pageIndex]);
+  };
   useEffect(() => {
-    async function fetchSubCategories() {
-      try {
-        const response = await axios
-          .get(
-            `https://tranzitelektro.ru/api/extrasubcategory/count/${chosenCategory}`,
-            { withCredentials: true },
-          )
-          .then((response) => {
-            if (response.data > parseInt(response.data)) {
-              setPageQuantity(parseInt(response.data + 1));
-            } else {
-              setPageQuantity(response.data);
-            }
-          });
-      } catch (error) {
-        console.error("Ошибка загрузки подкатегорий:", error);
-      }
+    if (componentState === "viewing") {
+      loadCurrentPageData();
     }
-    if (chosenCategory) {
-      fetchSubCategories();
-    }
-  }, [chosenCategory, componentState]);
+  }, [componentState, pageIndex, chosenCategory]);
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -214,23 +237,17 @@ function ExtraSubCategoryRedactor() {
         { withCredentials: true },
       );
 
-      const totalCount = countResponse.data;
-      const itemsPerPage = 16;
-      const newPageQuantity = Math.ceil(totalCount / itemsPerPage) || 1;
-      let newPageIndex = pageIndex;
-      if (pageIndex > newPageQuantity) {
-        newPageIndex = newPageQuantity;
-      }
-      setPageQuantity(newPageQuantity);
-      if (newPageIndex !== pageIndex) {
+      const categories = await loadCategoriesByPage(pageIndex);
+
+      if (categories.length === 0 && pageIndex > 1) {
+        const newPageIndex = pageIndex - 1;
         setPageIndex(newPageIndex);
+        const newCategories = await loadCategoriesByPage(newPageIndex);
+        setSubCategoryList(newCategories);
+      } else {
+        setSubCategoryList(categories);
       }
-      const pageToLoad = newPageIndex !== pageIndex ? newPageIndex : pageIndex;
-      const listResponse = await axios.get(
-        `https://tranzitelektro.ru/api/extrasubcategory/listadmin/${chosenCategory}/${pageToLoad}`,
-        { withCredentials: true },
-      );
-      setSubCategoryList(listResponse.data);
+      await loadPageCount();
     } catch (error) {
       console.error("Ошибка при удалении:", error);
     }
@@ -435,6 +452,19 @@ function ExtraSubCategoryRedactor() {
       );
     }
   }
+  async function categoriesSearch(operationType) {
+    if (inputRef.current.value == "") {
+      setMessage("Ведите название для поиска");
+    } else {
+      if (operationType == "find") {
+        loadCurrentPageData();
+      }
+      if (operationType == "reset") {
+        inputRef.current.value = "";
+        loadCurrentPageData();
+      }
+    }
+  }
   return (
     <div className="categoryMainWrap">
       <div
@@ -465,8 +495,50 @@ function ExtraSubCategoryRedactor() {
           ))}
         </select>
       </div>
+
       {componentState == "viewing" ? (
         <>
+          <div className="searchWrap">
+            <input
+              type="text"
+              name="name"
+              placeholder="Введите название категории"
+              className="searchShopInput"
+              ref={inputRef}
+            />
+            <div className="searchButtonWrap">
+              <button
+                className="searchButton"
+                onClick={() => {
+                  (setMessage(null), categoriesSearch("find"));
+                }}
+              >
+                <img className="shopPageIcon" src={search} />
+              </button>
+              <button
+                className="searchCleanButton"
+                onClick={() => {
+                  (categoriesSearch("reset"),
+                    setMessage(null),
+                    (inputRef.current.value = ""));
+                }}
+              >
+                <img className="shopPageIcon" src={cross} />
+              </button>
+            </div>
+            <div
+              className="resultWrap"
+              style={{
+                display: `${message != null ? "block" : "none"}`,
+              }}
+            >
+              <div className="resultBlock">
+                {message != null ? (
+                  <div className="messageWrap">{message}</div>
+                ) : null}
+              </div>
+            </div>
+          </div>
           {categoryList.length == 0 ? (
             <p className="warningText">
               Нет подкатегорий 1-го уровня, ссылающихся на подкатегории 2-го
@@ -479,7 +551,7 @@ function ExtraSubCategoryRedactor() {
               }}
               className="warningText"
             >
-              У этой категории отсутствуют подкатегории
+              Категории не найдены
             </h1>
           )}
           {subCategoryList.map((category) => (
@@ -559,7 +631,7 @@ function ExtraSubCategoryRedactor() {
             />
           </div>
           <div>
-            <h1 className="categoryRedactorTitle">Категории-родителя</h1>
+            <h1>Название категории-родителя</h1>
             <select
               className="selectSrcOption"
               value={dataForServer.parentCategory}
@@ -693,7 +765,7 @@ function ExtraSubCategoryRedactor() {
             />
           </div>
           <div>
-            <h1 className="categoryRedactorTitle">Категории-родителя</h1>
+            <h1>Название категории-родителя</h1>
             <select
               className="selectSrcOption"
               value={dataForServer.parentCategory}

@@ -57,7 +57,7 @@ function Product() {
     if (localStorage.getItem("user")) {
       if (prevQuantity != quantity) {
         axios.post(
-          `https://tranzitelektro.ru/api/cart/add`,
+          `http://localhost:5000cart/add`,
           {
             products: {
               id: id,
