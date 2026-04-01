@@ -51,6 +51,9 @@ input[type="number"] {
     line-height: 0px;
     height: 50px;
 }
+.cartItem-button:hover{
+    background-color: #ffe169;
+}
 .cartItem-quantity{
     max-width: 55px;
     height: 50px;
@@ -70,9 +73,10 @@ input[type="number"] {
     background-color: #353F40;
 }
 .minus{
-margin-right: 30px;
 padding-bottom: 10px;
-box-sizing: border-box;
+}
+.plus{
+margin-right: 20px;
 }
 .mainCartContainer{
     width: 80%;

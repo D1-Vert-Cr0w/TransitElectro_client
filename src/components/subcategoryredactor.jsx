@@ -22,6 +22,7 @@ function SubCategoryRedactor() {
   const [prevSrc, setPrevSrc] = useState(null);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+  const [infoForUser, setInfoForUser] = useState(null);
   const inputRef = useRef(null);
   useEffect(() => {
     async function fetchData() {
@@ -169,6 +170,7 @@ function SubCategoryRedactor() {
       name: elementForChange.name,
       src: url,
       image: elementForChange.image,
+      imagecopy: elementForChange.image,
     };
     if (url == "/product/") {
       newData.product = elementForChange.src.split("/")[2];
@@ -217,6 +219,25 @@ function SubCategoryRedactor() {
       }
       return updated;
     });
+  }
+  async function findDataForRemoveCategory(id) {
+    try {
+      const response = await axios.delete(
+        `https://tranzitelektro.ru/api/subcategories/findinfofordelete/${id}`,
+        {
+          withCredentials: true,
+        },
+      );
+      console.log(response.data);
+      setInfoForUser({
+        categoryName: response.data.categoryForDelete.name,
+        subCategoriesList: response.data.subRecordsForDelete.map(
+          (item) => item.name,
+        ),
+      });
+    } catch (error) {
+      console.error("Ошибка при поиске данных о категории:", error);
+    }
   }
   async function removeSubCategory(id, name) {
     try {
@@ -363,6 +384,7 @@ function SubCategoryRedactor() {
         parentCategory: dataForServer.parentCategory,
         src: currentSrc,
         image1: dataForServer.image,
+        imagecopy: dataForServer.imagecopy,
       };
       if (
         categoryData.name != "" &&
@@ -472,6 +494,50 @@ function SubCategoryRedactor() {
 
       {componentState == "viewing" ? (
         <>
+          {infoForUser != null ? (
+            <>
+              <div className="deletWarningBackground"></div>
+              <div className="deletWarningContainer">
+                <h1 className="deletWarningTitle">Предупреждение!</h1>
+                <p className="deletWarningText">
+                  Вместе с категорией "{infoForUser.categoryName}" так же будут
+                  удалены:
+                </p>
+                <p
+                  className="deletWarningText"
+                  style={{
+                    display: `${infoForUser.subCategoriesList.length != 0 ? "block" : "none"}`,
+                  }}
+                >
+                  Подкатегории первого уровня:
+                </p>
+                {infoForUser.subCategoriesList.map((item) => (
+                  <p className="deletWarningText">"{item}"</p>
+                ))}
+                <p className="deletWarningText">Все товары относящиеся к ним</p>
+                <div className="deletWarningButtonContainer">
+                  <button
+                    className="deleteCategory"
+                    onClick={() => {
+                      (removeSubCategory(itemForDelete),
+                        setInfoForUser(null),
+                        setItemForDelete(null));
+                    }}
+                  >
+                    Удалить
+                  </button>
+                  <button
+                    className="changeCategory"
+                    onClick={() => {
+                      (setItemForDelete(null), setInfoForUser(null));
+                    }}
+                  >
+                    Отмена
+                  </button>
+                </div>
+              </div>
+            </>
+          ) : null}
           <div className="searchWrap">
             <input
               type="text"
@@ -533,27 +599,13 @@ function SubCategoryRedactor() {
                 {itemForDelete != category._id ? (
                   <button
                     className="deleteCategory"
-                    onClick={() => setItemForDelete(category._id)}
+                    onClick={() => {
+                      (setItemForDelete(category._id),
+                        findDataForRemoveCategory(category._id));
+                    }}
                   >
                     Удалить
                   </button>
-                ) : null}
-                {itemForDelete == category._id ? (
-                  <div className="deleteFinalBlock">
-                    <p className="orderInfo-text">Удалить:</p>
-                    <button
-                      className="deleteOrderButton accept"
-                      onClick={() => removeSubCategory(category._id)}
-                    >
-                      Да
-                    </button>
-                    <button
-                      className="deleteOrderButton reject"
-                      onClick={() => setItemForDelete(null)}
-                    >
-                      Нет
-                    </button>
-                  </div>
                 ) : null}
               </div>
             </div>

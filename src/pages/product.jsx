@@ -33,12 +33,14 @@ function Product() {
       });
   }, []);
   function changeQuantity(increment) {
-    if (quantity + increment > 0) {
+    if (quantity + increment > 0 && quantity + increment < 1000) {
       setProductQuantity(quantity + increment);
     }
   }
   function handleQuantityChange(newQuantity) {
-    setTempInputValues(newQuantity);
+    if (newQuantity < 1000) {
+      setTempInputValues(newQuantity);
+    }
   }
   function handleBlur(newQuantity) {
     if (newQuantity != "") {
@@ -57,7 +59,7 @@ function Product() {
     if (localStorage.getItem("user")) {
       if (prevQuantity != quantity) {
         axios.post(
-          `http://localhost:5000cart/add`,
+          `https://tranzitelektro.ru/apicart/add`,
           {
             products: {
               id: id,
@@ -141,7 +143,7 @@ function Product() {
                   className="cartItem-quantity"
                 />
                 <button
-                  className="cartItem-button"
+                  className="cartItem-button plus"
                   onClick={() => changeQuantity(+1)}
                 >
                   +

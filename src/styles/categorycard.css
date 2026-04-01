@@ -39,8 +39,8 @@
     margin-bottom: 15px;
     margin-top: 20px;
 }
-.toCart{
-    width: 95%;
+.categoryLinkButton{
+    width: 230px;
     background-color: rgba(53, 63, 64);
     font-size: 24px;
     color: white;
@@ -48,7 +48,12 @@
     align-items: center;
     height: 60px;
     border-radius: 10px;
-    margin: 5px 6px;
+    margin: 5px 10px;
+}
+.categoryLinkButton:hover{
+    width: 220px;
+    font-size: 22px;
+    margin: 5px 15px;
 }
 @media screen and (max-width: 1280px){
     .categoryCardWraper{

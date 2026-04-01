@@ -61,14 +61,19 @@
     text-align: center;
 }
 .toCart{
-    width: 100%;
+    width: 230px;
     background-color: rgba(53, 63, 64);
     font-size: 24px;
     color: white;
     text-align: center;
     align-items: center;
-    height: 70px;
+    height: 60px;
     border-radius: 10px;
     border-radius: 10px;
-    margin: 5px 6px;
+    margin: 5px 10px;
+}
+.toCart:hover{
+    width: 220px;
+    font-size: 22px;
+    margin: 5px 15px;
 }

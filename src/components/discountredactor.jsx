@@ -48,6 +48,7 @@ function DiscountRedactor() {
       title: elementForChange.title,
       text: elementForChange.text,
       image: elementForChange.image,
+      imagecopy: elementForChange.image,
     });
     setImagePreview(elementForChange.image);
     setDiscountDitails(elementForChange.ditails);
@@ -170,7 +171,7 @@ function DiscountRedactor() {
         title: dataForServer.title,
         text: dataForServer.text,
         image1: dataForServer.image,
-        imagecopy: dataForServer.image,
+        imagecopy: dataForServer.imagecopy,
         ditails: discountDitails,
       };
       console.log(data);

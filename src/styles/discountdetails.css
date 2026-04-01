@@ -56,3 +56,7 @@
     margin: 0 auto;
     margin-bottom: 10px;
 }
+.ditails:hover{
+    width: 230px;
+    font-size: 18px;
+}

@@ -19,7 +19,7 @@ function CategoryItem(props) {
             ></img>
           </div>
           <p className="categoryProductName">{props.name}</p>
-          <button className="toCart">Подробнее</button>
+          <button className="categoryLinkButton">Подробнее</button>
         </Link>
       </div>
     </>

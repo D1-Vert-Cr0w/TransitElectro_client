@@ -136,19 +136,51 @@ function Shop() {
   }
 
   async function findProducts() {
-    const response = await axios.get(
-      `https://tranzitelektro.ru/api/colection/search/${inputRef.current.value}`,
-      {
-        validateStatus: () => true,
-      },
-    );
-    if (response.status == 404) {
+    console.log(inputRef.current.value);
+    const [categories, subcategories, extrasubcategories, products] =
+      await Promise.all([
+        axios.get(
+          `https://tranzitelektro.ru/api/categories/search/${inputRef.current.value}`,
+          {
+            validateStatus: () => true,
+          },
+        ),
+        axios.get(
+          `https://tranzitelektro.ru/api/subcategories/search/${inputRef.current.value}`,
+          {
+            validateStatus: () => true,
+          },
+        ),
+        axios.get(
+          `https://tranzitelektro.ru/api/extrasubcategory/search/${inputRef.current.value}`,
+          {
+            validateStatus: () => true,
+          },
+        ),
+        axios.get(
+          `https://tranzitelektro.ru/api/colection/search/${inputRef.current.value}`,
+          {
+            validateStatus: () => true,
+          },
+        ),
+      ]);
+    if (
+      categories.status == 404 &&
+      subcategories.status == 404 &&
+      extrasubcategories.status == 404
+    ) {
       setMessage("По вашему запросу ничего не найдено");
     } else {
-      if (response.data.length != 0) {
-        setSearchResults(response.data);
+      const allResults = [
+        ...categories.data,
+        ...subcategories.data,
+        ...extrasubcategories.data,
+        ...products.data,
+      ];
+      if (allResults.length != 0) {
+        setSearchResults(allResults);
       } else {
-        setMessage("Введите название товара");
+        setMessage("Введите название категории");
       }
     }
   }

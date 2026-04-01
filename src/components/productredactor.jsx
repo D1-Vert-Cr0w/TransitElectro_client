@@ -187,6 +187,7 @@ function ProductRedactor() {
     setDataForServer({
       id: elementForChange._id,
       image: elementForChange.image,
+      imagecopy: elementForChange.image,
       drawings: elementForChange.drawings,
       articul: elementForChange.articul,
       name: elementForChange.name,

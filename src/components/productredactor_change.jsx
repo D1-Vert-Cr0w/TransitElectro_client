@@ -161,7 +161,7 @@ function ProductRedactorChange(props) {
       formData.append("description", dataForServer.description);
       formData.append("features", JSON.stringify(features));
       formData.append("image1", dataForServer.image);
-      formData.append("imagecopy", dataForServer.image);
+      formData.append("imagecopy", dataForServer.imagecopy);
       formData.append("prevdrawings", prevDrawingsPreviews);
       if (dataForServer.drawings && dataForServer.drawings.length > 0) {
         for (let i = 0; i < dataForServer.drawings.length; i++) {

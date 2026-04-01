@@ -41,26 +41,33 @@ function Categories() {
   }, []);
   async function findCategories() {
     console.log(inputRef.current.value);
-    const [categories, subcategories, extrasubcategories] = await Promise.all([
-      axios.get(
-        `https://tranzitelektro.ru/api/categories/search/${inputRef.current.value}`,
-        {
-          validateStatus: () => true,
-        },
-      ),
-      axios.get(
-        `https://tranzitelektro.ru/api/subcategories/search/${inputRef.current.value}`,
-        {
-          validateStatus: () => true,
-        },
-      ),
-      axios.get(
-        `https://tranzitelektro.ru/api/extrasubcategory/search/${inputRef.current.value}`,
-        {
-          validateStatus: () => true,
-        },
-      ),
-    ]);
+    const [categories, subcategories, extrasubcategories, products] =
+      await Promise.all([
+        axios.get(
+          `https://tranzitelektro.ru/api/categories/search/${inputRef.current.value}`,
+          {
+            validateStatus: () => true,
+          },
+        ),
+        axios.get(
+          `https://tranzitelektro.ru/api/subcategories/search/${inputRef.current.value}`,
+          {
+            validateStatus: () => true,
+          },
+        ),
+        axios.get(
+          `https://tranzitelektro.ru/api/extrasubcategory/search/${inputRef.current.value}`,
+          {
+            validateStatus: () => true,
+          },
+        ),
+        axios.get(
+          `https://tranzitelektro.ru/api/colection/search/${inputRef.current.value}`,
+          {
+            validateStatus: () => true,
+          },
+        ),
+      ]);
     if (
       categories.status == 404 &&
       subcategories.status == 404 &&
@@ -72,6 +79,7 @@ function Categories() {
         ...categories.data,
         ...subcategories.data,
         ...extrasubcategories.data,
+        ...products.data,
       ];
       if (allResults.length != 0) {
         setSearchResults(allResults);

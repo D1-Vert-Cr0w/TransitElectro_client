@@ -172,6 +172,7 @@ function ExtraSubCategoryRedactor() {
       name: elementForChange.name,
       src: url,
       image: elementForChange.image,
+      imagecopy: elementForChange.image,
     };
     if (url == "/product/") {
       newData.product = elementForChange.src.split("/")[2];
@@ -384,6 +385,7 @@ function ExtraSubCategoryRedactor() {
         parentCategory: dataForServer.parentCategory,
         src: currentSrc,
         image1: dataForServer.image,
+        imagecopy: dataForServer.imagecopy,
       };
       if (
         categoryData.name != "" &&
